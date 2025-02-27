@@ -1,0 +1,308 @@
+{
+  "routeDurations": {
+    "DagebullFohr": "50 Min.",
+    "DagebullAmrum": "90 Min. (über Föhr 120 Min)",
+    "FohrAmrum": "60 Min."
+  },
+  "seasons": [
+    {
+      "name": "SOMMER",
+      "period": "28.6.-14.9.2025",
+      "weekdays": {
+        "MondayToFriday": {
+          "DagebullFohr": [
+            {"time": "5:00", "note": "a"},
+            {"time": "6:00"},
+            {"time": "7:15"},
+            {"time": "8:20"},
+            {"time": "9:35"},
+            {"time": "10:50"},
+            {"time": "11:50"},
+            {"time": "12:45", "note": "c"},
+            {"time": "13:45"},
+            {"time": "15:15"},
+            {"time": "16:30"},
+            {"time": "17:40"},
+            {"time": "18:40"}
+          ],
+          "FohrDagebull": [
+            {"time": "5:00", "note": "b"},
+            {"time": "6:00", "note": "d"},
+            {"time": "7:15", "note": "d"},
+            {"time": "8:20"},
+            {"time": "9:35", "note": "a"},
+            {"time": "10:50"},
+            {"time": "12:10", "note": "a"},
+            {"time": "13:20"},
+            {"time": "15:15"},
+            {"time": "17:40", "note": "c"},
+            {"time": "18:40", "note": "c"}
+          ],
+          "DagebullAmrum": [
+            {"time": "5:00"},
+            {"time": "7:15"},
+            {"time": "9:35"},
+            {"time": "13:00"},
+            {"time": "14:05", "note": "e"},
+            {"time": "15:05"},
+            {"time": "18:00"},
+            {"time": "20:00", "note": "c"}
+          ],
+          "AmrumDagebull": [
+            {"time": "6:00"},
+            {"time": "7:10"},
+            {"time": "9:30", "note": "b"},
+            {"time": "9:30", "note": "c"},
+            {"time": "12:05", "note": "i"},
+            {"time": "12:05", "note": "e"},
+            {"time": "15:55", "note": "c"},
+            {"time": "17:25"}
+          ],
+          "FohrAmrum": [
+            {"time": "5:55"},
+            {"time": "8:15"},
+            {"time": "10:35"},
+            {"time": "16:00"},
+            {"time": "19:00"},
+            {"time": "20:55", "note": "c"}
+          ],
+          "AmrumFohr": [
+            {"time": "6:00"},
+            {"time": "7:10"},
+            {"time": "9:30", "note": "b"},
+            {"time": "15:15"},
+            {"time": "17:25"}
+          ]
+        },
+        "WeekendHolidays": {
+          "DagebullFohr": [
+            {"time": "6:00"},
+            {"time": "7:15"},
+            {"time": "8:20"},
+            {"time": "9:35"},
+            {"time": "10:50"},
+            {"time": "11:50"},
+            {"time": "13:20"},
+            {"time": "14:15"},
+            {"time": "15:15"},
+            {"time": "16:40"},
+            {"time": "17:40"},
+            {"time": "18:00"},
+            {"time": "20:00"}
+          ],
+          "FohrDagebull": [
+            {"time": "5:30"},
+            {"time": "7:10"},
+            {"time": "9:00"},
+            {"time": "12:05"},
+            {"time": "14:45"},
+            {"time": "16:45"},
+            {"time": "18:15"}
+          ],
+          "DagebullAmrum": [
+            {"time": "7:15"},
+            {"time": "9:35"},
+            {"time": "13:00"},
+            {"time": "14:35"},
+            {"time": "16:30"},
+            {"time": "18:00"},
+            {"time": "20:00"}
+          ],
+          "AmrumDagebull": [
+            {"time": "5:30"},
+            {"time": "7:10"},
+            {"time": "9:00"},
+            {"time": "12:05"},
+            {"time": "14:45"},
+            {"time": "16:45"},
+            {"time": "18:15"}
+          ],
+          "FohrAmrum": [
+            {"time": "10:35"},
+            {"time": "15:35"},
+            {"time": "19:00"},
+            {"time": "20:55"}
+          ],
+          "AmrumFohr": [
+            {"time": "7:10"},
+            {"time": "16:45"},
+            {"time": "20:00", "note": "e"}
+          ]
+        }
+      }
+    },
+    {
+      "name": "HERBST | WINTER",
+      "period": "15.12.2024-4.4.2025 und 3.11.-13.12.2025",
+      "weekdays": {
+        "All": {
+          "DagebullFohr": [
+            {"time": "6:10", "note": "a"},
+            {"time": "7:15", "note": "d"},
+            {"time": "8:25", "note": "a"},
+            {"time": "9:35"},
+            {"time": "11:00", "note": "a"},
+            {"time": "12:00"},
+            {"time": "14:05", "note": "a"},
+            {"time": "15:05"},
+            {"time": "16:30"},
+            {"time": "18:45", "note": "c"},
+            {"time": "19:45", "note": "f"}
+          ],
+          "FohrDagebull": [
+            {"time": "5:00", "note": "b"},
+            {"time": "6:00", "note": "d"},
+            {"time": "7:15", "note": "a"},
+            {"time": "8:20"},
+            {"time": "9:35", "note": "a"},
+            {"time": "10:50"},
+            {"time": "12:10", "note": "a"},
+            {"time": "13:20"},
+            {"time": "15:15"},
+            {"time": "17:40", "note": "c"},
+            {"time": "18:40", "note": "c"}
+          ],
+          "DagebullAmrum": [
+            {"time": "7:15", "note": "d"},
+            {"time": "12:00", "note": "h"},
+            {"time": "15:05"},
+            {"time": "18:45", "note": "e"}
+          ],
+          "AmrumDagebull": [
+            {"time": "7:15", "note": "d"},
+            {"time": "7:10", "note": "g"},
+            {"time": "12:05", "note": "i"},
+            {"time": "17:25", "note": "c"}
+          ],
+          "FohrAmrum": [
+            {"time": "8:15", "note": "d"},
+            {"time": "10:35"},
+            {"time": "16:00"},
+            {"time": "19:40", "note": "c"}
+          ],
+          "AmrumFohr": [
+            {"time": "6:00", "note": "a"},
+            {"time": "7:10", "note": "g"},
+            {"time": "9:30"},
+            {"time": "17:25", "note": "c"}
+          ]
+        }
+      }
+    },
+    {
+      "name": "FRÜHJAHR | SPÄTSOMMER",
+      "period": "5.4.-27.6.2025 und 15.9.-2.11.2025",
+      "weekdays": {
+        "All": {
+          "DagebullFohr": [
+            {"time": "5:00", "note": "a"},
+            {"time": "6:10", "note": "a"},
+            {"time": "7:15"},
+            {"time": "8:25"},
+            {"time": "9:35"},
+            {"time": "10:40"},
+            {"time": "12:35"},
+            {"time": "14:05"},
+            {"time": "15:05"},
+            {"time": "16:30"},
+            {"time": "18:00"},
+            {"time": "19:00"},
+            {"time": "20:00", "note": "b"}
+          ],
+          "FohrDagebull": [
+            {"time": "5:00", "note": "a"},
+            {"time": "6:00"},
+            {"time": "7:15"},
+            {"time": "8:20"},
+            {"time": "9:35"},
+            {"time": "10:50"},
+            {"time": "11:50"},
+            {"time": "13:45"},
+            {"time": "15:15"},
+            {"time": "16:30"},
+            {"time": "17:40"},
+            {"time": "18:40"}
+          ],
+          "DagebullAmrum": [
+            {"time": "7:15"},
+            {"time": "9:35"},
+            {"time": "13:00"},
+            {"time": "15:05"},
+            {"time": "18:00"},
+            {"time": "20:00", "note": "b"}
+          ],
+          "AmrumDagebull": [
+            {"time": "6:00"},
+            {"time": "7:10", "note": "c"},
+            {"time": "9:30"},
+            {"time": "12:05"},
+            {"time": "15:15"},
+            {"time": "17:25"}
+          ],
+          "FohrAmrum": [
+            {"time": "8:15"},
+            {"time": "10:35"},
+            {"time": "16:00"},
+            {"time": "19:00"},
+            {"time": "20:55", "note": "b"}
+          ],
+          "AmrumFohr": [
+            {"time": "6:00"},
+            {"time": "7:10", "note": "c"},
+            {"time": "9:30"},
+            {"time": "15:15"},
+            {"time": "17:25"}
+          ]
+        }
+      }
+    }
+  ],
+  "notes": {
+    "a": "werktags außer Sa",
+    "b": "Mo",
+    "c": "Sa+So",
+    "d": "täglich außer 24./31.12.2024",
+    "e": "werktags außer Sa | b Fr-So | c Sa+So",
+    "f": "Fr-So",
+    "g": "täglich nicht 25.12.2024/1.1.2025",
+    "h": "Mo-Do 17-3.4.2025",
+    "i": "täglich außer Fr"
+  },
+  "usefulLinks": [
+    {
+      "name": "www.faehre.de",
+      "description": "Fahrpläne und Buchung bei der Wyker Dampfschiffs-Reederei",
+      "url": "https://www.faehre.de"
+    },
+    {
+      "name": "www.foehr.de",
+      "description": "Informationen über die Insel Föhr",
+      "url": "https://www.foehr.de"
+    },
+    {
+      "name": "www.amrum.de",
+      "description": "Offizielle Website der Insel Amrum",
+      "url": "https://www.amrum.de"
+    },
+    {
+      "name": "www.inselparkplatz.de",
+      "description": "Informationen zu Parkplätzen in Dagebüll",
+      "url": "https://www.inselparkplatz.de"
+    }
+  ],
+  "additionalInfo": {
+    "tickets": "Fahrkarten erhalten Sie online unter www.faehre.de oder am Automaten/Schalter in den Häfen Dagebüll, Wyk, Wittdün und Schlüttsiel.",
+    "parking": "Stellplätze/auch Garagen - Keine Reservierung erforderlich. Kostenloser Shuttlebus zum/vom Schiff.",
+    "parkingCenter": "Parkcenter mit Information, Fahrkarten, Bistro, WC"
+  },
+  "islandInfo": [
+    {
+      "name": "INSEL FÖHR",
+      "description": "Erleben Sie die kleine Stadt Wyk auf Föhr, zahlreiche Dörfer mit Reetdachhäusern & friesische Lebensart, 15 km Sandstrand. Linienbus ab Hafen Wyk."
+    },
+    {
+      "name": "INSEL AMRUM",
+      "description": "Nordsee-Erlebnis pur: Dünen, Brandung, Kniepsand, der höchste Leuchtturm der deutschen Nordseeküste, Friesendörfer und weite Naturschutzgebiete. Linienbus ab Hafen Wittdün."
+    }
+  ]
+} 

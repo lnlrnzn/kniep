@@ -1,0 +1,1266 @@
+[
+  {
+    "id": "restaurant-dat-snn-huus-0",
+    "name": "Dat Sünn Huus",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Ual Saarepswai 6, 25946 Norddorf, Deutschland",
+    "description": "Norddeutsch Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipNGfxq7zxOHiIKGigh36hyupYCIOQUai2MNlmqX=w426-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-seekiste-1",
+    "name": "Seekiste",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Smääljaat 2, 25946 Nebel, Deutschland",
+    "description": "Abends friesische Gerichte im Restaurant unter dem Reetdach, nachmittags Stullen und Kuchen im grünen Garten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipPwStlDOe75wWNPLhMCGRaQ0nb2FqmTyNHQBWMQ=w408-h306-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-seeblicker-esszimmer-2",
+    "name": "Seeblicker Esszimmer",
+    "type": "beach-bar",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Strunwai 13, 25946 Norddorf, Deutschland",
+    "description": "Entspannte Strandbar direkt am Meer. Genießen Sie Cocktails und leichte Snacks mit Meerblick.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipOOo8w9f_CokElE7TH3tr79EFOklGxtjUL47b20=w408-h272-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte",
+      "Cocktails",
+      "Leichte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-torhaus-essentrinken-3",
+    "name": "Torhaus essen&trinken",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Uasterstigh 33, 25946 Nebel, Deutschland",
+    "description": "Norddeutsch Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipNVJYzjq_xNNoR74TGSWR1wKZnRT8ZMpPCQnBO-=w426-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-restaurant-rialto-4",
+    "name": "Restaurant Rialto",
+    "type": "cafe",
+    "cuisine": "Fahrradverleih",
+    "priceRange": "€€",
+    "location": "Taft 5, 25946 Norddorf, Deutschland",
+    "description": "Gemütliches Café auf Amrum mit Fahrradverleih-Spezialitäten und hausgemachten Kuchen.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipMOJcviauSCcRKZSckziwxZnIIXMhJQ9sUO04hh=w408-h272-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-strandpirat-amrum-5",
+    "name": "Strandpirat Amrum",
+    "type": "cafe",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Strunwai 44, 25946 Nebel, Deutschland",
+    "description": "Mit Blick auf das Meer werden im hellen Restaurant mit Terrasse Nudelgerichte, Matjes und Schnitzel serviert.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipMBOZhultVKR6RA9JkS185YeksvCBXFfdkW-vLp=w519-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte",
+      "Cocktails",
+      "Leichte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-hotel-restaurant-friedrichs-6",
+    "name": "HOTEL RESTAURANT FRIEDRICHS",
+    "type": "restaurant",
+    "cuisine": "Hotel",
+    "priceRange": "€€",
+    "location": "Uasterstigh 18, Söderjaat 3, 25946 Nebel, Deutschland",
+    "description": "Ungezwungenes Hotel mit individuell eingerichteten Zimmern und Suiten, Restaurant und Gratis-Frühstück.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipN4WGtSZZCtD8BhuWbQ33axdIrfm0Hx7uPqhKJd=w408-h272-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-preesters-hs-7",
+    "name": "Preesters Hüs",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Waasterstigh 17, 25946 Nebel, Deutschland",
+    "description": "Norddeutsch Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipNx48vHpFgRDDeMMQD58oRZxqi6FCzjDn7GG-yY=w426-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-burger-pier-8",
+    "name": "Burger Pier",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Nei Stich 8, 25946 Norddorf, Deutschland",
+    "description": "Norddeutsch Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipOZSpyzIMqmwVRnJzQwNQprkt4rmGHuLmpo1MDO=w408-h306-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-drnsk-an-kgem-9",
+    "name": "Dörnsk an Köögem",
+    "type": "cafe",
+    "cuisine": "Pizzeria",
+    "priceRange": "€€",
+    "location": "Uasterstigh 19, 25946 Nebel, Deutschland",
+    "description": "Gemütliches Café auf Amrum mit Pizzeria-Spezialitäten und hausgemachten Kuchen.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipPwAAGwAvGKcXHOTOxqbFTW-LKthDq16DoAc49Z=w408-h306-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-ual-mrang-wiartshs-hotel-restaurant-10",
+    "name": "Ual Öömrang Wiartshüs - Hotel & Restaurant",
+    "type": "restaurant",
+    "cuisine": "Hotel",
+    "priceRange": "€€",
+    "location": "Bräätlun 4, 25946 Norddorf, Deutschland",
+    "description": "Gemütliche Zimmer, einige davon mit Terrasse, in einem charmanten Hotel mit Garten und ländlicher Küche.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipPI-REAEfwlD3owYd9d7pmKHNUkE6yetepvzlBl=w426-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-onerbnke-11",
+    "name": "Onerbäänke",
+    "type": "beach-bar",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Strunwai 7, 25946 Norddorf, Deutschland",
+    "description": "Entspannte Strandbar direkt am Meer. Genießen Sie Cocktails und leichte Snacks mit Meerblick.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipMIxSdwlqhpJ0IRizUIM5XlADmpNdGbnPnfl6al=w533-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte",
+      "Cocktails",
+      "Leichte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-klar-kimming-flammkuchen-und-weinkajute-12",
+    "name": "Klar Kimming Flammkuchen und Weinkajute",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Strunwai 20, 25946 Nebel, Deutschland",
+    "description": "Norddeutsch Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipOflP-2AwCmppFUK1v_em8nL3cPY8lbrqiSwhWk=w480-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-httmanns-wiese-13",
+    "name": "Hüttmanns Wiese",
+    "type": "restaurant",
+    "cuisine": "Imbiss",
+    "priceRange": "€€",
+    "location": "Ual Saarepswai 2, 25946 Norddorf, Deutschland",
+    "description": "Imbiss Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipMHukvEx2qlJX0_LPAfXzcL9fd8GOJNhKSzUAIa=w408-h305-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-ristorante-venezia-inh-mario-brienza-und-heike-mertens-14",
+    "name": "Ristorante Venezia - Inh. Mario Brienza und Heike Mertens",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Hööwjaat 2, 25946 Nebel, Deutschland",
+    "description": "Norddeutsch Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipPJ8fJqkezajT2Zn8FwXX05e2X7PuDr5KhY3W4D=w408-h306-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-hotel-restaurant-neptun-15",
+    "name": "​Hotel-Restaurant Neptun",
+    "type": "restaurant",
+    "cuisine": "Hotel",
+    "priceRange": "€€",
+    "location": "Strunwai 7, 25946 Norddorf, Deutschland",
+    "description": "Hotel Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipOHEpm0Jin3Qeh5SNG1EOjsdn2KYQ6pMK1leNEE=w426-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-seefohrerhus-16",
+    "name": "Seefohrerhus",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Zum Tonnenhafen, 25946 Wittdün auf Amrum, Deutschland",
+    "description": "Fischrestaurant am Seezeichenhafen mit Produkten aus der Region, Fisch vom Kutter und mediterranen Zutaten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipPcnxNOIo9JApnpvmtdzRxPS4S-KDSxGf-dSB6x=w408-h306-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Hafenblick",
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-bistro-martins-17",
+    "name": "BISTRO martin´s",
+    "type": "restaurant",
+    "cuisine": "Bistro",
+    "priceRange": "€€",
+    "location": "Uasterstigh 6, 25946 Nebel, Deutschland",
+    "description": "Bistro Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipONNc06yOBUz-qAskeuxESvsoCCWG3qTAoORvdc=w425-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-hafen-31-bistro-18",
+    "name": "Hafen 31 | Bistro",
+    "type": "restaurant",
+    "cuisine": "Bistro",
+    "priceRange": "€€",
+    "location": "Inselstraße 31, 25946 Wittdün auf Amrum, Deutschland",
+    "description": "Bistro Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipPE-H9h6zfxrlgCFkR0OHmnvnuF0jQpIQQcqZS-=w408-h272-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-scholles-fisch-buttze-19",
+    "name": "Scholle's Fisch-Buttze",
+    "type": "restaurant",
+    "cuisine": "Imbiss",
+    "priceRange": "€€",
+    "location": "Inselstraße 34, 25946 Wittdün auf Amrum, Deutschland",
+    "description": "Imbiss Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipPrTtkW8sxJLvGCAzaTPczuWc9LDq36c4NwPQsJ=w408-h306-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-caf-auszeit-20",
+    "name": "Café Auszeit",
+    "type": "cafe",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Inselstraße 95, 25946 Wittdün auf Amrum, Deutschland",
+    "description": "Gemütliches Café auf Amrum mit Norddeutsch-Spezialitäten und hausgemachten Kuchen.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipNELqFp1QEJIqJ-noRz7sFtkBE-_KI3YK86gWjM=w426-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-zum-fischbcker-21",
+    "name": "Zum Fischbäcker",
+    "type": "restaurant",
+    "cuisine": "Bistro",
+    "priceRange": "€€",
+    "location": "Lunstruat 13, 25946 Norddorf, Deutschland",
+    "description": "Bistro Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipMvgaexwtRgArntRQoS5xk3ROOvQty9g1c35h7w=w408-h306-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-likedeeler-22",
+    "name": "Likedeeler",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Stianoodswai 29a, 25946 Nebel, Deutschland",
+    "description": "Das weiße Backsteinhaus mit Garten und Blick über das Watt beherbergt ein uriges Lokal mit deutscher Küche.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipOGNRjwzQNiESkx1UCtBMP8MXJt56LN9g2nY1uD=w408-h272-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-mein-inselhotel-23",
+    "name": "Mein Inselhotel",
+    "type": "restaurant",
+    "cuisine": "Hotel",
+    "priceRange": "€€",
+    "location": "Madelwai 4, 25946 Norddorf, Deutschland",
+    "description": "Zimmer im Stranddesign mit kostenlosem WLAN und Frühstück in farbenfrohem Hotel mit Sauna und Fahrrädern.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipOAd0bSDJNz_RmKCNOp4gUXykyY2EyxRXJV-YUc=w408-h272-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-pavillon-sonnenhotel-httmann-24",
+    "name": "Pavillon Sonnenhotel Hüttmann",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Ual Saarepswai 7, 25946 Norddorf, Deutschland",
+    "description": "Norddeutsch Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=w_06KZMBNvx9AlBRIeP8_A&cb_client=search.gws-prod.gps&w=408&h=240&yaw=145.15244&pitch=0&thumbfov=100",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-restaurant-lass-25",
+    "name": "Restaurant Lass",
+    "type": "beach-bar",
+    "cuisine": "Bistro",
+    "priceRange": "€€",
+    "location": "Lunstruat 9, 25946 Norddorf, Deutschland",
+    "description": "Entspannte Strandbar direkt am Meer. Genießen Sie Cocktails und leichte Snacks mit Meerblick.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipM_-igTZWwuCXK8aLZ9HbCdR-h5Qu3wWUcW-gaJ=w408-h306-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Cocktails",
+      "Leichte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-futtertrog-26",
+    "name": "Futtertrog",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Hark-Olufs-Wai, 25946 Nebel, Deutschland",
+    "description": "Norddeutsch Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipPNDBRtT8D8BdIns-QDdARZgSe4xpaHazIeZB-c=w408-h306-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-httmann-restaurant-bar-27",
+    "name": "Hüttmann Restaurant & Bar",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Ual Saarepswai 625946, 25946 Norddorf, Deutschland",
+    "description": "Norddeutsch Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipNAGeES2Duv-PZJ7Y22KbIrRK_D8Jipcr3dBYtE=w513-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-restaurant-oomes-hs-28",
+    "name": "Restaurant Oomes Hüs",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Dünemwai 4, 25946 Norddorf, Deutschland",
+    "description": "Norddeutsch Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipOt7E6wz7uFs5BR7EFS_GtGlpf6obWhQR0XQzXa=w408-h725-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-hotel-httmann-29",
+    "name": "Hotel Hüttmann",
+    "type": "restaurant",
+    "cuisine": "Hotel",
+    "priceRange": "€€",
+    "location": "Ual Saarepswai 4, 25946 Norddorf, Deutschland",
+    "description": "Freundlich eingerichtete Suiten, Apartments und Häuser in schickem Hotel mit Spa und Cocktailbar.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipNkr6TsK_CyOK4_rtRzPvreCaTB_ibnFFm9ST1E=w408-h271-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-caf-bckerei-schult-30",
+    "name": "Café Bäckerei Schult",
+    "type": "cafe",
+    "cuisine": "Coffeeshop",
+    "priceRange": "€€",
+    "location": "Ual Saarepswai 9, 25946 Norddorf, Deutschland",
+    "description": "Seit 1890 familiengeführte Bäckerei, Konditorei und Café in traditionellem Teestubenambiente mit Terrasse.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipOyLs5Tfsz8nWlLopXQLrOBYLdgA-NV6nPnXKJX=w408-h306-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-entenschnackbar-31",
+    "name": "Entenschnackbar",
+    "type": "beach-bar",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Ual Saarepswai 2-6, 25946 Norddorf, Deutschland",
+    "description": "Entspannte Strandbar direkt am Meer. Genießen Sie Cocktails und leichte Snacks mit Meerblick.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipOVyXJzbGT2xjuL0cqGbrvoR_2PWEhdJj05BsuD=w426-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte",
+      "Cocktails",
+      "Leichte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-restaurant-heidekate-32",
+    "name": "Restaurant Heidekate",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Inselstraße 66, 25946 Wittdün auf Amrum, Deutschland",
+    "description": "Norddeutsch Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipNEiobzAYw1LOGXhkX0khnunxPM9rB1kQ_XkfHq=w408-h306-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-inselhotel-kapitn-tadsen-33",
+    "name": "Inselhotel Kapitän Tadsen",
+    "type": "restaurant",
+    "cuisine": "Hotel",
+    "priceRange": "€€",
+    "location": "Stianoodswai 17, 25946 Nebel, Deutschland",
+    "description": "Komfortable Zimmer und Apartments in einem familiären Hotel mit Meerblick, Garten und Sauna.",
+    "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/5c/96/d5/photo0jpg.jpg?w=1900&h=1400&s=1",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-steenodde-34",
+    "name": "Steenodde",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "25946 Nebel, Deutschland",
+    "description": "Norddeutsch Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipM0g8p4jiJxpqd3giNjZaWthyD6Bo_E6LWJ8SG1=w426-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-bi-strun-35",
+    "name": "Bi strun",
+    "type": "restaurant",
+    "cuisine": "Coffeeshop",
+    "priceRange": "€€",
+    "location": "Stianoodswai 30, 25946 Nebel, Deutschland",
+    "description": "Coffeeshop Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipML4k1aKLPwhfw2oFlOtRo0IfT_gWGoRwD4VZZd=w408-h544-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-fischbrtchen-54nord-36",
+    "name": "Fischbrötchen 54°Nord",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Strunwai, 25946 Nebel, Deutschland",
+    "description": "Norddeutsch Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipOoskPVSCAoTMdts6ZjzX3Uw3uHH3CVkzSVVIKb=w408-h306-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-claussen-bckerei-37",
+    "name": "Claussen Bäckerei",
+    "type": "cafe",
+    "cuisine": "Bäckerei",
+    "priceRange": "€€",
+    "location": "Waasterstigh 25, 25946 Nebel, Deutschland",
+    "description": "Gemütliches Café auf Amrum mit Bäckerei-Spezialitäten und hausgemachten Kuchen.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipOHgafUblMzSCskzd87pVz2OiQ3hcvhhrczSqOv=w408-h306-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-bella-ciao-amrum-38",
+    "name": "Bella Ciao Amrum",
+    "type": "restaurant",
+    "cuisine": "Pastaladen",
+    "priceRange": "€€",
+    "location": "Inselstraße 125, 25946 Wittdün auf Amrum, Deutschland",
+    "description": "Pastaladen Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipN2kPJsZC-5GWsoXXZ7NTWPfhVJT3sRJ7LM_rw0=w408-h306-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-strandhuschen-sddorf-39",
+    "name": "Strandhäuschen Süddorf",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "a, Tanenwai 34, 25946 Nebel, Deutschland",
+    "description": "Norddeutsch Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipNv7dPBNY319OHf-Ydd-akG3PvD9PXbAbIqDP2W=w408-h282-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte",
+      "Cocktails",
+      "Leichte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-blaue-maus-40",
+    "name": "Blaue Maus",
+    "type": "beach-bar",
+    "cuisine": "Kneipe",
+    "priceRange": "€€",
+    "location": "Inselstraße 107, 25946 Wittdün auf Amrum, Deutschland",
+    "description": "Entspannte Strandbar direkt am Meer. Genießen Sie Cocktails und leichte Snacks mit Meerblick.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipPjnqq-63HHKXOBPjc9un89NqqB6pwhK12-RXpc=w426-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Cocktails",
+      "Leichte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-die-kombse-41",
+    "name": "Die Kombüse",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Strunwai 31, 25946 Norddorf, Deutschland",
+    "description": "Norddeutsch Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipODDiE6gQbhjHL4gtyAWzGQx-2s5v65hhmkukBz=w408-h272-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-restaurant-caf-die-muschelsucher-42",
+    "name": "Restaurant & Café Die Muschelsucher",
+    "type": "cafe",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Strunwai 9, 25946 Norddorf, Deutschland",
+    "description": "Gemütliches Café auf Amrum mit Norddeutsch-Spezialitäten und hausgemachten Kuchen.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipNkVbQ2QKur7tIeMk6j7TsQJEx8QM6WNwKaU1BK=w408-h288-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-strandbar-seehund-43",
+    "name": "Strandbar Seehund",
+    "type": "beach-bar",
+    "cuisine": "Imbiss",
+    "priceRange": "€€",
+    "location": "Untere, Wandelbahn 1, 25946 Wittdün auf Amrum, Deutschland",
+    "description": "Entspannte Strandbar direkt am Meer. Genießen Sie Cocktails und leichte Snacks mit Meerblick.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipOFnzDJlHxHlF-fm073uRg_rCtJ-WDW3WKQ1UlF=w507-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Cocktails",
+      "Leichte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-eiscaf-cappuccino-inh-sveja-hogrefe-44",
+    "name": "Eiscafé Cappuccino Inh. Sveja Hogrefe",
+    "type": "cafe",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Strunwai 12, 25946 Norddorf, Deutschland",
+    "description": "Gemütliches Café auf Amrum mit Norddeutsch-Spezialitäten und hausgemachten Kuchen.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipNGhY0zhg1DHY8vQv0EDiT_1KB18K15Z3uUmtCE=w408-h272-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-kerstin-jns-45",
+    "name": "Kerstin Jöns",
+    "type": "restaurant",
+    "cuisine": "Resort-Hotel",
+    "priceRange": "€€",
+    "location": "Madelwai 4, 25946 Norddorf, Deutschland",
+    "description": "Resort-Hotel Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipOVSeykNuopySwgVIDgPoYPAs7rDlg_eD5zvAxw=w408-h272-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-fisch-vom-kutter-46",
+    "name": "Fisch vom Kutter",
+    "type": "restaurant",
+    "cuisine": "Fischmarkt",
+    "priceRange": "€€",
+    "location": "Stianoodswai, 25946 Nebel, Deutschland",
+    "description": "Fischmarkt Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipNBDLZdF_eNQKpmziYDjrVIfeSTX-qGHLlXg8Dx=w426-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Fangfrischer Fisch",
+      "Meeresfrüchte"
+    ]
+  },
+  {
+    "id": "restaurant-gundt-amrum-ferienwohnungen-47",
+    "name": "GUNDT Amrum Ferienwohnungen",
+    "type": "restaurant",
+    "cuisine": "Ferienwohnung",
+    "priceRange": "€€",
+    "location": "Uasterstigh 5, 25946 Nebel, Deutschland",
+    "description": "Ferienwohnung Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipMkVdQ_0X82X-OTdy-8yt3H9WKlP1EZdWEoQmPc=w408-h543-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-fisch-meer-48",
+    "name": "Fisch & Meer",
+    "type": "restaurant",
+    "cuisine": "Fischgeschäft",
+    "priceRange": "€€",
+    "location": "Uasterstigh 6, 25946 Nebel, Deutschland",
+    "description": "Fischgeschäft Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipMKmxmo29EZV-lHduGCnwXw2-nvOoVKl4jtYBT0=w426-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Fangfrischer Fisch",
+      "Meeresfrüchte"
+    ]
+  },
+  {
+    "id": "restaurant-friesen-caf-49",
+    "name": "Friesen-Café",
+    "type": "cafe",
+    "cuisine": "Teehaus",
+    "priceRange": "€€",
+    "location": "Uasterstigh 7, 25946 Nebel, Deutschland",
+    "description": "Gemütliches Café auf Amrum mit Teehaus-Spezialitäten und hausgemachten Kuchen.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipN_YzC_LykscKpqTMn0w2_o4iu6MsodnxKxfipW=w426-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-seeblick-genuss-und-spa-resort-amrum-50",
+    "name": "Seeblick **** Genuss und Spa Resort Amrum",
+    "type": "restaurant",
+    "cuisine": "Hotel",
+    "priceRange": "€€",
+    "location": "Strunwai 13, 25946 Norddorf, Deutschland",
+    "description": "Dezent gestaltetes Hotel mit Bar, Restaurant und Terrasse sowie einem Spa mit Saunas und Innenpool.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipN9Z5_tJdLw4u821lAwZnmfMZsQa6Fbdv4PEl5-=w408-h272-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-stadl-am-meer-51",
+    "name": "Stadl am Meer",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Achtern Strand 12, 25946 Wittdün auf Amrum, Deutschland",
+    "description": "Norddeutsch Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipNK_tZWXQ964ZB7NC15d8-Vi6nXcH40GAc7Xgbt=w408-h306-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Strandnähe",
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-giovanni-l-eisspezialitten-52",
+    "name": "Giovanni L Eisspezialitäten",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Taft 5, 25946 Norddorf, Deutschland",
+    "description": "Norddeutsch Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipM0g6lWZwHnEP7P1jcnUq4BV8mDJMz71Lxo_er6=w408-h906-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte"
+    ]
+  },
+  {
+    "id": "restaurant-kptn-crpes-53",
+    "name": "Käptn Crêpes",
+    "type": "restaurant",
+    "cuisine": "Crêperie",
+    "priceRange": "€€",
+    "location": "Strunwai 18, 25946 Norddorf, Deutschland",
+    "description": "Crêperie Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipMdfMkmf735T8vQR1FWhakGnWum92Je7-It9K5d=w513-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-hotel-garni-sssaareps-hs-54",
+    "name": "Hotel Garni \" Sössaarep´s Hüs\"",
+    "type": "restaurant",
+    "cuisine": "Bed and Breakfast",
+    "priceRange": "€€",
+    "location": "Uasterstigh 50, 25946 Nebel, Deutschland",
+    "description": "Bed and Breakfast Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipOswhpIpZaEIn4pOyeo1I-T_TSIVUdLcHxgrzMu=w408-h272-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-hotel-meeresbrise-55",
+    "name": "Hotel Meeresbrise",
+    "type": "restaurant",
+    "cuisine": "Hotel",
+    "priceRange": "€€",
+    "location": "Dünemwai 14, 25946 Norddorf, Deutschland",
+    "description": "Hotel Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/14/08/5e/4a/hotel-meeresbrise.jpg?w=2100&h=1400&s=1",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-hotel-seemannsbraut-adults-only-auf-amrum-56",
+    "name": "hotel seemannsbraut - adults only auf amrum",
+    "type": "restaurant",
+    "cuisine": "Hotel",
+    "priceRange": "€€",
+    "location": "Achtern Strand 6, 25946 Wittdün auf Amrum, Deutschland",
+    "description": "Schlichte Zimmer und Suiten in einer gemütlichen Pension am Strand mit Frühstück und Sauna.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipPKv0dputuud2GIUGvOhnNvTxE7L7ri15wNmu-f=w408-h272-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Strandnähe",
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-spicy-events-ug-haftungsbeschrnkt-57",
+    "name": "Spicy-Events UG (haftungsbeschränkt)",
+    "type": "restaurant",
+    "cuisine": "Eventmanagement-Firma",
+    "priceRange": "€€",
+    "location": "Inselstraße 59, 25946 Wittdün auf Amrum, Deutschland",
+    "description": "Eventmanagement-Firma Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=EFjhIIOlhL7qcpEEbWFsSw&cb_client=search.gws-prod.gps&w=408&h=240&yaw=169.54214&pitch=0&thumbfov=100",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-letj-briis-58",
+    "name": "Letj Briis",
+    "type": "restaurant",
+    "cuisine": "Hotel",
+    "priceRange": "€€",
+    "location": "Degelk 7, 25946 Norddorf, Deutschland",
+    "description": "Einfache Zimmer und Apartments in einem gemütlichen Hotel mit Sauna sowie kostenlosem Frühstück und WLAN.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipM5s0H3npY_JLGw7H-COvVuaDsDXxwo1If4Di7q=w408-h272-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-ferienhaus-austernfischer-59",
+    "name": "Ferienhaus Austernfischer",
+    "type": "restaurant",
+    "cuisine": "Ferienhaus",
+    "priceRange": "€€",
+    "location": "Sjüürenwai 8a, 25946 Norddorf, Deutschland",
+    "description": "Ferienhaus Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipOYdh7YLlb964BGSyXHASBtlxQWE5oSAqP6r2YV=w408-h306-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Amrumer Küche",
+      "Saisonale Gerichte",
+      "Fangfrischer Fisch"
+    ]
+  },
+  {
+    "id": "restaurant-restaurant-strandvogt-60",
+    "name": "Restaurant Strandvogt",
+    "type": "restaurant",
+    "cuisine": "Norddeutsch",
+    "priceRange": "€€",
+    "location": "Achtern Strand 12, 25946 Wittdün auf Amrum, Deutschland",
+    "description": "Norddeutsch Restaurant auf Amrum mit gemütlicher Atmosphäre und regionalen Spezialitäten.",
+    "image": "https://lh5.googleusercontent.com/p/AF1QipMLyFTd8ZfWS_8yKXvd0QEAiDaAvaf1XONAmtVL=w426-h240-k-no",
+    "openingHours": "Täglich 11:00-22:00 Uhr (Bitte vor Besuch aktualisierte Öffnungszeiten prüfen)",
+    "features": [
+      "Strandnähe",
+      "Gemütliche Atmosphäre",
+      "Nordseeküche"
+    ],
+    "rating": 4.5,
+    "specialties": [
+      "Regionale Spezialitäten",
+      "Hausgemachte Gerichte",
+      "Cocktails",
+      "Leichte Gerichte"
+    ]
+  }
+]
