@@ -38,46 +38,20 @@ export default function HomePage() {
       <JsonLd data={[destinationJsonLd, organizationJsonLd]} />
       
       {/* Hero Section */}
-      <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
-        {/* Hintergrundbild */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/amrum-strand.jpg" 
-            alt="Strand von Amrum"
-            fill
-            quality={100}
-            priority
-            style={{ objectFit: "cover" }}
-            className="brightness-[0.85]"
-          />
-        </div>
+      <section className="relative w-full h-screen">
+        <div className="absolute inset-0 bg-primary/10"></div>
         
-        {/* Content */}
-        <ContentContainer>
-          <div className="relative z-10 text-center text-white">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-            >
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 drop-shadow-md">
-                Willkommen auf Amrum
-              </h1>
-              <p className="text-xl md:text-2xl mb-10 max-w-3xl mx-auto drop-shadow-md">
-                Entdecken Sie die Schönheit der Nordseeinsel mit ihren endlosen Stränden, 
-                malerischen Dünen und idyllischen Dörfern.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                  <Link href="/urlaub">Urlaub planen</Link>
-                </Button>
-                <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
-                  <Link href="/ueber-amrum/karte">Insel erkunden</Link>
-                </Button>
-              </div>
-            </motion.div>
-          </div>
-        </ContentContainer>
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-foreground p-4">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">
+            Willkommen auf Amrum
+          </h1>
+          <p className="text-xl max-w-2xl text-center mb-6">
+            Entdecken Sie die Schönheit der Nordseeinsel
+          </p>
+          <Button asChild className="bg-primary hover:bg-primary/90">
+            <Link href="/urlaub/unterkuenfte">Unterkünfte ansehen</Link>
+          </Button>
+        </div>
       </section>
 
       {/* Highlights Section */}

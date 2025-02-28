@@ -60,24 +60,26 @@ export default function AnreisePage() {
 
       {/* Anreise-Tabs */}
       <Tabs defaultValue="faehre" className="mb-16">
-        <TabsList className="w-full justify-start overflow-x-auto pb-2 mb-8">
-          <TabsTrigger value="faehre" className="flex items-center gap-2">
-            <Ship className="h-4 w-4" /> 
-            <span>Mit der Fähre</span>
-          </TabsTrigger>
-          <TabsTrigger value="bahn" className="flex items-center gap-2">
-            <Train className="h-4 w-4" /> 
-            <span>Mit der Bahn</span>
-          </TabsTrigger>
-          <TabsTrigger value="auto" className="flex items-center gap-2">
-            <Car className="h-4 w-4" /> 
-            <span>Mit dem Auto</span>
-          </TabsTrigger>
-          <TabsTrigger value="flugzeug" className="flex items-center gap-2">
-            <Plane className="h-4 w-4" /> 
-            <span>Mit dem Flugzeug</span>
-          </TabsTrigger>
-        </TabsList>
+        <div className="mb-8 overflow-hidden">
+          <TabsList className="flex flex-wrap justify-center gap-2 p-1">
+            <TabsTrigger value="faehre" className="flex items-center gap-2 min-w-[140px]">
+              <Ship className="h-4 w-4" /> 
+              <span>Mit der Fähre</span>
+            </TabsTrigger>
+            <TabsTrigger value="bahn" className="flex items-center gap-2 min-w-[140px]">
+              <Train className="h-4 w-4" /> 
+              <span>Mit der Bahn</span>
+            </TabsTrigger>
+            <TabsTrigger value="auto" className="flex items-center gap-2 min-w-[140px]">
+              <Car className="h-4 w-4" /> 
+              <span>Mit dem Auto</span>
+            </TabsTrigger>
+            <TabsTrigger value="flugzeug" className="flex items-center gap-2 min-w-[140px]">
+              <Plane className="h-4 w-4" /> 
+              <span>Mit dem Flugzeug</span>
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         {/* Fähre Tab */}
         <TabsContent value="faehre" className="space-y-8">
@@ -179,58 +181,18 @@ export default function AnreisePage() {
             </div>
           </div>
           
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Clock className="h-5 w-5 text-primary" />
-                Reisebeispiel
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm mb-4">Beispielhafte Verbindung von Hamburg nach Amrum:</p>
-              <div className="overflow-x-auto">
-                <table className="min-w-full text-sm">
-                  <tbody>
-                    <tr className="border-b border-muted">
-                      <td className="py-2 pr-6 font-medium">09:15 Uhr</td>
-                      <td className="py-2">Abfahrt Hamburg Hbf (ICE/IC)</td>
-                    </tr>
-                    <tr className="border-b border-muted">
-                      <td className="py-2 pr-6 font-medium">10:55 Uhr</td>
-                      <td className="py-2">Ankunft Husum</td>
-                    </tr>
-                    <tr className="border-b border-muted">
-                      <td className="py-2 pr-6 font-medium">11:07 Uhr</td>
-                      <td className="py-2">Abfahrt Husum (Regionalbahn)</td>
-                    </tr>
-                    <tr className="border-b border-muted">
-                      <td className="py-2 pr-6 font-medium">11:35 Uhr</td>
-                      <td className="py-2">Ankunft Niebüll</td>
-                    </tr>
-                    <tr className="border-b border-muted">
-                      <td className="py-2 pr-6 font-medium">11:45 Uhr</td>
-                      <td className="py-2">Abfahrt Niebüll (Nordsee-Bahn)</td>
-                    </tr>
-                    <tr className="border-b border-muted">
-                      <td className="py-2 pr-6 font-medium">12:15 Uhr</td>
-                      <td className="py-2">Ankunft Dagebüll Mole</td>
-                    </tr>
-                    <tr className="border-b border-muted">
-                      <td className="py-2 pr-6 font-medium">12:45 Uhr</td>
-                      <td className="py-2">Abfahrt Fähre nach Amrum</td>
-                    </tr>
-                    <tr>
-                      <td className="py-2 pr-6 font-medium">14:15 Uhr</td>
-                      <td className="py-2">Ankunft Wittdün auf Amrum</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <p className="text-sm mt-4 text-muted-foreground">
-                Gesamtreisezeit ab Hamburg: ca. 5 Stunden
-              </p>
-            </CardContent>
-          </Card>
+          <div className="bg-muted/30 rounded-lg p-4">
+            <h4 className="font-medium mb-2 flex items-center gap-2">
+              <Info className="h-5 w-5 text-primary" />
+              Praktische Informationen zur Bahnanreise
+            </h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li>• Die Züge der Nordsee-Bahn sind zeitlich auf die Fährabfahrten abgestimmt.</li>
+              <li>• Am Bahnhof Dagebüll Mole befinden Sie sich direkt am Fähranleger.</li>
+              <li>• Gepäcktransport ist in allen Zügen möglich. Die Mitnahme von Fahrrädern ist möglich, sollte aber reserviert werden.</li>
+              <li>• Mit der Bahn-App können Sie Ihre Verbindung in Echtzeit verfolgen und werden über eventuelle Verspätungen informiert.</li>
+            </ul>
+          </div>
         </TabsContent>
 
         {/* Auto Tab */}

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X, Hotel, Utensils, Map, Waves, Plane, ExternalLink } from "lucide-react";
+import { Menu, X, Hotel, Utensils, Map, Waves, Plane, ExternalLink, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
@@ -67,72 +67,68 @@ export default function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6">
-          <NavigationMenu>
-            <NavigationMenuList>
-              {navItems.map((item) => (
-                item.subItems ? (
-                  <NavigationMenuItem key={item.name}>
-                    <NavigationMenuTrigger className="text-foreground font-medium hover:text-primary transition-all">
+          <ul className="flex items-center space-x-8">
+            {navItems.map((item) => (
+              <li key={item.name} className="relative group">
+                {item.subItems ? (
+                  <div className="relative">
+                    <button 
+                      className="text-foreground font-medium hover:text-primary transition-colors py-2 flex items-center"
+                      onClick={(e) => e.currentTarget.focus()}
+                    >
                       {item.name}
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent className="z-[100]">
-                      <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                      >
-                        <div className="w-full max-w-[600px] md:w-[500px] lg:w-[600px] p-4">
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            {item.subItems.map((subItem) => (
-                              <Link
-                                key={subItem.name}
-                                href={subItem.href}
-                                className={cn(
-                                  "group flex items-start gap-3 rounded-md p-3 hover:bg-accent transition-all duration-200"
-                                )}
-                              >
-                                <div className="flex-shrink-0 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                                  {subItem.icon}
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <div className="text-sm font-medium mb-1 group-hover:text-primary transition-colors">
-                                    {subItem.name}
-                                  </div>
-                                  <p className="text-xs text-muted-foreground truncate">
-                                    {subItem.description}
-                                  </p>
-                                </div>
-                              </Link>
-                            ))}
-                          </div>
-                          <div className="mt-4 pt-4 border-t border-border">
-                            <Link 
-                              href="/urlaub" 
-                              className="flex items-center text-sm text-muted-foreground hover:text-primary transition-colors"
+                      <ChevronDown className="ml-1 h-3 w-3 opacity-70" />
+                    </button>
+                    <div className="absolute left-0 top-full pt-2 opacity-0 translate-y-1 invisible group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible transition-all duration-200 z-[100]">
+                      <div className="bg-white rounded-md shadow-md border border-border p-4 w-[600px]">
+                        <div className="grid grid-cols-2 gap-3">
+                          {item.subItems.map((subItem) => (
+                            <Link
+                              key={subItem.name}
+                              href={subItem.href}
+                              className="group flex items-start gap-3 rounded-md p-3 hover:bg-accent transition-all duration-200"
                             >
-                              Alle Urlaubsangebote entdecken
-                              <ExternalLink className="ml-1 h-3 w-3" />
+                              <div className="flex-shrink-0 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                                {subItem.icon}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <div className="text-sm font-medium mb-1 group-hover:text-primary transition-colors">
+                                  {subItem.name}
+                                </div>
+                                <p className="text-xs text-muted-foreground truncate">
+                                  {subItem.description}
+                                </p>
+                              </div>
                             </Link>
-                          </div>
+                          ))}
                         </div>
-                      </motion.div>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
+                        <div className="mt-4 pt-4 border-t border-border">
+                          <Link 
+                            href="/urlaub" 
+                            className="flex items-center text-sm text-muted-foreground hover:text-primary transition-colors"
+                          >
+                            Alle Urlaubsangebote entdecken
+                            <ExternalLink className="ml-1 h-3 w-3" />
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 ) : (
-                  <NavigationMenuItem key={item.name}>
-                    <Link href={item.href} legacyBehavior passHref>
-                      <NavigationMenuLink className={cn(
-                        navigationMenuTriggerStyle(),
-                        "font-medium hover:text-primary transition-colors"
-                      )}>
-                        {item.name}
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-                )
-              ))}
-            </NavigationMenuList>
-          </NavigationMenu>
+                  <Link 
+                    href={item.href} 
+                    className="text-foreground font-medium hover:text-primary transition-colors py-2 inline-block"
+                  >
+                    {item.name}
+                  </Link>
+                )}
+                
+                {/* Loading bar animation */}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300 ease-in-out" />
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent group-hover:bg-transparent transition-all duration-300 ease-in-out" />
+              </li>
+            ))}
+          </ul>
         </nav>
 
         {/* Mobile Menu Button */}

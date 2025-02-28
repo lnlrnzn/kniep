@@ -34,7 +34,7 @@ export default function RootLayout({
     <html lang="de" className={`${openSans.variable} ${montserrat.variable}`}>
       <body className="min-h-screen flex flex-col bg-white font-sans">
         <Header />
-        <main className="flex-1">
+        <main className="flex-1 pt-13px">
           {children}
         </main>
         <Footer />

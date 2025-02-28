@@ -13,7 +13,8 @@ interface AccommodationDetailPageProps {
 }
 
 export async function generateMetadata({ params }: AccommodationDetailPageProps): Promise<Metadata> {
-  const accommodation = await getAccommodationById(params.id);
+  const id = params.id;
+  const accommodation = await getAccommodationById(id);
   
   if (!accommodation) {
     return {
@@ -38,7 +39,8 @@ export async function generateStaticParams() {
 }
 
 export default async function AccommodationDetailPage({ params }: AccommodationDetailPageProps) {
-  const accommodation = await getAccommodationById(params.id);
+  const id = params.id;
+  const accommodation = await getAccommodationById(id);
   
   if (!accommodation) {
     notFound();

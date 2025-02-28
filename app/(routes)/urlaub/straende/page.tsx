@@ -159,17 +159,19 @@ export default function StrandePage() {
       >
         <div className="mb-8">
           <h2 className="text-2xl font-bold mb-4">Unsere Strandempfehlungen</h2>
-          <TabsList className="w-full justify-start overflow-auto py-2">
-            {beaches.map((beach) => (
-              <TabsTrigger 
-                key={beach.id} 
-                value={beach.id}
-                className="min-w-max"
-              >
-                {beach.name}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+          <div className="overflow-hidden">
+            <TabsList className="flex flex-wrap justify-start gap-2 p-1">
+              {beaches.map((beach) => (
+                <TabsTrigger 
+                  key={beach.id} 
+                  value={beach.id}
+                  className="px-4"
+                >
+                  {beach.name}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
         </div>
 
         {beaches.map((beach) => (

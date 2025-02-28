@@ -1,18 +1,63 @@
+"use client";
+
 import Link from "next/link";
 import { ChevronRight, Send, Map } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ContentContainer } from "../../../components/ui/content-container";
 import { getAccommodations } from "@/app/lib/data";
-import AccommodationListWithFilters from "@/app/components/accommodations/AccommodationListWithFilters";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import dynamic from "next/dynamic";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useState, useEffect } from "react";
+import { Accommodation } from "@/app/types";
 
-export const metadata = {
+// Lazy load the AccommodationListWithFilters component to reduce initial bundle size
+const AccommodationListWithFilters = dynamic(
+  () => import("@/app/components/accommodations/AccommodationListWithFilters"),
+  {
+    loading: () => (
+      <div className="space-y-4 animate-pulse">
+        <div className="flex justify-between">
+          <Skeleton className="h-10 w-32" />
+          <Skeleton className="h-10 w-48" />
+        </div>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {[...Array(6)].map((_, i) => (
+            <Skeleton key={i} className="h-[300px] rounded-lg" />
+          ))}
+        </div>
+      </div>
+    ),
+    ssr: false, // Disable server-side rendering for this component due to its size
+  }
+);
+
+// Metadata can't be exported from client components
+// We'll set the page title in the component instead
+/* export const metadata = {
   title: "Unterkünfte auf Amrum | Kniep Haus auf Amrum",
   description: "Finden Sie die perfekte Unterkunft für Ihren Aufenthalt auf Amrum - Hotels, Ferienhäuser, Ferienwohnungen und Pensionen.",
-};
+}; */
 
-export default async function UnterkuenftePage() {
-  const accommodations = await getAccommodations();
+export default function UnterkuenftePage() {
+  const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getAccommodations();
+        setAccommodations(data);
+      } catch (error) {
+        console.error("Error fetching accommodations:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const hasAccommodations = accommodations.length > 0;
 
   return (
@@ -37,90 +82,103 @@ export default async function UnterkuenftePage() {
         </p>
       </div>
 
-      <Tabs defaultValue="alle" className="mb-12">
-        <div className="flex justify-center mb-8">
-          <TabsList>
-            <TabsTrigger value="alle">Alle Unterkünfte</TabsTrigger>
-            <TabsTrigger value="hotel">Hotels</TabsTrigger>
-            <TabsTrigger value="ferienhaus">Ferienhäuser</TabsTrigger>
-            <TabsTrigger value="ferienwohnung">Ferienwohnungen</TabsTrigger>
-            <TabsTrigger value="pension">Pensionen</TabsTrigger>
-          </TabsList>
+      {isLoading ? (
+        <div className="space-y-4 animate-pulse">
+          <div className="flex justify-center mb-8">
+            <div className="bg-muted h-10 w-[600px] rounded-lg"></div>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {[...Array(6)].map((_, i) => (
+              <Skeleton key={i} className="h-[300px] rounded-lg" />
+            ))}
+          </div>
         </div>
+      ) : (
+        <Tabs defaultValue="alle" className="mb-12">
+          <div className="flex justify-center mb-8 overflow-hidden">
+            <TabsList className="flex flex-wrap justify-center gap-2 p-1">
+              <TabsTrigger value="alle" className="min-w-[130px]">Alle Unterkünfte</TabsTrigger>
+              <TabsTrigger value="hotel" className="min-w-[100px]">Hotels</TabsTrigger>
+              <TabsTrigger value="ferienhaus" className="min-w-[130px]">Ferienhäuser</TabsTrigger>
+              <TabsTrigger value="ferienwohnung" className="min-w-[140px]">Ferienwohnungen</TabsTrigger>
+              <TabsTrigger value="pension" className="min-w-[100px]">Pensionen</TabsTrigger>
+            </TabsList>
+          </div>
 
-        <TabsContent value="alle">
-          {!hasAccommodations ? (
-            <div className="text-center py-20">
-              <h2 className="text-xl font-semibold mb-4">Keine Unterkünfte verfügbar</h2>
-              <p className="text-muted-foreground mb-8">
-                Wir aktualisieren gerade unsere Unterkunfts-Datenbank. Bitte schauen Sie später wieder vorbei.
-              </p>
-            </div>
-          ) : (
-            <AccommodationListWithFilters accommodations={accommodations} />
-          )}
-        </TabsContent>
+          <TabsContent value="alle">
+            {!hasAccommodations ? (
+              <div className="text-center py-20">
+                <h2 className="text-xl font-semibold mb-4">Keine Unterkünfte verfügbar</h2>
+                <p className="text-muted-foreground mb-8">
+                  Wir aktualisieren gerade unsere Unterkunfts-Datenbank. Bitte schauen Sie später wieder vorbei.
+                </p>
+              </div>
+            ) : (
+              <AccommodationListWithFilters accommodations={accommodations} />
+            )}
+          </TabsContent>
 
-        <TabsContent value="hotel">
-          {!hasAccommodations ? (
-            <div className="text-center py-20">
-              <h2 className="text-xl font-semibold mb-4">Keine Hotels verfügbar</h2>
-              <p className="text-muted-foreground mb-8">
-                Wir aktualisieren gerade unsere Unterkunfts-Datenbank. Bitte schauen Sie später wieder vorbei.
-              </p>
-            </div>
-          ) : (
-            <AccommodationListWithFilters 
-              accommodations={accommodations.filter(acc => acc.type === 'hotel')} 
-            />
-          )}
-        </TabsContent>
+          <TabsContent value="hotel">
+            {!hasAccommodations ? (
+              <div className="text-center py-20">
+                <h2 className="text-xl font-semibold mb-4">Keine Hotels verfügbar</h2>
+                <p className="text-muted-foreground mb-8">
+                  Wir aktualisieren gerade unsere Unterkunfts-Datenbank. Bitte schauen Sie später wieder vorbei.
+                </p>
+              </div>
+            ) : (
+              <AccommodationListWithFilters 
+                accommodations={accommodations.filter(acc => acc.type === 'hotel')} 
+              />
+            )}
+          </TabsContent>
 
-        <TabsContent value="ferienhaus">
-          {!hasAccommodations ? (
-            <div className="text-center py-20">
-              <h2 className="text-xl font-semibold mb-4">Keine Ferienhäuser verfügbar</h2>
-              <p className="text-muted-foreground mb-8">
-                Wir aktualisieren gerade unsere Unterkunfts-Datenbank. Bitte schauen Sie später wieder vorbei.
-              </p>
-            </div>
-          ) : (
-            <AccommodationListWithFilters 
-              accommodations={accommodations.filter(acc => acc.type === 'ferienhaus')} 
-            />
-          )}
-        </TabsContent>
+          <TabsContent value="ferienhaus">
+            {!hasAccommodations ? (
+              <div className="text-center py-20">
+                <h2 className="text-xl font-semibold mb-4">Keine Ferienhäuser verfügbar</h2>
+                <p className="text-muted-foreground mb-8">
+                  Wir aktualisieren gerade unsere Unterkunfts-Datenbank. Bitte schauen Sie später wieder vorbei.
+                </p>
+              </div>
+            ) : (
+              <AccommodationListWithFilters 
+                accommodations={accommodations.filter(acc => acc.type === 'ferienhaus')} 
+              />
+            )}
+          </TabsContent>
 
-        <TabsContent value="ferienwohnung">
-          {!hasAccommodations ? (
-            <div className="text-center py-20">
-              <h2 className="text-xl font-semibold mb-4">Keine Ferienwohnungen verfügbar</h2>
-              <p className="text-muted-foreground mb-8">
-                Wir aktualisieren gerade unsere Unterkunfts-Datenbank. Bitte schauen Sie später wieder vorbei.
-              </p>
-            </div>
-          ) : (
-            <AccommodationListWithFilters 
-              accommodations={accommodations.filter(acc => acc.type === 'ferienwohnung')} 
-            />
-          )}
-        </TabsContent>
+          <TabsContent value="ferienwohnung">
+            {!hasAccommodations ? (
+              <div className="text-center py-20">
+                <h2 className="text-xl font-semibold mb-4">Keine Ferienwohnungen verfügbar</h2>
+                <p className="text-muted-foreground mb-8">
+                  Wir aktualisieren gerade unsere Unterkunfts-Datenbank. Bitte schauen Sie später wieder vorbei.
+                </p>
+              </div>
+            ) : (
+              <AccommodationListWithFilters 
+                accommodations={accommodations.filter(acc => acc.type === 'ferienwohnung')} 
+              />
+            )}
+          </TabsContent>
 
-        <TabsContent value="pension">
-          {!hasAccommodations ? (
-            <div className="text-center py-20">
-              <h2 className="text-xl font-semibold mb-4">Keine Pensionen verfügbar</h2>
-              <p className="text-muted-foreground mb-8">
-                Wir aktualisieren gerade unsere Unterkunfts-Datenbank. Bitte schauen Sie später wieder vorbei.
-              </p>
-            </div>
-          ) : (
-            <AccommodationListWithFilters 
-              accommodations={accommodations.filter(acc => acc.type === 'pension')} 
-            />
-          )}
-        </TabsContent>
-      </Tabs>
+          <TabsContent value="pension">
+            {!hasAccommodations ? (
+              <div className="text-center py-20">
+                <h2 className="text-xl font-semibold mb-4">Keine Pensionen verfügbar</h2>
+                <p className="text-muted-foreground mb-8">
+                  Wir aktualisieren gerade unsere Unterkunfts-Datenbank. Bitte schauen Sie später wieder vorbei.
+                </p>
+              </div>
+            ) : (
+              <AccommodationListWithFilters 
+                accommodations={accommodations.filter(acc => acc.type === 'pension')} 
+              />
+            )}
+          </TabsContent>
+        </Tabs>
+      )}
 
       <div className="bg-muted rounded-lg p-8 mb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

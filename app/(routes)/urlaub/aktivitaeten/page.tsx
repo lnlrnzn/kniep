@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight, Compass, Waves, Bike, LandPlot, Wind, Calendar, Clock, MapPin, Users, Tag } from "lucide-react";
+import { ChevronRight, Compass, Waves, Bike, LandPlot, Wind, Calendar, Clock, MapPin, Users, Tag, Footprints } from "lucide-react";
 import { motion } from "framer-motion";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -176,25 +176,27 @@ export default function AktivitaetenPage() {
       </motion.div>
 
       <Tabs defaultValue="all" className="mb-12">
-        <TabsList className="grid grid-cols-5 mb-8">
-          <TabsTrigger value="all">Alle</TabsTrigger>
-          <TabsTrigger value="nature">
-            <Tag className="h-4 w-4 mr-2" />
-            Natur
-          </TabsTrigger>
-          <TabsTrigger value="water">
-            <Waves className="h-4 w-4 mr-2" />
-            Wassersport
-          </TabsTrigger>
-          <TabsTrigger value="culture">
-            <LandPlot className="h-4 w-4 mr-2" />
-            Kultur
-          </TabsTrigger>
-          <TabsTrigger value="active">
-            <Bike className="h-4 w-4 mr-2" />
-            Aktiv
-          </TabsTrigger>
-        </TabsList>
+        <div className="mb-8 overflow-hidden">
+          <TabsList className="flex flex-wrap justify-center gap-2 p-1">
+            <TabsTrigger value="all" className="min-w-[80px]">Alle</TabsTrigger>
+            <TabsTrigger value="nature" className="min-w-[120px]">
+              <Tag className="h-4 w-4 mr-2" />
+              Natur
+            </TabsTrigger>
+            <TabsTrigger value="water" className="min-w-[140px]">
+              <Waves className="h-4 w-4 mr-2" />
+              Wassersport
+            </TabsTrigger>
+            <TabsTrigger value="culture" className="min-w-[120px]">
+              <LandPlot className="h-4 w-4 mr-2" />
+              Kultur
+            </TabsTrigger>
+            <TabsTrigger value="active" className="min-w-[120px]">
+              <Footprints className="h-4 w-4 mr-2" />
+              Aktiv
+            </TabsTrigger>
+          </TabsList>
+        </div>
         
         <TabsContent value="all" className="mt-0">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
