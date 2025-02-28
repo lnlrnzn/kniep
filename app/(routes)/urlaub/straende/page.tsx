@@ -1,14 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronRight, Umbrella, Sun, Wind, Trees, Fish, Waves } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { ContentContainer } from "../../../components/ui/content-container";
 import BeachListWithFilters from "@/app/components/beaches/BeachListWithFilters";
 import { Beach } from "@/app/types";
@@ -80,10 +77,11 @@ const beaches: Beach[] = [
 ];
 
 export default function StrandePage() {
-  const [selectedBeach, setSelectedBeach] = useState<string>(beaches[0].id);
+  // FIXME: These variables will be used in future implementation of beach selection functionality
+  // const [selectedBeach, setSelectedBeach] = useState<string>(beaches[0].id);
   
-  // Finden des ausgewählten Strandes
-  const currentBeach = beaches.find(beach => beach.id === selectedBeach) || beaches[0];
+  // Finding the selected beach - will be used in future implementation
+  // const currentBeach = beaches.find(beach => beach.id === selectedBeach) || beaches[0];
 
   return (
     <ContentContainer className="py-12">

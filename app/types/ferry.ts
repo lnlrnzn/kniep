@@ -13,7 +13,7 @@ export interface FerryNote {
 /**
  * Schedule for a specific route (e.g., DagebullFohr)
  */
-export interface FerryRouteSchedule extends Array<FerryNote> {}
+export type FerryRouteSchedule = FerryNote[];
 
 /**
  * Collection of routes for a specific day type (weekday, weekend, etc.)

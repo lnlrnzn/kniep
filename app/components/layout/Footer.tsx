@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Instagram, Facebook, Twitter, Mail, Phone, MapPin } from "lucide-react";
 
 export default function Footer() {
@@ -125,7 +124,7 @@ export default function Footer() {
                 <span className="text-muted-foreground">Historische Seefahrerkirche in Nebel</span>
               </li>
               <li>
-                <span className="text-muted-foreground">Inselbahn "Amrumer Inselbahn"</span>
+                <span className="text-muted-foreground">Inselbahn &quot;Amrumer Inselbahn&quot;</span>
               </li>
               <li>
                 <span className="text-muted-foreground">Restaurants mit frischem Fisch</span>

@@ -181,7 +181,7 @@ export function RestaurantFilters({ restaurants, onFiltersChange }: RestaurantFi
             <div className="flex flex-wrap gap-2">
               {searchQuery && (
                 <Badge variant="secondary" className="gap-1 px-2 py-1">
-                  <span className="truncate max-w-[150px]">"{searchQuery}"</span>
+                  <span className="truncate max-w-[150px]">&quot;{searchQuery}&quot;</span>
                   <Button 
                     variant="ghost"
                     size="sm"

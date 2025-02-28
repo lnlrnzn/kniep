@@ -3,11 +3,11 @@
 import { useState, useCallback, useMemo, memo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Clock, Star, Filter, Grid, Grid3X3, Wifi, Car, Coffee, Home, Hotel, Utensils, X, Heart, Search, ChevronDown, Sliders } from "lucide-react";
+import { MapPin, Clock, Grid, Grid3X3, X, Heart, Search, Sliders } from "lucide-react";
 import { Restaurant } from "@/app/lib/data";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardFooter } from "@/components/ui/card";
 import { RestaurantFilters } from "./RestaurantFilters";
 import { cn } from "@/lib/utils";
 
@@ -28,14 +28,6 @@ const RestaurantCard = memo(({
   // Placeholder image for restaurants
   const getPlaceholderImage = () => {
     return '/images/placeholder-restaurant.jpg';
-  };
-
-  // Type icon based on cuisine
-  const getCuisineIcon = () => {
-    if (restaurant.cuisine.includes('Deutsch')) return <Utensils className="h-4 w-4" />;
-    if (restaurant.cuisine.includes('Café')) return <Coffee className="h-4 w-4" />;
-    if (restaurant.cuisine.includes('Bar')) return <Coffee className="h-4 w-4" />;
-    return <Utensils className="h-4 w-4" />;
   };
 
   return (
@@ -182,10 +174,10 @@ const RestaurantCard = memo(({
                 Details ansehen
               </Link>
             </Button>
-            {(restaurant as any).website && (
+            {restaurant.website && (
               <Button variant="default" size="sm" className="flex-1 text-sm font-medium">
                 <a 
-                  href={(restaurant as any).website} 
+                  href={restaurant.website} 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="flex items-center justify-center w-full"
@@ -214,9 +206,6 @@ export default function RestaurantListWithFilters({ restaurants }: RestaurantLis
   const [layout, setLayout] = useState<'grid' | 'list'>('grid');
   const [hasError, setHasError] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCuisines, setSelectedCuisines] = useState<string[]>([]);
-  const [selectedPriceRanges, setSelectedPriceRanges] = useState<string[]>([]);
-  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
 
   // Helper function to format opening hours - memoized to improve performance
   const formatOpeningHours = useCallback((openingHours: string) => {
@@ -272,14 +261,11 @@ export default function RestaurantListWithFilters({ restaurants }: RestaurantLis
     setFilteredRestaurants(filtered);
   };
 
-  // Reset all filters
+  // Reset all filters and search
   const resetFilters = useCallback(() => {
+    setFilteredRestaurants(restaurants);
     setSearchQuery("");
-    setSelectedCuisines([]);
-    setSelectedPriceRanges([]);
-    setSelectedFeatures([]);
-    setIsFilterVisible(false);
-  }, []);
+  }, [restaurants]);
 
   // Memoize restaurants if they haven't changed to prevent unnecessary re-renders
   const restaurantsList = useMemo(() => {

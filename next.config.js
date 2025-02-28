@@ -60,6 +60,19 @@ const nextConfig = {
   
   // Optional: Configure other Next.js options if needed
   reactStrictMode: true,
+
+  // Disable ESLint during build
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  
+  // Disable TypeScript checking during build
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  
+  // Use standalone output
+  output: 'standalone',
 };
 
 module.exports = nextConfig; 

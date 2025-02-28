@@ -42,7 +42,7 @@ export default async function TagPage({ params }: TagPageProps) {
       <div className="mb-12 text-center">
         <h1 className="text-4xl font-bold mb-4">Artikel mit Tag: {tag}</h1>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Alle Blog-Artikel, die mit dem Tag "{tag}" versehen sind.
+          Alle Blog-Artikel, die mit dem Tag &quot;{tag}&quot; versehen sind.
         </p>
       </div>
 
@@ -50,7 +50,7 @@ export default async function TagPage({ params }: TagPageProps) {
         <div className="text-center py-20">
           <h2 className="text-xl font-semibold mb-4">Keine Artikel gefunden</h2>
           <p className="text-muted-foreground mb-8">
-            Es gibt derzeit keine Artikel mit dem Tag "{tag}".
+            Es gibt derzeit keine Artikel mit dem Tag &quot;{tag}&quot;.
           </p>
           <Button asChild variant="outline">
             <Link href="/blog">

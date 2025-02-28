@@ -3,10 +3,10 @@
 import { useState, useCallback, useMemo, memo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Clock, Star, Filter, Grid, Grid3X3, X, Heart, Search, ChevronDown, Sliders, Users, Calendar, Tag } from "lucide-react";
+import { MapPin, Clock, Grid, Grid3X3, X, Heart, Search, Sliders, Users, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardFooter } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 // Define Activity interface based on the page structure
@@ -40,22 +40,6 @@ const ActivityCard = memo(({
   // Placeholder image for activities
   const getPlaceholderImage = () => {
     return '/images/placeholder-activity.jpg';
-  };
-
-  // Type icon based on activity type
-  const getTypeIcon = () => {
-    switch (activity.type) {
-      case 'nature':
-        return <Tag className="h-4 w-4" />;
-      case 'water':
-        return <Search className="h-4 w-4" />;
-      case 'culture':
-        return <Tag className="h-4 w-4" />;
-      case 'active':
-        return <Tag className="h-4 w-4" />;
-      default:
-        return <Tag className="h-4 w-4" />;
-    }
   };
 
   return (
@@ -291,11 +275,11 @@ export default function ActivityListWithFilters({ activities }: ActivityListWith
 
   // Reset all filters
   const resetFilters = useCallback(() => {
+    setFilteredActivities(activities);
     setSearchQuery("");
     setSelectedType(null);
     setSelectedSeason(null);
-    setIsFilterVisible(false);
-  }, []);
+  }, [activities]);
 
   // Handle type selection
   const handleTypeChange = (type: string | null) => {

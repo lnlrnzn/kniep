@@ -245,11 +245,11 @@ export default function GastronomiePage() {
               </li>
               <li className="flex items-start gap-2">
                 <Tag className="h-5 w-5 text-primary mt-0.5" />
-                <span>Achten Sie auf das "Amrumer Qualitätssiegel" für besonders empfehlenswerte Lokale</span>
+                <span>Achten Sie auf das &quot;Amrumer Qualitätssiegel&quot; für besonders empfehlenswerte Lokale</span>
               </li>
               <li className="flex items-start gap-2">
                 <Tag className="h-5 w-5 text-primary mt-0.5" />
-                <span>Probieren Sie unbedingt einen "Pharisäer" – Kaffee mit Rum und Sahnehaube</span>
+                <span>Probieren Sie unbedingt einen &quot;Pharisäer&quot; – Kaffee mit Rum und Sahnehaube</span>
               </li>
             </ul>
           </div>

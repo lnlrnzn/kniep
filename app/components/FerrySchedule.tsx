@@ -11,7 +11,6 @@ import {
 import { 
   Table, 
   TableBody, 
-  TableCaption, 
   TableCell, 
   TableHead, 
   TableHeader, 
@@ -19,7 +18,7 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Anchor, CalendarDays, Ship, ExternalLink, Info, HelpCircle } from "lucide-react";
+import { Ship, ExternalLink, Info, HelpCircle } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -96,9 +95,6 @@ export function FerrySchedule({ ferryData }: FerryScheduleProps) {
     "FohrAmrum": "Föhr → Amrum",
     "AmrumFohr": "Amrum → Föhr"
   };
-  
-  // Combine routes for select
-  const allRoutes = { ...mainRoutes, ...otherRoutes };
   
   // Simplified state management - default to most common route
   const [selectedRoute, setSelectedRoute] = useState("DagebullAmrum");
@@ -382,7 +378,7 @@ export function FerrySchedule({ ferryData }: FerryScheduleProps) {
                 {/* Notes explanation */}
                 <div className="mt-4 flex items-center gap-2 text-xs">
                   <HelpCircle className="h-3 w-3 text-muted-foreground" />
-                  <span className="text-muted-foreground">Klicken Sie auf die Hinweise (z.B. "a", "b") für Details</span>
+                  <span className="text-muted-foreground">Klicken Sie auf die Hinweise (z.B. &quot;a&quot;, &quot;b&quot;) für Details</span>
                 </div>
               </TabsContent>
             ))}

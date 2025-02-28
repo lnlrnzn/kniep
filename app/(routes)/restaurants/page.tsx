@@ -1,11 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
-import { ChevronRight, MapPin, Clock, Star } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { getRestaurants } from "@/app/lib/data";
 import { ContentContainer } from "../../components/ui/content-container";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import RestaurantListWithFilters from "@/app/components/restaurants/RestaurantListWithFilters";
 
 export const metadata = {
@@ -16,15 +12,6 @@ export const metadata = {
 export default async function RestaurantsPage() {
   const restaurants = await getRestaurants();
   const hasRestaurants = restaurants.length > 0;
-
-  // Helper function to format opening hours
-  const formatOpeningHours = (openingHours: string) => {
-    if (!openingHours) return "Öffnungszeiten nicht verfügbar";
-    
-    return openingHours.split('\n').map((line, index) => (
-      <div key={index}>{line}</div>
-    ));
-  };
 
   return (
     <ContentContainer className="py-12">

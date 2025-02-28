@@ -6,7 +6,7 @@ import Image from "next/image";
 import { MapPin, Search, Heart, X, Sliders, Grid, Grid3X3, Umbrella, Sun, Wind, Waves, Fish, Trees } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardFooter } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Beach } from "@/app/types";
 
@@ -277,12 +277,12 @@ export default function BeachListWithFilters({ beaches }: BeachListWithFiltersPr
     applyFilters();
   };
 
-  // Function to reset all filters
+  // Reset all filters
   const resetFilters = useCallback(() => {
+    setFilteredBeaches(beaches);
     setSearchQuery("");
     setSelectedFeatures([]);
-    setIsFilterVisible(false);
-  }, []);
+  }, [beaches]);
 
   // Apply filters when filter properties change
   useMemo(() => {

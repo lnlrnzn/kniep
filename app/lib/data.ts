@@ -7,10 +7,7 @@ import ferryData from '../data/ferry-schedule.json';
 import {
   Accommodation,
   BlogPost,
-  Author,
-  FerryData,
-  Tag,
-  ApiResponse
+  FerryData
 } from '../types';
 
 // Restaurant type definition (to be moved to types later)
@@ -27,6 +24,7 @@ export interface Restaurant {
   features: string[];
   rating: number;
   specialties: string[];
+  website?: string;
 }
 
 // Restaurant data functions

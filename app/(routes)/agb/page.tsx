@@ -21,7 +21,7 @@ export default function AGBPage() {
             <h2 className="text-xl font-semibold mb-4">1. Geltungsbereich</h2>
             <p className="mb-4">
               Die nachstehenden Allgemeinen Geschäftsbedingungen gelten für alle Verträge, Lieferungen und sonstigen 
-              Leistungen der Amrum Tourismus GmbH, Strandstraße 123, 25946 Wittdün auf Amrum (nachfolgend "Anbieter" genannt).
+              Leistungen der Amrum Tourismus GmbH, Strandstraße 123, 25946 Wittdün auf Amrum (nachfolgend &quot;Anbieter&quot; genannt).
             </p>
             <p className="mb-4">
               Abweichende Bedingungen des Kunden werden nicht anerkannt, es sei denn, der Anbieter stimmt ihrer Geltung 

@@ -82,7 +82,7 @@ export function Pagination({ currentPage, totalPages, basePath }: PaginationProp
         </li>
         
         {/* Page links */}
-        {pageLinks.map((page, i) => {
+        {pageLinks.map((page) => {
           // Render ellipsis
           if (page === 'ellipsis-1' || page === 'ellipsis-2') {
             return (

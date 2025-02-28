@@ -176,7 +176,7 @@ export default function UeberAmrumPage() {
                     seltene Pflanzen- und Tierarten ein geschütztes Zuhause.
                   </p>
                   <p className="mb-4 text-muted-foreground">
-                    Der "Kniepsand" im Westen der Insel ist mit einer Breite von bis zu zwei Kilometern 
+                    Der &quot;Kniepsand&quot; im Westen der Insel ist mit einer Breite von bis zu zwei Kilometern 
                     einer der breitesten Sandstrände Europas und lädt zu ausgedehnten Spaziergängen ein.
                   </p>
                   <p className="text-muted-foreground">

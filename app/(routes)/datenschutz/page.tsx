@@ -128,7 +128,7 @@ export default function DatenschutzPage() {
             
             <h3 className="text-lg font-medium mb-2">Cookies</h3>
             <p className="mb-4">
-              Unsere Internetseiten verwenden so genannte "Cookies". Cookies sind kleine Datenpakete und richten 
+              Unsere Internetseiten verwenden so genannte &quot;Cookies&quot;. Cookies sind kleine Datenpakete und richten 
               auf Ihrem Endgerät keinen Schaden an. Sie werden entweder vorübergehend für die Dauer einer Sitzung 
               (Session-Cookies) oder dauerhaft (permanente Cookies) auf Ihrem Endgerät gespeichert. Session-Cookies 
               werden nach Ende Ihres Besuchs automatisch gelöscht. Permanente Cookies bleiben auf Ihrem Endgerät 
@@ -142,7 +142,7 @@ export default function DatenschutzPage() {
             <h3 className="text-lg font-medium mb-2">Google Analytics</h3>
             <p className="mb-4">
               Diese Website nutzt Funktionen des Webanalysedienstes Google Analytics. Anbieter ist die Google Ireland Limited 
-              ("Google"), Gordon House, Barrow Street, Dublin 4, Irland.
+              (&quot;Google&quot;), Gordon House, Barrow Street, Dublin 4, Irland.
             </p>
             <p className="mb-4">
               Google Analytics ermöglicht es dem Websitebetreiber, das Verhalten der Websitebesucher zu analysieren. 

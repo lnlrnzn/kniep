@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useCallback, useMemo, Fragment } from "react";
+import { useState, useCallback, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Star, Filter, Grid, Grid3X3, Wifi, Car, Coffee, Home, Hotel, PenTool, AlertTriangle, X, Heart, Search, ChevronDown, Sliders } from "lucide-react";
+import { MapPin, Star, Grid, Grid3X3, Wifi, Car, Coffee, AlertTriangle, X, Heart, Search, Sliders } from "lucide-react";
 import { Accommodation } from "@/app/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardFooter } from "@/components/ui/card";
 import { AccommodationFilters } from "./AccommodationFilters";
 import { memo } from "react";
 import { cn } from "@/lib/utils";
@@ -17,13 +17,11 @@ const AccommodationCard = memo(({
   accommodation, 
   layout,
   getPlaceholderImage,
-  renderStars,
   getFeatureIcon
 }: { 
   accommodation: Accommodation; 
   layout: 'grid' | 'list';
   getPlaceholderImage: (type: string) => string;
-  renderStars: (stars: number) => React.ReactNode;
   getFeatureIcon: (feature: string) => React.ReactNode;
 }) => {
   const [imageError, setImageError] = useState(false);
@@ -36,14 +34,6 @@ const AccommodationCard = memo(({
     ferienhaus: "Ferienhaus",
     ferienwohnung: "Ferienwohnung",
     pension: "Pension"
-  };
-
-  // Map for accommodation type icons
-  const typeIcons: Record<string, React.ReactNode> = {
-    hotel: <Hotel className="h-4 w-4" />,
-    ferienhaus: <Home className="h-4 w-4" />,
-    ferienwohnung: <Home className="h-4 w-4" />,
-    pension: <Coffee className="h-4 w-4" />
   };
 
   return (
@@ -223,8 +213,6 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
   const [layout, setLayout] = useState<'grid' | 'list'>('grid');
   const [hasError, setHasError] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
 
   // Get placeholder image based on accommodation type - memoized to improve performance
   const getPlaceholderImage = useCallback((type: string) => {
@@ -243,17 +231,6 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
       default:
         return defaultPlaceholder;
     }
-  }, []);
-
-  // Helper function to render stars - memoized to improve performance
-  const renderStars = useCallback((stars: number) => {
-    return Array(5).fill(0).map((_, index) => (
-      <Star 
-        key={index} 
-        className={`h-3 w-3 ${index < stars ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`} 
-        aria-hidden="true"
-      />
-    ));
   }, []);
 
   // Helper function to get feature icon - memoized to improve performance
@@ -308,13 +285,11 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
     setFilteredAccommodations(filtered);
   };
 
-  // Reset all filters
+  // Reset all filters and search
   const resetFilters = useCallback(() => {
+    setFilteredAccommodations(accommodations);
     setSearchQuery("");
-    setSelectedTypes([]);
-    setSelectedFeatures([]);
-    setIsFilterVisible(false);
-  }, []);
+  }, [accommodations]);
 
   // Memoize accommodations if they haven't changed to prevent unnecessary re-renders
   const accommodationsList = useMemo(() => {
@@ -366,13 +341,12 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
             accommodation={accommodation}
             layout={layout}
             getPlaceholderImage={getPlaceholderImage}
-            renderStars={renderStars}
             getFeatureIcon={getFeatureIcon}
           />
         ))}
       </div>
     );
-  }, [filteredAccommodations, layout, hasError, getPlaceholderImage, renderStars, getFeatureIcon, resetFilters]);
+  }, [filteredAccommodations, layout, hasError, getPlaceholderImage, getFeatureIcon, resetFilters]);
 
   return (
     <div className="space-y-8">

@@ -175,7 +175,7 @@ export default function FAQPage() {
         {filteredFAQs.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-lg text-muted-foreground">
-              Keine Ergebnisse für "{searchQuery}" gefunden.
+              Keine Ergebnisse für &quot;{searchQuery}&quot; gefunden.
             </p>
             <Button 
               variant="outline" 

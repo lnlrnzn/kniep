@@ -1,19 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { ChevronRight, Calendar, User, Tag, ArrowLeft } from "lucide-react";
+import { ChevronRight, Calendar, User, ArrowLeft } from "lucide-react";
 import { getBlogPostBySlug, getBlogPosts } from "@/app/lib/data";
 import { ContentContainer } from "../../../components/ui/content-container";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 
 // For dynamic metadata
 export async function generateMetadata(
-  { params }: { params: { slug: string } },
-  parent: ResolvingMetadata
+  { params }: { params: { slug: string } }
 ): Promise<Metadata> {
   const post = await getBlogPostBySlug(params.slug);
   
@@ -44,7 +43,13 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+interface BlogPostPageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const post = await getBlogPostBySlug(params.slug);
   
   if (!post) {

@@ -1,13 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
-import { ChevronRight, Compass, Waves, Bike, LandPlot, Wind, Calendar, Clock, MapPin, Users, Tag, Footprints } from "lucide-react";
+import { ChevronRight, Compass, Calendar, Tag, Users } from "lucide-react";
 import { motion } from "framer-motion";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ContentContainer } from "../../../components/ui/content-container";
 import ActivityListWithFilters from "@/app/components/activities/ActivityListWithFilters";
 
@@ -363,77 +359,5 @@ export default function AktivitaetenPage() {
         </div>
       </div>
     </ContentContainer>
-  );
-}
-
-function ActivityCard({ activity }: { activity: Activity }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.3 }}
-    >
-      <Card className="h-full overflow-hidden">
-        <div className="relative h-48 overflow-hidden">
-          <Image
-            src={activity.image}
-            alt={activity.name}
-            fill
-            className="object-cover transition-transform hover:scale-105 duration-500"
-          />
-          <div className="absolute top-2 right-2">
-            <Badge 
-              variant={
-                activity.type === "nature" ? "outline" : 
-                activity.type === "water" ? "secondary" : 
-                activity.type === "culture" ? "default" : "destructive"
-              }
-              className="font-medium"
-            >
-              {activity.type === "nature" ? "Natur" : 
-               activity.type === "water" ? "Wassersport" : 
-               activity.type === "culture" ? "Kultur" : "Aktiv"}
-            </Badge>
-          </div>
-        </div>
-        <CardHeader className="pb-2">
-          <div className="flex justify-between items-start">
-            <CardTitle className="text-xl">{activity.name}</CardTitle>
-          </div>
-          <CardDescription className="flex items-center gap-1">
-            <MapPin className="h-3.5 w-3.5" /> {activity.location}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="pb-2">
-          <p className="text-sm text-muted-foreground mb-3">{activity.description}</p>
-          <div className="flex items-center gap-1 text-sm text-muted-foreground mb-2">
-            <Clock className="h-4 w-4" />
-            <span>{activity.duration}</span>
-          </div>
-          <div className="flex items-center gap-1 text-sm text-muted-foreground">
-            <Calendar className="h-4 w-4" />
-            <span>{activity.season.join(", ")}</span>
-          </div>
-        </CardContent>
-        <CardFooter className="pt-2">
-          <div className="w-full space-y-2">
-            <div>
-              <p className="text-xs font-medium mb-1">Geeignet für:</p>
-              <div className="flex flex-wrap gap-1">
-                {activity.suitable.map((suitableFor, index) => (
-                  <Badge key={index} variant="outline" className="text-xs">
-                    {suitableFor}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-            <div className="flex justify-between items-center text-xs">
-              <span className="text-muted-foreground">{activity.booking}</span>
-              <span className="font-medium">{activity.pricing}</span>
-            </div>
-          </div>
-        </CardFooter>
-      </Card>
-    </motion.div>
   );
 } 
