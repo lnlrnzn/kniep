@@ -223,6 +223,8 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
   const [layout, setLayout] = useState<'grid' | 'list'>('grid');
   const [hasError, setHasError] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
 
   // Get placeholder image based on accommodation type - memoized to improve performance
   const getPlaceholderImage = useCallback((type: string) => {
@@ -306,11 +308,13 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
     setFilteredAccommodations(filtered);
   };
 
-  // Reset all filters and search
-  const resetFilters = () => {
-    setFilteredAccommodations(accommodations);
+  // Reset all filters
+  const resetFilters = useCallback(() => {
     setSearchQuery("");
-  };
+    setSelectedTypes([]);
+    setSelectedFeatures([]);
+    setIsFilterVisible(false);
+  }, []);
 
   // Memoize accommodations if they haven't changed to prevent unnecessary re-renders
   const accommodationsList = useMemo(() => {

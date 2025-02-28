@@ -214,6 +214,9 @@ export default function RestaurantListWithFilters({ restaurants }: RestaurantLis
   const [layout, setLayout] = useState<'grid' | 'list'>('grid');
   const [hasError, setHasError] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCuisines, setSelectedCuisines] = useState<string[]>([]);
+  const [selectedPriceRanges, setSelectedPriceRanges] = useState<string[]>([]);
+  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
 
   // Helper function to format opening hours - memoized to improve performance
   const formatOpeningHours = useCallback((openingHours: string) => {
@@ -269,11 +272,14 @@ export default function RestaurantListWithFilters({ restaurants }: RestaurantLis
     setFilteredRestaurants(filtered);
   };
 
-  // Reset all filters and search
-  const resetFilters = () => {
-    setFilteredRestaurants(restaurants);
+  // Reset all filters
+  const resetFilters = useCallback(() => {
     setSearchQuery("");
-  };
+    setSelectedCuisines([]);
+    setSelectedPriceRanges([]);
+    setSelectedFeatures([]);
+    setIsFilterVisible(false);
+  }, []);
 
   // Memoize restaurants if they haven't changed to prevent unnecessary re-renders
   const restaurantsList = useMemo(() => {

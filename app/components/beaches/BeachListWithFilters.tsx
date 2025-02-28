@@ -277,12 +277,12 @@ export default function BeachListWithFilters({ beaches }: BeachListWithFiltersPr
     applyFilters();
   };
 
-  // Reset all filters
-  const resetFilters = () => {
-    setFilteredBeaches(beaches);
+  // Function to reset all filters
+  const resetFilters = useCallback(() => {
     setSearchQuery("");
     setSelectedFeatures([]);
-  };
+    setIsFilterVisible(false);
+  }, []);
 
   // Apply filters when filter properties change
   useMemo(() => {

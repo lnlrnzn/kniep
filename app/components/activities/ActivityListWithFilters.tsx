@@ -290,12 +290,12 @@ export default function ActivityListWithFilters({ activities }: ActivityListWith
   };
 
   // Reset all filters
-  const resetFilters = () => {
-    setFilteredActivities(activities);
+  const resetFilters = useCallback(() => {
     setSearchQuery("");
     setSelectedType(null);
     setSelectedSeason(null);
-  };
+    setIsFilterVisible(false);
+  }, []);
 
   // Handle type selection
   const handleTypeChange = (type: string | null) => {
