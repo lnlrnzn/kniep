@@ -32,13 +32,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="de" className={`${openSans.variable} ${montserrat.variable}`}>
-      <body className="min-h-screen flex flex-col bg-white font-sans">
-        <Header />
-        <main className="flex-1 pt-13px">
-          {children}
-        </main>
-        <Footer />
-        <ScrollToTop />
+      <body className="min-h-screen flex flex-col bg-white font-sans overflow-x-hidden">
+        <div className="w-full overflow-hidden">
+          <Header />
+          <main className="flex-1 pt-[13px] w-full">
+            {children}
+          </main>
+          <Footer />
+          <ScrollToTop />
+        </div>
         <Analytics />
       </body>
     </html>

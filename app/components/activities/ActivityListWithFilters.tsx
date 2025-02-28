@@ -1,49 +1,61 @@
 "use client";
 
-import { useState, useCallback, useMemo, Fragment } from "react";
+import { useState, useCallback, useMemo, memo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Star, Filter, Grid, Grid3X3, Wifi, Car, Coffee, Home, Hotel, PenTool, AlertTriangle, X, Heart, Search, ChevronDown, Sliders } from "lucide-react";
-import { Accommodation } from "@/app/types";
+import { MapPin, Clock, Star, Filter, Grid, Grid3X3, X, Heart, Search, ChevronDown, Sliders, Users, Calendar, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { AccommodationFilters } from "./AccommodationFilters";
-import { memo } from "react";
 import { cn } from "@/lib/utils";
 
-// Memoize the AccommodationCard component to prevent unnecessary re-renders
-const AccommodationCard = memo(({ 
-  accommodation, 
-  layout,
-  getPlaceholderImage,
-  renderStars,
-  getFeatureIcon
+// Define Activity interface based on the page structure
+interface Activity {
+  id: number;
+  name: string;
+  type: "nature" | "water" | "culture" | "active";
+  season: string[];
+  location: string;
+  description: string;
+  image: string;
+  duration: string;
+  suitable: string[];
+  features: string[];
+  booking: string;
+  pricing: string;
+}
+
+// Memoize the ActivityCard component to prevent unnecessary re-renders
+const ActivityCard = memo(({ 
+  activity, 
+  layout
 }: { 
-  accommodation: Accommodation; 
+  activity: Activity; 
   layout: 'grid' | 'list';
-  getPlaceholderImage: (type: string) => string;
-  renderStars: (stars: number) => React.ReactNode;
-  getFeatureIcon: (feature: string) => React.ReactNode;
 }) => {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [favorite, setFavorite] = useState(false);
 
-  // Map for accommodation type names
-  const typeNames: Record<string, string> = {
-    hotel: "Hotel",
-    ferienhaus: "Ferienhaus",
-    ferienwohnung: "Ferienwohnung",
-    pension: "Pension"
+  // Placeholder image for activities
+  const getPlaceholderImage = () => {
+    return '/images/placeholder-activity.jpg';
   };
 
-  // Map for accommodation type icons
-  const typeIcons: Record<string, React.ReactNode> = {
-    hotel: <Hotel className="h-4 w-4" />,
-    ferienhaus: <Home className="h-4 w-4" />,
-    ferienwohnung: <Home className="h-4 w-4" />,
-    pension: <Coffee className="h-4 w-4" />
+  // Type icon based on activity type
+  const getTypeIcon = () => {
+    switch (activity.type) {
+      case 'nature':
+        return <Tag className="h-4 w-4" />;
+      case 'water':
+        return <Search className="h-4 w-4" />;
+      case 'culture':
+        return <Tag className="h-4 w-4" />;
+      case 'active':
+        return <Tag className="h-4 w-4" />;
+      default:
+        return <Tag className="h-4 w-4" />;
+    }
   };
 
   return (
@@ -60,7 +72,7 @@ const AccommodationCard = memo(({
         )}
       >
         <Link 
-          href={`/urlaub/unterkuenfte/${accommodation.id}`}
+          href={`/urlaub/aktivitaeten/${activity.id}`}
           className="block w-full h-full"
         >
           <div 
@@ -70,8 +82,8 @@ const AccommodationCard = memo(({
             <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
           </div>
           <Image 
-            src={imageError ? getPlaceholderImage(accommodation.type) : accommodation.image}
-            alt={`Foto von ${accommodation.name}`}
+            src={imageError ? getPlaceholderImage() : activity.image}
+            alt={`Foto von ${activity.name}`}
             fill
             className={`object-cover transition-all duration-500 group-hover:scale-105 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
             onError={() => setImageError(true)}
@@ -87,22 +99,17 @@ const AccommodationCard = memo(({
         
         {/* Top badges */}
         <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
-          <Badge variant="secondary" className="bg-white/90 hover:bg-white text-xs font-medium shadow-sm backdrop-blur-sm px-3 py-1">
-            {typeNames[accommodation.type]}
+          <Badge variant="secondary" className="bg-white/90 hover:bg-white text-xs font-medium shadow-sm backdrop-blur-sm px-3 py-1 whitespace-nowrap overflow-hidden">
+            {activity.type === 'nature' ? 'Natur' : 
+             activity.type === 'water' ? 'Wassersport' : 
+             activity.type === 'culture' ? 'Kultur' : 'Aktiv'}
           </Badge>
-          {(accommodation.type === 'hotel' || accommodation.type === 'pension') && 
-            'stars' in accommodation && 
-            accommodation.stars > 0 && (
-            <Badge variant="secondary" className="bg-white/90 hover:bg-white text-xs font-medium shadow-sm backdrop-blur-sm flex items-center gap-1 px-3 py-1">
-              <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-              {accommodation.stars}
+          {activity.season && activity.season.length > 0 && (
+            <Badge variant="secondary" className="bg-white/90 hover:bg-white text-xs font-medium shadow-sm backdrop-blur-sm flex items-center gap-1 px-3 py-1 whitespace-nowrap overflow-hidden">
+              <Calendar className="h-3 w-3 mr-1 flex-shrink-0" />
+              {activity.season[0] === 'Ganzjährig' ? 'Ganzjährig' : activity.season[0] + (activity.season.length > 1 ? '+' : '')}
             </Badge>
           )}
-        </div>
-        
-        {/* Price badge */}
-        <div className="absolute top-4 right-4 z-20">
-          <Badge className="bg-primary text-primary-foreground font-medium shadow-sm px-3 py-1">{accommodation.price}</Badge>
         </div>
         
         {/* Favorite button */}
@@ -127,56 +134,63 @@ const AccommodationCard = memo(({
       )}>
         <div className="p-5 flex-grow">
           <div className="space-y-5">
-            {/* Rating */}
-            {accommodation.rating > 0 && (
-              <div className="flex items-center gap-1.5 mb-2">
-                <div className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-semibold">
-                  {accommodation.rating.toFixed(1)}
-                </div>
-                <span className="text-xs text-muted-foreground">Sehr gut</span>
-              </div>
-            )}
-            
             {/* Title */}
             <h3 className="text-xl font-bold line-clamp-2 group-hover:text-primary transition-colors">
               <Link 
-                href={`/urlaub/unterkuenfte/${accommodation.id}`}
+                href={`/urlaub/aktivitaeten/${activity.id}`}
                 className="focus:outline-none focus:underline"
               >
-                {accommodation.name}
+                {activity.name}
               </Link>
             </h3>
             
             {/* Location */}
-            {accommodation.location && (
+            {activity.location && (
               <div className="flex items-start gap-2.5 mt-3">
                 <MapPin className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" aria-hidden="true" />
-                <span className="text-sm text-muted-foreground">{accommodation.location}</span>
+                <span className="text-sm text-muted-foreground">{activity.location}</span>
               </div>
             )}
             
+            {/* Duration */}
+            {activity.duration && (
+              <div className="flex items-start gap-2.5 mt-3">
+                <Clock className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" aria-hidden="true" />
+                <div className="text-sm text-muted-foreground">
+                  {activity.duration}
+                </div>
+              </div>
+            )}
+
+            {/* Suitable for */}
+            {activity.suitable && activity.suitable.length > 0 && (
+              <div className="flex items-start gap-2.5 mt-3">
+                <Users className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" aria-hidden="true" />
+                <div className="text-sm text-muted-foreground">
+                  {activity.suitable.join(', ')}
+                </div>
+              </div>
+            )}
+
             {/* Description */}
-            {accommodation.description && (
-              <p className="text-sm text-muted-foreground line-clamp-2 mt-3">{accommodation.description}</p>
+            {activity.description && (
+              <p className="text-sm text-muted-foreground line-clamp-2 mt-3">{activity.description}</p>
             )}
             
             {/* Features */}
-            {accommodation.features && accommodation.features.length > 0 && (
+            {activity.features && activity.features.length > 0 && (
               <div className="flex flex-wrap gap-2 pt-3 mt-2">
-                {accommodation.features.slice(0, 4).map((feature: string, index: number) => (
+                {activity.features.slice(0, 4).map((feature: string, index: number) => (
                   <div 
                     key={index}
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 text-xs text-muted-foreground whitespace-nowrap overflow-hidden"
                   >
-                    {getFeatureIcon(feature) && (
-                      <span className="flex-shrink-0">{getFeatureIcon(feature)}</span>
-                    )}
                     <span className="truncate max-w-[120px]">{feature}</span>
                   </div>
                 ))}
-                {accommodation.features.length > 4 && (
+                {activity.features.length > 4 && (
                   <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-muted/50 text-xs text-muted-foreground whitespace-nowrap">
-                    +{accommodation.features.length - 4} weitere
+                    +{activity.features.length - 4} weitere
                   </div>
                 )}
               </div>
@@ -187,23 +201,15 @@ const AccommodationCard = memo(({
         <CardFooter className="p-5 pt-3 border-t border-muted/40 mt-auto">
           <div className="w-full flex gap-3">
             <Button variant="outline" size="sm" className="flex-1 text-sm font-medium">
-              <Link href={`/urlaub/unterkuenfte/${accommodation.id}`} className="flex items-center justify-center w-full">
+              <Link href={`/urlaub/aktivitaeten/${activity.id}`} className="flex items-center justify-center w-full">
                 Details ansehen
               </Link>
             </Button>
-            {accommodation.website && (
-              <Button variant="default" size="sm" className="flex-1 text-sm font-medium">
-                <a 
-                  href={accommodation.website} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="flex items-center justify-center w-full"
-                  aria-label={`Website von ${accommodation.name} öffnen (öffnet in neuem Tab)`}
-                >
-                  Buchen
-                </a>
-              </Button>
-            )}
+            <Button variant="default" size="sm" className="flex-1 text-sm font-medium">
+              <span className="flex items-center justify-center w-full">
+                {activity.booking.includes("Voranmeldung") ? "Jetzt buchen" : "Informationen"}
+              </span>
+            </Button>
           </div>
         </CardFooter>
       </div>
@@ -211,66 +217,20 @@ const AccommodationCard = memo(({
   );
 });
 
-AccommodationCard.displayName = 'AccommodationCard';
+ActivityCard.displayName = 'ActivityCard';
 
-interface AccommodationListWithFiltersProps {
-  accommodations: Accommodation[];
+interface ActivityListWithFiltersProps {
+  activities: Activity[];
 }
 
-export default function AccommodationListWithFilters({ accommodations }: AccommodationListWithFiltersProps) {
-  const [filteredAccommodations, setFilteredAccommodations] = useState<Accommodation[]>(accommodations);
+export default function ActivityListWithFilters({ activities }: ActivityListWithFiltersProps) {
+  const [filteredActivities, setFilteredActivities] = useState<Activity[]>(activities);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [layout, setLayout] = useState<'grid' | 'list'>('grid');
   const [hasError, setHasError] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
-  // Get placeholder image based on accommodation type - memoized to improve performance
-  const getPlaceholderImage = useCallback((type: string) => {
-    // Default placeholder if specific type image is not found
-    const defaultPlaceholder = "/images/placeholder-accommodation.jpg";
-    
-    switch(type) {
-      case 'hotel':
-        return '/images/placeholder-hotel.jpg';
-      case 'pension':
-        return '/images/placeholder-pension.jpg';
-      case 'ferienhaus':
-        return '/images/placeholder-house.jpg';
-      case 'ferienwohnung':
-        return '/images/placeholder-apartment.jpg';
-      default:
-        return defaultPlaceholder;
-    }
-  }, []);
-
-  // Helper function to render stars - memoized to improve performance
-  const renderStars = useCallback((stars: number) => {
-    return Array(5).fill(0).map((_, index) => (
-      <Star 
-        key={index} 
-        className={`h-3 w-3 ${index < stars ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`} 
-        aria-hidden="true"
-      />
-    ));
-  }, []);
-
-  // Helper function to get feature icon - memoized to improve performance
-  const getFeatureIcon = useCallback((feature: string) => {
-    if (feature.includes('WLAN')) return <Wifi className="h-3 w-3" aria-hidden="true" />;
-    if (feature.includes('Parkplatz')) return <Car className="h-3 w-3" aria-hidden="true" />;
-    if (feature.includes('Frühstück')) return <Coffee className="h-3 w-3" aria-hidden="true" />;
-    return null;
-  }, []);
-
-  // Handle filter changes
-  const handleFilterChange = useCallback((filtered: Accommodation[]) => {
-    try {
-      setFilteredAccommodations(filtered);
-    } catch (error) {
-      console.error('Error filtering accommodations:', error);
-      setHasError(true);
-    }
-  }, []);
+  const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [selectedSeason, setSelectedSeason] = useState<string | null>(null);
 
   // Toggle filter visibility
   const toggleFilterVisibility = useCallback(() => {
@@ -287,38 +247,78 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
     setSearchQuery(e.target.value);
   };
 
-  // Filter accommodations by search query
-  const handleSearch = () => {
-    if (!searchQuery.trim()) {
-      return; // No search term, return original list
+  // Apply filters
+  const applyFilters = useCallback(() => {
+    try {
+      const term = searchQuery.toLowerCase().trim();
+      
+      let filtered = [...activities];
+      
+      // Apply search term filter
+      if (term) {
+        filtered = filtered.filter(activity => 
+          activity.name.toLowerCase().includes(term) || 
+          activity.description.toLowerCase().includes(term) ||
+          activity.location.toLowerCase().includes(term) ||
+          activity.features.some(f => f.toLowerCase().includes(term)) ||
+          activity.suitable.some(s => s.toLowerCase().includes(term))
+        );
+      }
+      
+      // Apply type filter
+      if (selectedType) {
+        filtered = filtered.filter(activity => activity.type === selectedType);
+      }
+      
+      // Apply season filter
+      if (selectedSeason) {
+        filtered = filtered.filter(activity => 
+          activity.season.some(s => s.toLowerCase().includes(selectedSeason.toLowerCase()))
+        );
+      }
+      
+      setFilteredActivities(filtered);
+    } catch (error) {
+      console.error('Error filtering activities:', error);
+      setHasError(true);
     }
-    
-    const searchTerm = searchQuery.toLowerCase();
-    const filtered = accommodations.filter(acc => 
-      acc.name.toLowerCase().includes(searchTerm) || 
-      acc.description.toLowerCase().includes(searchTerm) ||
-      acc.location.toLowerCase().includes(searchTerm) ||
-      (acc.features && acc.features.some(feature => 
-        feature.toLowerCase().includes(searchTerm)
-      ))
-    );
-    
-    setFilteredAccommodations(filtered);
+  }, [activities, searchQuery, selectedType, selectedSeason]);
+
+  // Handle search
+  const handleSearch = () => {
+    applyFilters();
   };
 
-  // Reset all filters and search
+  // Reset all filters
   const resetFilters = () => {
-    setFilteredAccommodations(accommodations);
+    setFilteredActivities(activities);
     setSearchQuery("");
+    setSelectedType(null);
+    setSelectedSeason(null);
   };
 
-  // Memoize accommodations if they haven't changed to prevent unnecessary re-renders
-  const accommodationsList = useMemo(() => {
+  // Handle type selection
+  const handleTypeChange = (type: string | null) => {
+    setSelectedType(prev => prev === type ? null : type);
+  };
+
+  // Handle season selection
+  const handleSeasonChange = (season: string | null) => {
+    setSelectedSeason(prev => prev === season ? null : season);
+  };
+
+  // Apply filters when filter properties change
+  useMemo(() => {
+    applyFilters();
+  }, [applyFilters]);
+
+  // Memoize activities list to prevent unnecessary re-renders
+  const activitiesList = useMemo(() => {
     if (hasError) {
       return (
         <div className="text-center py-10 rounded-lg bg-red-50 text-red-800">
           <AlertTriangle className="h-10 w-10 mx-auto mb-4" />
-          <h3 className="text-lg font-medium mb-2">Beim Laden der Unterkünfte ist ein Fehler aufgetreten</h3>
+          <h3 className="text-lg font-medium mb-2">Beim Laden der Aktivitäten ist ein Fehler aufgetreten</h3>
           <p className="text-red-700 mb-4">
             Bitte versuchen Sie, die Seite neu zu laden oder kontaktieren Sie uns, wenn das Problem weiterhin besteht.
           </p>
@@ -333,15 +333,15 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
       );
     }
 
-    if (filteredAccommodations.length === 0) {
+    if (filteredActivities.length === 0) {
       return (
         <div className="text-center py-16 rounded-lg bg-muted/30">
           <div className="w-16 h-16 bg-muted/50 rounded-full flex items-center justify-center mx-auto mb-6">
             <Search className="h-8 w-8 text-muted-foreground" />
           </div>
-          <h3 className="text-xl font-medium mb-2">Keine Unterkünfte gefunden</h3>
+          <h3 className="text-xl font-medium mb-2">Keine Aktivitäten gefunden</h3>
           <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-            Leider entspricht keine Unterkunft Ihren Suchkriterien. Bitte passen Sie Ihre Filter an oder versuchen Sie es mit anderen Suchbegriffen.
+            Leider entspricht keine Aktivität Ihren Suchkriterien. Bitte passen Sie Ihre Filter an oder versuchen Sie es mit anderen Suchbegriffen.
           </p>
           <Button onClick={resetFilters}>
             Filter zurücksetzen
@@ -356,19 +356,16 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
         ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
         : "space-y-8"
       }>
-        {filteredAccommodations.map((accommodation) => (
-          <AccommodationCard
-            key={accommodation.id}
-            accommodation={accommodation}
+        {filteredActivities.map((activity) => (
+          <ActivityCard
+            key={activity.id}
+            activity={activity}
             layout={layout}
-            getPlaceholderImage={getPlaceholderImage}
-            renderStars={renderStars}
-            getFeatureIcon={getFeatureIcon}
           />
         ))}
       </div>
     );
-  }, [filteredAccommodations, layout, hasError, getPlaceholderImage, renderStars, getFeatureIcon, resetFilters]);
+  }, [filteredActivities, layout, hasError, resetFilters]);
 
   return (
     <div className="space-y-8">
@@ -379,7 +376,7 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
             <Search className="absolute left-4 h-5 w-5 text-muted-foreground" />
             <input
               type="text"
-              placeholder="Unterkunft suchen..."
+              placeholder="Aktivität suchen..."
               value={searchQuery}
               onChange={handleSearchChange}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -408,9 +405,9 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
               >
                 <Sliders className="h-4 w-4 flex-shrink-0" />
                 <span>Filter</span>
-                {(accommodations.length - filteredAccommodations.length) > 0 && (
+                {(activities.length - filteredActivities.length) > 0 && (
                   <Badge variant="secondary" className="ml-1 h-5 min-w-[1.25rem] flex items-center justify-center bg-muted flex-shrink-0">
-                    {accommodations.length - filteredAccommodations.length}
+                    {activities.length - filteredActivities.length}
                   </Badge>
                 )}
               </Button>
@@ -420,7 +417,7 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
                 size="sm"
                 onClick={resetFilters}
                 className="text-muted-foreground py-2 px-4 h-auto whitespace-nowrap overflow-hidden"
-                disabled={filteredAccommodations.length === accommodations.length && !searchQuery}
+                disabled={filteredActivities.length === activities.length && !searchQuery}
               >
                 <X className="mr-1.5 h-3 w-3 flex-shrink-0" />
                 <span>Zurücksetzen</span>
@@ -429,7 +426,7 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
             
             <div className="flex items-center gap-3 ml-auto">
               <span className="text-sm text-muted-foreground whitespace-nowrap">
-                {filteredAccommodations.length} {filteredAccommodations.length === 1 ? 'Unterkunft' : 'Unterkünfte'}
+                {filteredActivities.length} {filteredActivities.length === 1 ? 'Aktivität' : 'Aktivitäten'}
               </span>
               
               <div className="flex border rounded-md overflow-hidden">
@@ -463,7 +460,7 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
       {isFilterVisible && (
         <div className="rounded-xl bg-white p-6 shadow-sm border">
           <div className="flex items-center justify-between mb-5">
-            <h3 className="font-medium text-lg">Unterkünfte filtern</h3>
+            <h3 className="font-medium text-lg">Aktivitäten filtern</h3>
             <Button
               variant="ghost"
               size="sm"
@@ -473,52 +470,55 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
               <X className="h-5 w-5" />
             </Button>
           </div>
-          <AccommodationFilters 
-            accommodations={accommodations} 
-            onFiltersChange={handleFilterChange} 
-          />
-        </div>
-      )}
-
-      {/* Results */}
-      {accommodationsList}
-      
-      {/* More info */}
-      {filteredAccommodations.length > 0 && (
-        <div className="bg-muted/20 rounded-xl p-8 border border-muted/60 mt-10">
-          <h3 className="text-xl font-medium mb-5">Tipps für Ihre Unterkunftssuche</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex gap-4">
-              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                <Calendar className="h-6 w-6" />
-              </div>
-              <div>
-                <h4 className="font-medium text-base mb-1">Frühzeitig buchen</h4>
-                <p className="text-sm text-muted-foreground">
-                  Für die Hauptsaison (Juli/August) empfehlen wir 4-6 Monate im Voraus zu buchen.
-                </p>
+          
+          <div className="space-y-6">
+            <div>
+              <h4 className="text-sm font-medium mb-3">Aktivitäts-Typ</h4>
+              <div className="flex flex-wrap gap-2">
+                {['nature', 'water', 'culture', 'active'].map((type) => (
+                  <Button
+                    key={type}
+                    variant={selectedType === type ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => handleTypeChange(type)}
+                    className="py-1.5 h-auto whitespace-nowrap overflow-hidden"
+                  >
+                    {type === 'nature' ? 'Natur' : 
+                     type === 'water' ? 'Wassersport' : 
+                     type === 'culture' ? 'Kultur' : 'Aktiv'}
+                  </Button>
+                ))}
               </div>
             </div>
-            <div className="flex gap-4">
-              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                <MapPin className="h-6 w-6" />
-              </div>
-              <div>
-                <h4 className="font-medium text-base mb-1">Lage beachten</h4>
-                <p className="text-sm text-muted-foreground">
-                  Wittdün ist belebter mit mehr Einkaufsmöglichkeiten, Norddorf ist ruhiger.
-                </p>
+            
+            <div>
+              <h4 className="text-sm font-medium mb-3">Saison</h4>
+              <div className="flex flex-wrap gap-2">
+                {['Ganzjährig', 'Frühling', 'Sommer', 'Herbst', 'Winter'].map((season) => (
+                  <Button
+                    key={season}
+                    variant={selectedSeason === season ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => handleSeasonChange(season)}
+                    className="py-1.5 h-auto whitespace-nowrap overflow-hidden"
+                  >
+                    {season}
+                  </Button>
+                ))}
               </div>
             </div>
           </div>
         </div>
       )}
+
+      {/* Results */}
+      {activitiesList}
     </div>
   );
 }
 
-// Calendar icon component
-function Calendar(props: React.SVGProps<SVGSVGElement>) {
+// Add AlertTriangle component
+function AlertTriangle(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -532,10 +532,9 @@ function Calendar(props: React.SVGProps<SVGSVGElement>) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
-      <line x1="16" x2="16" y1="2" y2="6" />
-      <line x1="8" x2="8" y1="2" y2="6" />
-      <line x1="3" x2="21" y1="10" y2="10" />
+      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+      <path d="M12 9v4" />
+      <path d="M12 17h.01" />
     </svg>
-  );
+  )
 } 

@@ -10,23 +10,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ContentContainer } from "../../../components/ui/content-container";
+import BeachListWithFilters from "@/app/components/beaches/BeachListWithFilters";
+import { Beach } from "@/app/types";
 
-// Strand-Informationen mit Features
-interface Beach {
-  id: string;
-  name: string;
-  description: string;
-  longDescription: string;
-  location: string;
-  image: string;
-  features: {
-    icon: React.ReactNode;
-    label: string;
-  }[];
-  highlights: string[];
-  bestTime: string;
-}
-
+// Sample data - would be replaced with actual data from a CMS or API
 const beaches: Beach[] = [
   {
     id: "kniepsand",
@@ -151,83 +138,11 @@ export default function StrandePage() {
         </div>
       </motion.div>
 
-      {/* Tabs für die verschiedenen Strände */}
-      <Tabs
-        value={selectedBeach}
-        onValueChange={setSelectedBeach}
-        className="mb-12"
-      >
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold mb-4">Unsere Strandempfehlungen</h2>
-          <div className="overflow-hidden">
-            <TabsList className="flex flex-wrap justify-start gap-2 p-1">
-              {beaches.map((beach) => (
-                <TabsTrigger 
-                  key={beach.id} 
-                  value={beach.id}
-                  className="px-4"
-                >
-                  {beach.name}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </div>
-        </div>
-
-        {beaches.map((beach) => (
-          <TabsContent key={beach.id} value={beach.id} className="space-y-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-              <div className="relative aspect-video rounded-lg overflow-hidden">
-                <Image
-                  src={beach.image}
-                  alt={beach.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-2xl font-bold mb-2">{beach.name}</h3>
-                  <p className="text-muted-foreground mb-4">
-                    <span className="font-medium">Lage:</span> {beach.location}
-                  </p>
-                  <p>{beach.longDescription}</p>
-                </div>
-
-                <div>
-                  <h4 className="font-semibold mb-2">Ausstattung und Angebote:</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {beach.features.map((feature, index) => (
-                      <Badge key={index} variant="outline" className="flex items-center gap-1 px-3 py-1">
-                        {feature.icon}
-                        <span>{feature.label}</span>
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="font-semibold mb-2">Highlights:</h4>
-                  <ul className="space-y-1">
-                    {beach.highlights.map((highlight, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <ChevronRight className="h-4 w-4 text-primary mt-1" />
-                        <span>{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="font-semibold mb-1">Beste Reisezeit:</h4>
-                  <p>{beach.bestTime}</p>
-                </div>
-              </div>
-            </div>
-          </TabsContent>
-        ))}
-      </Tabs>
+      {/* Beach list with filters component */}
+      <div className="mb-12">
+        <h2 className="text-2xl font-bold mb-6">Unsere Strandempfehlungen</h2>
+        <BeachListWithFilters beaches={beaches} />
+      </div>
 
       {/* Tipps für den Strandbesuch */}
       <Card className="bg-primary/5 border-primary/10">

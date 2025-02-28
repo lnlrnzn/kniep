@@ -1,49 +1,32 @@
 "use client";
 
-import { useState, useCallback, useMemo, Fragment } from "react";
+import { useState, useCallback, useMemo, memo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Star, Filter, Grid, Grid3X3, Wifi, Car, Coffee, Home, Hotel, PenTool, AlertTriangle, X, Heart, Search, ChevronDown, Sliders } from "lucide-react";
-import { Accommodation } from "@/app/types";
+import { MapPin, Search, Heart, X, Sliders, Grid, Grid3X3, Umbrella, Sun, Wind, Waves, Fish, Trees } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { AccommodationFilters } from "./AccommodationFilters";
-import { memo } from "react";
 import { cn } from "@/lib/utils";
+import { Beach } from "@/app/types";
 
-// Memoize the AccommodationCard component to prevent unnecessary re-renders
-const AccommodationCard = memo(({ 
-  accommodation, 
+// Memoize the BeachCard component to prevent unnecessary re-renders
+const BeachCard = memo(({ 
+  beach, 
   layout,
-  getPlaceholderImage,
-  renderStars,
   getFeatureIcon
 }: { 
-  accommodation: Accommodation; 
+  beach: Beach; 
   layout: 'grid' | 'list';
-  getPlaceholderImage: (type: string) => string;
-  renderStars: (stars: number) => React.ReactNode;
-  getFeatureIcon: (feature: string) => React.ReactNode;
+  getFeatureIcon: (label: string) => React.ReactNode;
 }) => {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [favorite, setFavorite] = useState(false);
 
-  // Map for accommodation type names
-  const typeNames: Record<string, string> = {
-    hotel: "Hotel",
-    ferienhaus: "Ferienhaus",
-    ferienwohnung: "Ferienwohnung",
-    pension: "Pension"
-  };
-
-  // Map for accommodation type icons
-  const typeIcons: Record<string, React.ReactNode> = {
-    hotel: <Hotel className="h-4 w-4" />,
-    ferienhaus: <Home className="h-4 w-4" />,
-    ferienwohnung: <Home className="h-4 w-4" />,
-    pension: <Coffee className="h-4 w-4" />
+  // Placeholder image for beaches
+  const getPlaceholderImage = () => {
+    return '/images/placeholder-beach.jpg';
   };
 
   return (
@@ -60,7 +43,7 @@ const AccommodationCard = memo(({
         )}
       >
         <Link 
-          href={`/urlaub/unterkuenfte/${accommodation.id}`}
+          href={`/urlaub/straende/${beach.id}`}
           className="block w-full h-full"
         >
           <div 
@@ -70,8 +53,8 @@ const AccommodationCard = memo(({
             <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
           </div>
           <Image 
-            src={imageError ? getPlaceholderImage(accommodation.type) : accommodation.image}
-            alt={`Foto von ${accommodation.name}`}
+            src={imageError ? getPlaceholderImage() : beach.image}
+            alt={`Foto von ${beach.name}`}
             fill
             className={`object-cover transition-all duration-500 group-hover:scale-105 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
             onError={() => setImageError(true)}
@@ -87,22 +70,9 @@ const AccommodationCard = memo(({
         
         {/* Top badges */}
         <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
-          <Badge variant="secondary" className="bg-white/90 hover:bg-white text-xs font-medium shadow-sm backdrop-blur-sm px-3 py-1">
-            {typeNames[accommodation.type]}
+          <Badge variant="secondary" className="bg-white/90 hover:bg-white text-xs font-medium shadow-sm backdrop-blur-sm px-3 py-1 whitespace-nowrap overflow-hidden">
+            {beach.bestTime}
           </Badge>
-          {(accommodation.type === 'hotel' || accommodation.type === 'pension') && 
-            'stars' in accommodation && 
-            accommodation.stars > 0 && (
-            <Badge variant="secondary" className="bg-white/90 hover:bg-white text-xs font-medium shadow-sm backdrop-blur-sm flex items-center gap-1 px-3 py-1">
-              <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-              {accommodation.stars}
-            </Badge>
-          )}
-        </div>
-        
-        {/* Price badge */}
-        <div className="absolute top-4 right-4 z-20">
-          <Badge className="bg-primary text-primary-foreground font-medium shadow-sm px-3 py-1">{accommodation.price}</Badge>
         </div>
         
         {/* Favorite button */}
@@ -127,58 +97,61 @@ const AccommodationCard = memo(({
       )}>
         <div className="p-5 flex-grow">
           <div className="space-y-5">
-            {/* Rating */}
-            {accommodation.rating > 0 && (
-              <div className="flex items-center gap-1.5 mb-2">
-                <div className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-semibold">
-                  {accommodation.rating.toFixed(1)}
-                </div>
-                <span className="text-xs text-muted-foreground">Sehr gut</span>
-              </div>
-            )}
-            
             {/* Title */}
             <h3 className="text-xl font-bold line-clamp-2 group-hover:text-primary transition-colors">
               <Link 
-                href={`/urlaub/unterkuenfte/${accommodation.id}`}
+                href={`/urlaub/straende/${beach.id}`}
                 className="focus:outline-none focus:underline"
               >
-                {accommodation.name}
+                {beach.name}
               </Link>
             </h3>
             
             {/* Location */}
-            {accommodation.location && (
+            {beach.location && (
               <div className="flex items-start gap-2.5 mt-3">
                 <MapPin className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" aria-hidden="true" />
-                <span className="text-sm text-muted-foreground">{accommodation.location}</span>
+                <span className="text-sm text-muted-foreground">{beach.location}</span>
               </div>
             )}
-            
+
             {/* Description */}
-            {accommodation.description && (
-              <p className="text-sm text-muted-foreground line-clamp-2 mt-3">{accommodation.description}</p>
+            {beach.description && (
+              <p className="text-sm text-muted-foreground line-clamp-2 mt-3">{beach.description}</p>
             )}
             
             {/* Features */}
-            {accommodation.features && accommodation.features.length > 0 && (
+            {beach.features && beach.features.length > 0 && (
               <div className="flex flex-wrap gap-2 pt-3 mt-2">
-                {accommodation.features.slice(0, 4).map((feature: string, index: number) => (
+                {beach.features.map((feature, index) => (
                   <div 
                     key={index}
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 text-xs text-muted-foreground whitespace-nowrap overflow-hidden"
                   >
-                    {getFeatureIcon(feature) && (
-                      <span className="flex-shrink-0">{getFeatureIcon(feature)}</span>
-                    )}
-                    <span className="truncate max-w-[120px]">{feature}</span>
+                    <span className="flex-shrink-0">{feature.icon || getFeatureIcon(feature.label)}</span>
+                    <span className="truncate max-w-[120px]">{feature.label}</span>
                   </div>
                 ))}
-                {accommodation.features.length > 4 && (
-                  <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-muted/50 text-xs text-muted-foreground whitespace-nowrap">
-                    +{accommodation.features.length - 4} weitere
-                  </div>
-                )}
+              </div>
+            )}
+            
+            {/* Highlights */}
+            {beach.highlights && beach.highlights.length > 0 && (
+              <div className="mt-4">
+                <h4 className="text-sm font-medium mb-2">Highlights:</h4>
+                <ul className="space-y-1">
+                  {beach.highlights.slice(0, 2).map((highlight, index) => (
+                    <li key={index} className="text-sm text-muted-foreground flex gap-2">
+                      <span className="text-primary">•</span>
+                      <span className="line-clamp-1">{highlight}</span>
+                    </li>
+                  ))}
+                  {beach.highlights.length > 2 && (
+                    <li className="text-sm text-muted-foreground">
+                      <span className="text-primary font-medium">+{beach.highlights.length - 2} weitere Highlights</span>
+                    </li>
+                  )}
+                </ul>
               </div>
             )}
           </div>
@@ -187,23 +160,15 @@ const AccommodationCard = memo(({
         <CardFooter className="p-5 pt-3 border-t border-muted/40 mt-auto">
           <div className="w-full flex gap-3">
             <Button variant="outline" size="sm" className="flex-1 text-sm font-medium">
-              <Link href={`/urlaub/unterkuenfte/${accommodation.id}`} className="flex items-center justify-center w-full">
+              <Link href={`/urlaub/straende/${beach.id}`} className="flex items-center justify-center w-full">
                 Details ansehen
               </Link>
             </Button>
-            {accommodation.website && (
-              <Button variant="default" size="sm" className="flex-1 text-sm font-medium">
-                <a 
-                  href={accommodation.website} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="flex items-center justify-center w-full"
-                  aria-label={`Website von ${accommodation.name} öffnen (öffnet in neuem Tab)`}
-                >
-                  Buchen
-                </a>
-              </Button>
-            )}
+            <Button variant="default" size="sm" className="flex-1 text-sm font-medium">
+              <Link href={`/urlaub/straende/${beach.id}`} className="flex items-center justify-center w-full">
+                Strand entdecken
+              </Link>
+            </Button>
           </div>
         </CardFooter>
       </div>
@@ -211,65 +176,43 @@ const AccommodationCard = memo(({
   );
 });
 
-AccommodationCard.displayName = 'AccommodationCard';
+BeachCard.displayName = 'BeachCard';
 
-interface AccommodationListWithFiltersProps {
-  accommodations: Accommodation[];
+interface BeachListWithFiltersProps {
+  beaches: Beach[];
 }
 
-export default function AccommodationListWithFilters({ accommodations }: AccommodationListWithFiltersProps) {
-  const [filteredAccommodations, setFilteredAccommodations] = useState<Accommodation[]>(accommodations);
+export default function BeachListWithFilters({ beaches }: BeachListWithFiltersProps) {
+  const [filteredBeaches, setFilteredBeaches] = useState<Beach[]>(beaches);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [layout, setLayout] = useState<'grid' | 'list'>('grid');
   const [hasError, setHasError] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
+  
+  // Extract unique features from all beaches
+  const allFeatures = useMemo(() => {
+    const features = new Set<string>();
+    beaches.forEach(beach => {
+      beach.features.forEach(feature => {
+        features.add(feature.label);
+      });
+    });
+    return Array.from(features).sort();
+  }, [beaches]);
 
-  // Get placeholder image based on accommodation type - memoized to improve performance
-  const getPlaceholderImage = useCallback((type: string) => {
-    // Default placeholder if specific type image is not found
-    const defaultPlaceholder = "/images/placeholder-accommodation.jpg";
+  // Get the appropriate icon for a feature - memoized to improve performance
+  const getFeatureIcon = useCallback((label: string) => {
+    const lowerLabel = label.toLowerCase();
+    if (lowerLabel.includes('sonnenbaden')) return <Sun className="h-4 w-4" />;
+    if (lowerLabel.includes('strandkörbe')) return <Umbrella className="h-4 w-4" />;
+    if (lowerLabel.includes('wassersport')) return <Waves className="h-4 w-4" />;
+    if (lowerLabel.includes('wind') || lowerLabel.includes('surfen')) return <Wind className="h-4 w-4" />;
+    if (lowerLabel.includes('watt') || lowerLabel.includes('fisch')) return <Fish className="h-4 w-4" />;
+    if (lowerLabel.includes('düne') || lowerLabel.includes('landschaft')) return <Trees className="h-4 w-4" />;
     
-    switch(type) {
-      case 'hotel':
-        return '/images/placeholder-hotel.jpg';
-      case 'pension':
-        return '/images/placeholder-pension.jpg';
-      case 'ferienhaus':
-        return '/images/placeholder-house.jpg';
-      case 'ferienwohnung':
-        return '/images/placeholder-apartment.jpg';
-      default:
-        return defaultPlaceholder;
-    }
-  }, []);
-
-  // Helper function to render stars - memoized to improve performance
-  const renderStars = useCallback((stars: number) => {
-    return Array(5).fill(0).map((_, index) => (
-      <Star 
-        key={index} 
-        className={`h-3 w-3 ${index < stars ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`} 
-        aria-hidden="true"
-      />
-    ));
-  }, []);
-
-  // Helper function to get feature icon - memoized to improve performance
-  const getFeatureIcon = useCallback((feature: string) => {
-    if (feature.includes('WLAN')) return <Wifi className="h-3 w-3" aria-hidden="true" />;
-    if (feature.includes('Parkplatz')) return <Car className="h-3 w-3" aria-hidden="true" />;
-    if (feature.includes('Frühstück')) return <Coffee className="h-3 w-3" aria-hidden="true" />;
-    return null;
-  }, []);
-
-  // Handle filter changes
-  const handleFilterChange = useCallback((filtered: Accommodation[]) => {
-    try {
-      setFilteredAccommodations(filtered);
-    } catch (error) {
-      console.error('Error filtering accommodations:', error);
-      setHasError(true);
-    }
+    // Default icon if none match
+    return <Sun className="h-4 w-4" />;
   }, []);
 
   // Toggle filter visibility
@@ -287,38 +230,72 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
     setSearchQuery(e.target.value);
   };
 
-  // Filter accommodations by search query
-  const handleSearch = () => {
-    if (!searchQuery.trim()) {
-      return; // No search term, return original list
-    }
-    
-    const searchTerm = searchQuery.toLowerCase();
-    const filtered = accommodations.filter(acc => 
-      acc.name.toLowerCase().includes(searchTerm) || 
-      acc.description.toLowerCase().includes(searchTerm) ||
-      acc.location.toLowerCase().includes(searchTerm) ||
-      (acc.features && acc.features.some(feature => 
-        feature.toLowerCase().includes(searchTerm)
-      ))
+  // Toggle feature selection
+  const toggleFeature = (feature: string) => {
+    setSelectedFeatures(prev => 
+      prev.includes(feature) 
+        ? prev.filter(f => f !== feature)
+        : [...prev, feature]
     );
-    
-    setFilteredAccommodations(filtered);
   };
 
-  // Reset all filters and search
+  // Apply filters
+  const applyFilters = useCallback(() => {
+    try {
+      const term = searchQuery.toLowerCase().trim();
+      
+      let filtered = [...beaches];
+      
+      // Apply search term filter
+      if (term) {
+        filtered = filtered.filter(beach => 
+          beach.name.toLowerCase().includes(term) || 
+          beach.description.toLowerCase().includes(term) ||
+          beach.location.toLowerCase().includes(term) ||
+          beach.highlights.some(h => h.toLowerCase().includes(term))
+        );
+      }
+      
+      // Apply feature filters
+      if (selectedFeatures.length > 0) {
+        filtered = filtered.filter(beach => 
+          selectedFeatures.every(feature => 
+            beach.features.some(f => f.label === feature)
+          )
+        );
+      }
+      
+      setFilteredBeaches(filtered);
+    } catch (error) {
+      console.error('Error filtering beaches:', error);
+      setHasError(true);
+    }
+  }, [beaches, searchQuery, selectedFeatures]);
+
+  // Handle search
+  const handleSearch = () => {
+    applyFilters();
+  };
+
+  // Reset all filters
   const resetFilters = () => {
-    setFilteredAccommodations(accommodations);
+    setFilteredBeaches(beaches);
     setSearchQuery("");
+    setSelectedFeatures([]);
   };
 
-  // Memoize accommodations if they haven't changed to prevent unnecessary re-renders
-  const accommodationsList = useMemo(() => {
+  // Apply filters when filter properties change
+  useMemo(() => {
+    applyFilters();
+  }, [applyFilters]);
+
+  // Memoize beaches list to prevent unnecessary re-renders
+  const beachesList = useMemo(() => {
     if (hasError) {
       return (
         <div className="text-center py-10 rounded-lg bg-red-50 text-red-800">
           <AlertTriangle className="h-10 w-10 mx-auto mb-4" />
-          <h3 className="text-lg font-medium mb-2">Beim Laden der Unterkünfte ist ein Fehler aufgetreten</h3>
+          <h3 className="text-lg font-medium mb-2">Beim Laden der Strände ist ein Fehler aufgetreten</h3>
           <p className="text-red-700 mb-4">
             Bitte versuchen Sie, die Seite neu zu laden oder kontaktieren Sie uns, wenn das Problem weiterhin besteht.
           </p>
@@ -333,15 +310,15 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
       );
     }
 
-    if (filteredAccommodations.length === 0) {
+    if (filteredBeaches.length === 0) {
       return (
         <div className="text-center py-16 rounded-lg bg-muted/30">
           <div className="w-16 h-16 bg-muted/50 rounded-full flex items-center justify-center mx-auto mb-6">
             <Search className="h-8 w-8 text-muted-foreground" />
           </div>
-          <h3 className="text-xl font-medium mb-2">Keine Unterkünfte gefunden</h3>
+          <h3 className="text-xl font-medium mb-2">Keine Strände gefunden</h3>
           <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-            Leider entspricht keine Unterkunft Ihren Suchkriterien. Bitte passen Sie Ihre Filter an oder versuchen Sie es mit anderen Suchbegriffen.
+            Leider entspricht kein Strand Ihren Suchkriterien. Bitte passen Sie Ihre Filter an oder versuchen Sie es mit anderen Suchbegriffen.
           </p>
           <Button onClick={resetFilters}>
             Filter zurücksetzen
@@ -356,19 +333,17 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
         ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
         : "space-y-8"
       }>
-        {filteredAccommodations.map((accommodation) => (
-          <AccommodationCard
-            key={accommodation.id}
-            accommodation={accommodation}
+        {filteredBeaches.map((beach) => (
+          <BeachCard
+            key={beach.id}
+            beach={beach}
             layout={layout}
-            getPlaceholderImage={getPlaceholderImage}
-            renderStars={renderStars}
             getFeatureIcon={getFeatureIcon}
           />
         ))}
       </div>
     );
-  }, [filteredAccommodations, layout, hasError, getPlaceholderImage, renderStars, getFeatureIcon, resetFilters]);
+  }, [filteredBeaches, layout, hasError, resetFilters, getFeatureIcon]);
 
   return (
     <div className="space-y-8">
@@ -379,7 +354,7 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
             <Search className="absolute left-4 h-5 w-5 text-muted-foreground" />
             <input
               type="text"
-              placeholder="Unterkunft suchen..."
+              placeholder="Strand suchen..."
               value={searchQuery}
               onChange={handleSearchChange}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -408,9 +383,9 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
               >
                 <Sliders className="h-4 w-4 flex-shrink-0" />
                 <span>Filter</span>
-                {(accommodations.length - filteredAccommodations.length) > 0 && (
+                {(beaches.length - filteredBeaches.length) > 0 && (
                   <Badge variant="secondary" className="ml-1 h-5 min-w-[1.25rem] flex items-center justify-center bg-muted flex-shrink-0">
-                    {accommodations.length - filteredAccommodations.length}
+                    {beaches.length - filteredBeaches.length}
                   </Badge>
                 )}
               </Button>
@@ -420,7 +395,7 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
                 size="sm"
                 onClick={resetFilters}
                 className="text-muted-foreground py-2 px-4 h-auto whitespace-nowrap overflow-hidden"
-                disabled={filteredAccommodations.length === accommodations.length && !searchQuery}
+                disabled={filteredBeaches.length === beaches.length && !searchQuery}
               >
                 <X className="mr-1.5 h-3 w-3 flex-shrink-0" />
                 <span>Zurücksetzen</span>
@@ -429,7 +404,7 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
             
             <div className="flex items-center gap-3 ml-auto">
               <span className="text-sm text-muted-foreground whitespace-nowrap">
-                {filteredAccommodations.length} {filteredAccommodations.length === 1 ? 'Unterkunft' : 'Unterkünfte'}
+                {filteredBeaches.length} {filteredBeaches.length === 1 ? 'Strand' : 'Strände'}
               </span>
               
               <div className="flex border rounded-md overflow-hidden">
@@ -463,7 +438,7 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
       {isFilterVisible && (
         <div className="rounded-xl bg-white p-6 shadow-sm border">
           <div className="flex items-center justify-between mb-5">
-            <h3 className="font-medium text-lg">Unterkünfte filtern</h3>
+            <h3 className="font-medium text-lg">Strände filtern</h3>
             <Button
               variant="ghost"
               size="sm"
@@ -473,52 +448,37 @@ export default function AccommodationListWithFilters({ accommodations }: Accommo
               <X className="h-5 w-5" />
             </Button>
           </div>
-          <AccommodationFilters 
-            accommodations={accommodations} 
-            onFiltersChange={handleFilterChange} 
-          />
-        </div>
-      )}
-
-      {/* Results */}
-      {accommodationsList}
-      
-      {/* More info */}
-      {filteredAccommodations.length > 0 && (
-        <div className="bg-muted/20 rounded-xl p-8 border border-muted/60 mt-10">
-          <h3 className="text-xl font-medium mb-5">Tipps für Ihre Unterkunftssuche</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex gap-4">
-              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                <Calendar className="h-6 w-6" />
-              </div>
-              <div>
-                <h4 className="font-medium text-base mb-1">Frühzeitig buchen</h4>
-                <p className="text-sm text-muted-foreground">
-                  Für die Hauptsaison (Juli/August) empfehlen wir 4-6 Monate im Voraus zu buchen.
-                </p>
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                <MapPin className="h-6 w-6" />
-              </div>
-              <div>
-                <h4 className="font-medium text-base mb-1">Lage beachten</h4>
-                <p className="text-sm text-muted-foreground">
-                  Wittdün ist belebter mit mehr Einkaufsmöglichkeiten, Norddorf ist ruhiger.
-                </p>
+          
+          <div className="space-y-6">
+            <div>
+              <h4 className="text-sm font-medium mb-3">Ausstattung & Merkmale</h4>
+              <div className="flex flex-wrap gap-2">
+                {allFeatures.map((feature) => (
+                  <Button
+                    key={feature}
+                    variant={selectedFeatures.includes(feature) ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => toggleFeature(feature)}
+                    className="py-1.5 h-auto whitespace-nowrap overflow-hidden"
+                  >
+                    {getFeatureIcon(feature)}
+                    <span className="ml-1.5">{feature}</span>
+                  </Button>
+                ))}
               </div>
             </div>
           </div>
         </div>
       )}
+
+      {/* Results */}
+      {beachesList}
     </div>
   );
 }
 
-// Calendar icon component
-function Calendar(props: React.SVGProps<SVGSVGElement>) {
+// Add AlertTriangle component
+function AlertTriangle(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -532,10 +492,9 @@ function Calendar(props: React.SVGProps<SVGSVGElement>) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
-      <line x1="16" x2="16" y1="2" y2="6" />
-      <line x1="8" x2="8" y1="2" y2="6" />
-      <line x1="3" x2="21" y1="10" y2="10" />
+      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+      <path d="M12 9v4" />
+      <path d="M12 17h.01" />
     </svg>
-  );
+  )
 } 

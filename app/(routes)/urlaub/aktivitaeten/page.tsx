@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ContentContainer } from "../../../components/ui/content-container";
+import ActivityListWithFilters from "@/app/components/activities/ActivityListWithFilters";
 
 // Define activity type
 interface Activity {
@@ -175,77 +176,7 @@ export default function AktivitaetenPage() {
         </p>
       </motion.div>
 
-      <Tabs defaultValue="all" className="mb-12">
-        <div className="mb-8 overflow-hidden">
-          <TabsList className="flex flex-wrap justify-center gap-2 p-1">
-            <TabsTrigger value="all" className="min-w-[80px]">Alle</TabsTrigger>
-            <TabsTrigger value="nature" className="min-w-[120px]">
-              <Tag className="h-4 w-4 mr-2" />
-              Natur
-            </TabsTrigger>
-            <TabsTrigger value="water" className="min-w-[140px]">
-              <Waves className="h-4 w-4 mr-2" />
-              Wassersport
-            </TabsTrigger>
-            <TabsTrigger value="culture" className="min-w-[120px]">
-              <LandPlot className="h-4 w-4 mr-2" />
-              Kultur
-            </TabsTrigger>
-            <TabsTrigger value="active" className="min-w-[120px]">
-              <Footprints className="h-4 w-4 mr-2" />
-              Aktiv
-            </TabsTrigger>
-          </TabsList>
-        </div>
-        
-        <TabsContent value="all" className="mt-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {activities.map((activity) => (
-              <ActivityCard key={activity.id} activity={activity} />
-            ))}
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="nature" className="mt-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {activities
-              .filter((a) => a.type === "nature")
-              .map((activity) => (
-                <ActivityCard key={activity.id} activity={activity} />
-              ))}
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="water" className="mt-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {activities
-              .filter((a) => a.type === "water")
-              .map((activity) => (
-                <ActivityCard key={activity.id} activity={activity} />
-              ))}
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="culture" className="mt-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {activities
-              .filter((a) => a.type === "culture")
-              .map((activity) => (
-                <ActivityCard key={activity.id} activity={activity} />
-              ))}
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="active" className="mt-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {activities
-              .filter((a) => a.type === "active")
-              .map((activity) => (
-                <ActivityCard key={activity.id} activity={activity} />
-              ))}
-          </div>
-        </TabsContent>
-      </Tabs>
+      <ActivityListWithFilters activities={activities} />
 
       <motion.div
         initial={{ opacity: 0 }}

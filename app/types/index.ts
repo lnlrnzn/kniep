@@ -52,4 +52,20 @@ export interface ApiResponse<T> {
   error?: string;
   status: number;
   message?: string;
+}
+
+// Beach interface for strand/beaches section
+export interface Beach {
+  id: string;
+  name: string;
+  description: string;
+  longDescription: string;
+  location: string;
+  image: string;
+  features: {
+    icon?: React.ReactNode;
+    label: string;
+  }[];
+  highlights: string[];
+  bestTime: string;
 } 

@@ -1,7 +1,8 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Menu, X, Hotel, Utensils, Map, Waves, Plane, ExternalLink, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
@@ -54,6 +55,28 @@ const navItems = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState<"left" | "right">("left");
+  const urlaubRef = useRef<HTMLDivElement>(null);
+
+  // Function to determine dropdown position based on viewport
+  useEffect(() => {
+    const handleResize = () => {
+      if (urlaubRef.current) {
+        const rect = urlaubRef.current.getBoundingClientRect();
+        const viewportWidth = window.innerWidth;
+        // If menu item is in the right half of the screen, position dropdown to the right
+        if (rect.left > viewportWidth / 2) {
+          setDropdownPosition("right");
+        } else {
+          setDropdownPosition("left");
+        }
+      }
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white shadow-sm">
@@ -71,7 +94,7 @@ export default function Header() {
             {navItems.map((item) => (
               <li key={item.name} className="relative group">
                 {item.subItems ? (
-                  <div className="relative">
+                  <div ref={item.name === "Urlaub" ? urlaubRef : null} className="relative">
                     <button 
                       className="text-foreground font-medium hover:text-primary transition-colors py-2 flex items-center"
                       onClick={(e) => e.currentTarget.focus()}
@@ -79,30 +102,33 @@ export default function Header() {
                       {item.name}
                       <ChevronDown className="ml-1 h-3 w-3 opacity-70" />
                     </button>
-                    <div className="absolute left-0 top-full pt-2 opacity-0 translate-y-1 invisible group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible transition-all duration-200 z-[100]">
-                      <div className="bg-white rounded-md shadow-md border border-border p-4 w-[600px]">
-                        <div className="grid grid-cols-2 gap-3">
+                    <div className={cn(
+                      "absolute top-full pt-2 opacity-0 translate-y-1 invisible group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible transition-all duration-200 z-[100]",
+                      dropdownPosition === "left" ? "left-0" : "right-0"
+                    )}>
+                      <div className="bg-white rounded-lg shadow-lg border border-border p-5 w-full min-w-[450px] max-w-[90vw]">
+                        <div className="flex flex-col space-y-3">
                           {item.subItems.map((subItem) => (
                             <Link
                               key={subItem.name}
                               href={subItem.href}
-                              className="group flex items-start gap-3 rounded-md p-3 hover:bg-accent transition-all duration-200"
+                              className="group flex items-center gap-4 rounded-md py-2 px-3 hover:bg-accent/50 transition-all duration-200"
                             >
-                              <div className="flex-shrink-0 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                                {subItem.icon}
+                              <div className="flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-md bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                                {React.cloneElement(subItem.icon, { className: "h-6 w-6" })}
                               </div>
-                              <div className="flex-1 min-w-0">
-                                <div className="text-sm font-medium mb-1 group-hover:text-primary transition-colors">
+                              <div className="flex flex-col">
+                                <div className="text-base font-medium group-hover:text-primary transition-colors">
                                   {subItem.name}
                                 </div>
-                                <p className="text-xs text-muted-foreground truncate">
+                                <p className="text-sm text-muted-foreground">
                                   {subItem.description}
                                 </p>
                               </div>
                             </Link>
                           ))}
                         </div>
-                        <div className="mt-4 pt-4 border-t border-border">
+                        <div className="mt-5 pt-3 border-t border-border">
                           <Link 
                             href="/urlaub" 
                             className="flex items-center text-sm text-muted-foreground hover:text-primary transition-colors"
