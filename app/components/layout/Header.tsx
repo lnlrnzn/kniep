@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { Menu, X, Hotel, Utensils, Map, Waves, Plane, ExternalLink, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -78,12 +79,18 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white shadow-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-blue-700 bg-blue-600 shadow-sm">
       <div className="max-w-[1400px] mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center space-x-2">
-            {/* Placeholder für Logo - später durch tatsächliches Logo ersetzen */}
-            <span className="font-bold text-xl text-primary">Kniep-Amrum</span>
+            <Image 
+              src="/images/kniep-logo.png" 
+              alt="Kniep-Amrum Logo" 
+              width={54} 
+              height={14} 
+              className="h-auto" 
+              priority
+            />
           </Link>
         </div>
 
@@ -95,7 +102,7 @@ export default function Header() {
                 {item.subItems ? (
                   <div ref={item.name === "Urlaub" ? urlaubRef : null} className="relative">
                     <button 
-                      className="text-foreground font-medium hover:text-primary transition-colors py-2 flex items-center"
+                      className="text-white font-medium hover:text-blue-100 transition-colors py-2 flex items-center"
                       onClick={(e) => e.currentTarget.focus()}
                     >
                       {item.name}
@@ -142,14 +149,14 @@ export default function Header() {
                 ) : (
                   <Link 
                     href={item.href} 
-                    className="text-foreground font-medium hover:text-primary transition-colors py-2 inline-block"
+                    className="text-white font-medium hover:text-blue-100 transition-colors py-2 inline-block"
                   >
                     {item.name}
                   </Link>
                 )}
                 
                 {/* Loading bar animation */}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300 ease-in-out" />
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300 ease-in-out" />
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent group-hover:bg-transparent transition-all duration-300 ease-in-out" />
               </li>
             ))}
@@ -163,6 +170,7 @@ export default function Header() {
             size="icon"
             aria-label="Menü öffnen"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="text-white hover:bg-blue-700"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </Button>
@@ -177,7 +185,7 @@ export default function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden border-t border-gray-200 bg-white overflow-hidden"
+            className="md:hidden border-t border-blue-700 bg-blue-600 overflow-hidden"
           >
             <div className="max-w-[1400px] mx-auto py-4 space-y-4 px-4 sm:px-6 lg:px-8">
               {navItems.map((item) => (
@@ -185,21 +193,21 @@ export default function Header() {
                   <Link 
                     href={item.href}
                     onClick={() => !item.subItems && setMobileMenuOpen(false)}
-                    className="block py-2 font-medium"
+                    className="block py-2 font-medium text-white"
                   >
                     {item.name}
                   </Link>
                   
                   {item.subItems && (
-                    <div className="pl-4 space-y-2 border-l border-gray-200">
+                    <div className="pl-4 space-y-2 border-l border-blue-500">
                       {item.subItems.map((subItem) => (
                         <Link
                           key={subItem.name}
                           href={subItem.href}
                           onClick={() => setMobileMenuOpen(false)}
-                          className="flex items-center gap-2 py-2 text-sm text-muted-foreground hover:text-foreground"
+                          className="flex items-center gap-2 py-2 text-sm text-blue-100 hover:text-white"
                         >
-                          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary/10 text-primary">
+                          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-blue-500/20 text-white">
                             {subItem.icon}
                           </div>
                           <span>{subItem.name}</span>

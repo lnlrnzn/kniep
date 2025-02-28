@@ -74,8 +74,28 @@ export const baseMetadata: Metadata = {
   },
   icons: {
     icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
+    shortcut: "/icons/favicon-96x96.png",
+    apple: "/icons/apple-touch-icon.png",
+    other: [
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "96x96",
+        url: "/icons/favicon-96x96.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "192x192",
+        url: "/icons/web-app-manifest-192x192.png",
+      },
+      {
+        rel: "icon", 
+        type: "image/png",
+        sizes: "512x512",
+        url: "/icons/web-app-manifest-512x512.png",
+      }
+    ],
   },
   category: "travel",
   verification: {
