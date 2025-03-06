@@ -1,363 +1,195 @@
 "use client";
 
+import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight, Compass, Calendar, Tag, Users } from "lucide-react";
 import { motion } from "framer-motion";
-
+import { MapPin, Dumbbell, Film, Waves, Ship, Trees, Baby, Compass, Bike } from "lucide-react";
 import { ContentContainer } from "../../../components/ui/content-container";
-import ActivityListWithFilters from "@/app/components/activities/ActivityListWithFilters";
+import { Button } from "@/components/ui/button";
 
-// Define activity type
-interface Activity {
-  id: number;
-  name: string;
-  type: "nature" | "water" | "culture" | "active";
-  season: string[];
-  location: string;
-  description: string;
-  image: string;
-  duration: string;
-  suitable: string[];
-  features: string[];
-  booking: string;
-  pricing: string;
-}
-
-// Sample data - would be replaced with actual data from a CMS or API
-const activities: Activity[] = [
+// Aktivitätskategorien
+const activityCategories = [
   {
-    id: 1,
-    name: "Geführte Wattwanderung",
-    type: "nature",
-    season: ["Frühling", "Sommer", "Herbst"],
-    location: "Wattenmeer",
-    description: "Entdecken Sie die faszinierende Welt des Wattenmeers mit einem erfahrenen Guide. Lernen Sie die einzigartige Flora und Fauna dieses UNESCO-Weltnaturerbes kennen.",
-    image: "/images/activities/wattwanderung.jpg",
-    duration: "ca. 2-3 Stunden",
-    suitable: ["Familien", "Naturliebhaber", "Fotografen"],
-    features: ["Geführt", "Lehrreich", "Naturerlebnis"],
-    booking: "Voranmeldung erforderlich",
-    pricing: "Erwachsene: 12€, Kinder (6-14): 6€"
+    id: "fitness",
+    title: "Fitness & Wellness",
+    description: "Sportangebote, Fitnessstudios und Wellness-Einrichtungen auf Amrum",
+    icon: <Dumbbell className="h-6 w-6" />,
+    image: "/images/activities/fitness.webp",
+    link: "/urlaub/aktivitaeten/fitness"
   },
   {
-    id: 2,
-    name: "Fahrradtour um die Insel",
-    type: "active",
-    season: ["Frühling", "Sommer", "Herbst"],
-    location: "Ganz Amrum",
-    description: "Erkunden Sie Amrum auf zwei Rädern. Die gut ausgebauten Radwege führen Sie durch Dünenlandschaften, Wälder und idyllische Dörfer.",
-    image: "/images/activities/fahrradtour.jpg",
-    duration: "Halbtags oder ganztags",
-    suitable: ["Alle Altersgruppen", "Aktive", "Familien"],
-    features: ["Flexibel", "Naturerlebnis", "Sportlich"],
-    booking: "Fahrradverleih vor Ort möglich",
-    pricing: "Fahrradverleih ab 10€/Tag"
+    id: "wassersport",
+    title: "Wassersport",
+    description: "Surfen, Segeln, Kiten und weitere Wassersportangebote",
+    icon: <Waves className="h-6 w-6" />,
+    image: "/images/activities/wassersport.webp",
+    link: "/urlaub/aktivitaeten/wassersport"
   },
   {
-    id: 3,
-    name: "Leuchtturm Besichtigung",
-    type: "culture",
-    season: ["Ganzjährig"],
-    location: "Amrum-Leuchtturm",
-    description: "Besteigen Sie den 41,8 Meter hohen Leuchtturm und genießen Sie einen atemberaubenden Panoramablick über die gesamte Insel und das Wattenmeer.",
-    image: "/images/activities/leuchtturm.jpg",
-    duration: "ca. 1 Stunde",
-    suitable: ["Alle Altersgruppen", "Fotografen"],
-    features: ["Historisch", "Aussichtspunkt", "Fotomotiv"],
-    booking: "Keine Voranmeldung nötig",
-    pricing: "Erwachsene: 4€, Kinder: 2€"
+    id: "familie",
+    title: "Familienaktivitäten",
+    description: "Kinderfreundliche Aktivitäten und Unternehmungen für die ganze Familie",
+    icon: <Baby className="h-6 w-6" />,
+    image: "/images/activities/familie.webp",
+    link: "/urlaub/aktivitaeten/familie"
   },
   {
-    id: 4,
-    name: "Kitesurfen am Kniepsand",
-    type: "water",
-    season: ["Frühling", "Sommer", "Herbst"],
-    location: "Kniepsand",
-    description: "Erleben Sie den Adrenalinkick beim Kitesurfen an einem der besten Spots Deutschlands. Für Anfänger und Fortgeschrittene geeignet.",
-    image: "/images/activities/kitesurfen.jpg",
-    duration: "Kurse: 2-3 Stunden, Verleih: nach Bedarf",
-    suitable: ["Sportbegeisterte", "Abenteuerlustige"],
-    features: ["Actionreich", "Wassersport", "Kurse verfügbar"],
-    booking: "Kurse mit Voranmeldung, Verleih vor Ort",
-    pricing: "Schnupperkurs: 89€, Verleih: ab 50€/Tag"
+    id: "natur",
+    title: "Naturerlebnisse",
+    description: "Geführte Wanderungen, Naturpfade und Umweltbildungsangebote",
+    icon: <Trees className="h-6 w-6" />,
+    image: "/images/activities/natur.webp",
+    link: "/urlaub/aktivitaeten/natur"
   },
   {
-    id: 5,
-    name: "Vogelbeobachtung im Naturschutzgebiet",
-    type: "nature",
-    season: ["Ganzjährig", "besonders im Frühjahr und Herbst"],
-    location: "Naturschutzgebiet Amrum",
-    description: "Beobachten Sie seltene Vogelarten in ihrem natürlichen Lebensraum. Amrum ist ein wichtiger Rastplatz für Zugvögel und Heimat vieler Brutvögel.",
-    image: "/images/activities/vogelbeobachtung.jpg",
-    duration: "Individuell, geführte Touren: ca. 3 Stunden",
-    suitable: ["Naturliebhaber", "Vogelkundler", "Fotografen"],
-    features: ["Ruhig", "Naturerlebnis", "Lehrreich"],
-    booking: "Geführte Touren mit Voranmeldung",
-    pricing: "Geführte Tour: 15€/Person"
+    id: "ausflug",
+    title: "Ausflüge & Touren",
+    description: "Bootstouren, Inselrundfahrten und Ausflüge zu den Nachbarinseln",
+    icon: <Ship className="h-6 w-6" />,
+    image: "/images/activities/ausflug.webp", 
+    link: "/urlaub/aktivitaeten/ausflug"
   },
   {
-    id: 6,
-    name: "Bernstein suchen am Strand",
-    type: "nature",
-    season: ["Ganzjährig", "besonders nach Stürmen"],
-    location: "Strände von Amrum",
-    description: "Machen Sie sich auf die Suche nach dem 'Gold der Ostsee'. Nach Stürmen und bei Ebbe haben Sie besonders gute Chancen, Bernstein zu finden.",
-    image: "/images/activities/bernstein.jpg",
-    duration: "Individuell",
-    suitable: ["Alle Altersgruppen", "Familien", "Sammler"],
-    features: ["Kostenlos", "Naturerlebnis", "Sammlerstück"],
-    booking: "Keine Buchung erforderlich",
-    pricing: "Kostenlos"
+    id: "mobilität",
+    title: "Mobilität auf der Insel",
+    description: "Fahrradverleih, E-Bikes und weitere Fortbewegungsmittel",
+    icon: <Bike className="h-6 w-6" />,
+    image: "/images/activities/fahrrad.webp",
+    link: "/urlaub/aktivitaeten/mobilitaet"
   },
   {
-    id: 7,
-    name: "Besuch des Öömrang Hüs",
-    type: "culture",
-    season: ["Ganzjährig"],
-    location: "Nebel",
-    description: "Tauchen Sie ein in die Geschichte und Kultur Amrums. Das Heimatmuseum zeigt traditionelle friesische Wohnkultur und Inselgeschichte.",
-    image: "/images/activities/museum.jpg",
-    duration: "ca. 1-2 Stunden",
-    suitable: ["Kulturinteressierte", "Familien", "Regentage"],
-    features: ["Kulturell", "Historisch", "Lehrreich"],
-    booking: "Keine Voranmeldung nötig",
-    pricing: "Erwachsene: 5€, Kinder: 2€"
+    id: "unterhaltung",
+    title: "Unterhaltung",
+    description: "Kino, Veranstaltungen, Museen und Kulturangebote",
+    icon: <Film className="h-6 w-6" />,
+    image: "/images/activities/unterhaltung.webp", 
+    link: "/urlaub/aktivitaeten/unterhaltung-kultur"
   },
   {
-    id: 8,
-    name: "Segeltörn um Amrum",
-    type: "water",
-    season: ["Frühling", "Sommer", "Herbst"],
-    location: "Nordsee um Amrum",
-    description: "Erleben Sie Amrum vom Wasser aus. Segeln Sie um die Insel und genießen Sie die maritime Atmosphäre und die frische Nordseeluft.",
-    image: "/images/activities/segeln.jpg",
-    duration: "Halbtags oder ganztags",
-    suitable: ["Alle Altersgruppen", "Meerliebhaber"],
-    features: ["Maritim", "Entspannend", "Naturerlebnis"],
-    booking: "Voranmeldung erforderlich",
-    pricing: "Ab 60€/Person für Halbtagestouren"
+    id: "inseltouren",
+    title: "Inselentdeckung",
+    description: "Geführte Inseltouren und besondere Erlebnisangebote",
+    icon: <Compass className="h-6 w-6" />,
+    image: "/images/activities/inseltour.webp", 
+    link: "/urlaub/aktivitaeten/inseltouren"
   }
 ];
 
-export default function AktivitaetenPage() {
+// Animations-Varianten
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5 }
+  }
+};
+
+export default function ActivitiesPage() {
   return (
-    <ContentContainer className="py-12">
-      <div className="flex flex-col md:flex-row gap-2 mb-8 text-sm text-muted-foreground">
-        <Link href="/" className="hover:text-foreground transition-colors">
-          Startseite
-        </Link>
-        <ChevronRight className="h-4 w-4" />
-        <Link href="/urlaub" className="hover:text-foreground transition-colors">
-          Urlaub
-        </Link>
-        <ChevronRight className="h-4 w-4" />
-        <span className="text-foreground">Aktivitäten</span>
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="max-w-4xl mx-auto text-center mb-12"
-      >
-        <h1 className="text-4xl font-bold mb-4">
-          <span className="inline-flex items-center gap-2">
-            <Compass className="h-8 w-8 text-primary" />
-            Aktivitäten auf Amrum
-          </span>
-        </h1>
-        <p className="text-lg text-muted-foreground">
-          Entdecken Sie die vielfältigen Freizeitmöglichkeiten auf Amrum – von entspannten 
-          Naturerlebnissen bis hin zu aufregenden Wassersportaktivitäten ist für jeden etwas dabei.
-        </p>
-      </motion.div>
-
-      <ActivityListWithFilters activities={activities} />
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="bg-muted/30 rounded-lg p-8 mb-12"
-      >
-        <h2 className="text-2xl font-bold mb-4">Aktivitäten nach Jahreszeit</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-background rounded-lg p-5 shadow-sm">
-            <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-primary" /> Frühling
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li className="flex items-start gap-2">
-                <Tag className="h-4 w-4 text-primary mt-1" />
-                <span>Vogelbeobachtung während der Zugzeit</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Tag className="h-4 w-4 text-primary mt-1" />
-                <span>Erste Wattwanderungen der Saison</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Tag className="h-4 w-4 text-primary mt-1" />
-                <span>Radtouren durch blühende Landschaften</span>
-              </li>
-            </ul>
-          </div>
-          
-          <div className="bg-background rounded-lg p-5 shadow-sm">
-            <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-primary" /> Sommer
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li className="flex items-start gap-2">
-                <Tag className="h-4 w-4 text-primary mt-1" />
-                <span>Wassersport aller Art (Kiten, Surfen, Segeln)</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Tag className="h-4 w-4 text-primary mt-1" />
-                <span>Strandwanderungen und Sonnenbaden</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Tag className="h-4 w-4 text-primary mt-1" />
-                <span>Abendliche Veranstaltungen und Konzerte</span>
-              </li>
-            </ul>
-          </div>
-          
-          <div className="bg-background rounded-lg p-5 shadow-sm">
-            <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-primary" /> Herbst
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li className="flex items-start gap-2">
-                <Tag className="h-4 w-4 text-primary mt-1" />
-                <span>Drachensteigen bei frischer Brise</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Tag className="h-4 w-4 text-primary mt-1" />
-                <span>Bernsteinsuche nach Herbststürmen</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Tag className="h-4 w-4 text-primary mt-1" />
-                <span>Vogelzug-Beobachtung</span>
-              </li>
-            </ul>
-          </div>
-          
-          <div className="bg-background rounded-lg p-5 shadow-sm">
-            <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-primary" /> Winter
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li className="flex items-start gap-2">
-                <Tag className="h-4 w-4 text-primary mt-1" />
-                <span>Winterwanderungen am menschenleeren Strand</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Tag className="h-4 w-4 text-primary mt-1" />
-                <span>Wellness und Entspannung</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Tag className="h-4 w-4 text-primary mt-1" />
-                <span>Kulturelle Angebote und Museumsbesuche</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </motion.div>
-
-      <div className="mb-12">
-        <h2 className="text-2xl font-bold mb-6">Familienfreundliche Aktivitäten</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="bg-muted/20 rounded-lg p-6"
-          >
-            <h3 className="text-xl font-semibold mb-3">Für die Kleinen</h3>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-3">
-                <Users className="h-5 w-5 text-primary mt-0.5" />
-                <div>
-                  <span className="font-medium">Muscheln sammeln am Kniepsand</span>
-                  <p className="text-sm text-muted-foreground">Ein zeitloser Spaß für Kinder jeden Alters. Sammeln Sie gemeinsam Muscheln und andere Schätze am weitläufigen Strand.</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <Users className="h-5 w-5 text-primary mt-0.5" />
-                <div>
-                  <span className="font-medium">Besuch der Amrumer Windmühle</span>
-                  <p className="text-sm text-muted-foreground">Die historische Windmühle in Nebel bietet spannende Einblicke für die ganze Familie.</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <Users className="h-5 w-5 text-primary mt-0.5" />
-                <div>
-                  <span className="font-medium">Kinderprogramm der Amrum Touristik</span>
-                  <p className="text-sm text-muted-foreground">Regelmäßige Veranstaltungen speziell für Kinder, von Bastelworkshops bis zu geführten Entdeckungstouren.</p>
-                </div>
-              </li>
-            </ul>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="bg-muted/20 rounded-lg p-6"
-          >
-            <h3 className="text-xl font-semibold mb-3">Für die ganze Familie</h3>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-3">
-                <Users className="h-5 w-5 text-primary mt-0.5" />
-                <div>
-                  <span className="font-medium">Fahrradtouren auf kindgerechten Wegen</span>
-                  <p className="text-sm text-muted-foreground">Die flache Insel bietet ideale Bedingungen für Familienradtouren. Kinderfahrräder und Anhänger können vor Ort gemietet werden.</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <Users className="h-5 w-5 text-primary mt-0.5" />
-                <div>
-                  <span className="font-medium">Gemeinsame Wattwanderung</span>
-                  <p className="text-sm text-muted-foreground">Spezielle Familien-Wattwanderungen vermitteln Wissen über das Wattenmeer auf kindgerechte Weise.</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <Users className="h-5 w-5 text-primary mt-0.5" />
-                <div>
-                  <span className="font-medium">Ausflug zur Seehundbank</span>
-                  <p className="text-sm text-muted-foreground">Beobachten Sie Seehunde in ihrem natürlichen Lebensraum – ein unvergessliches Erlebnis für Kinder.</p>
-                </div>
-              </li>
-            </ul>
-          </motion.div>
-        </div>
-      </div>
-
-      <div className="bg-muted/20 rounded-lg p-6 text-sm text-muted-foreground">
-        <h2 className="text-lg font-semibold mb-2 text-foreground">Praktische Informationen</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-          <div>
-            <h3 className="font-medium text-foreground mb-2">Buchung & Reservierung</h3>
-            <p className="mb-2">
-              Viele Aktivitäten können direkt über die Amrum Touristik gebucht werden. In der Hauptsaison 
-              empfehlen wir eine frühzeitige Reservierung, besonders für geführte Touren und Wassersportaktivitäten.
-            </p>
-            <p>
-              Kontakt: Amrum Touristik, Tel: +49 (0)4682 94030, E-Mail: info@amrum.de
-            </p>
-          </div>
-          <div>
-            <h3 className="font-medium text-foreground mb-2">Ausrüstung & Vorbereitung</h3>
-            <p className="mb-2">
-              Für die meisten Outdoor-Aktivitäten empfehlen wir wetterfeste Kleidung und robustes Schuhwerk. 
-              Sonnenschutz ist auch bei bewölktem Himmel wichtig, da die UV-Strahlung am Meer intensiver ist.
-            </p>
-            <p>
-              Für Wassersportaktivitäten kann die nötige Ausrüstung in der Regel vor Ort ausgeliehen werden.
+    <>
+      {/* Hero-Bereich mit Bild */}
+      <div className="relative w-full h-[40vh] min-h-[300px]">
+        <Image
+          src="/images/activities/aktivitaeten-hero.webp" // Übergreifendes Aktivitätsbild
+          alt="Aktivitäten auf Amrum"
+          fill
+          priority
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+          <div className="text-center text-white">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Aktivitäten auf Amrum</h1>
+            <p className="text-xl max-w-2xl mx-auto px-4">
+              Entdecken Sie die Vielfalt an Freizeitmöglichkeiten und Erlebnisangeboten auf unserer wunderschönen Insel
             </p>
           </div>
         </div>
       </div>
-    </ContentContainer>
+
+      <ContentContainer className="py-12">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold mb-4">Freizeitangebote für jeden Geschmack</h2>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            Von Wassersport und Fitness bis hin zu Familienaktivitäten und Kulturerlebnissen - 
+            Amrum bietet vielfältige Möglichkeiten für einen abwechslungsreichen Urlaub.
+            Wählen Sie eine Kategorie, um mehr zu erfahren.
+          </p>
+        </div>
+
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {activityCategories.map((category) => (
+            <motion.div 
+              key={category.id}
+              className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all"
+              variants={itemVariants}
+            >
+              <Link href={category.link} className="block">
+                <div className="relative h-48">
+                  <Image
+                    src={category.image}
+                    alt={category.title}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                    <div className="p-4 text-white">
+                      <div className="flex items-center mb-2">
+                        <div className="bg-white/20 backdrop-blur-sm p-2 rounded-full mr-3">
+                          {category.icon}
+                        </div>
+                        <h3 className="text-xl font-bold">{category.title}</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4">
+                  <p className="text-gray-600 mb-3">{category.description}</p>
+                  <div className="border-t border-gray-100 pt-3 font-medium text-sm text-blue-600">
+                    <div className="flex justify-between items-center">
+                      <div className="text-blue-600 font-medium">
+                        Mehr →
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <div className="bg-gray-50 rounded-xl p-6 mt-12">
+          <h3 className="text-xl font-bold mb-3">Individuelle Aktivitätsplanung</h3>
+          <p className="text-gray-600 mb-4">
+            Sie wissen nicht genau, welche Aktivitäten für Sie am besten geeignet sind? Kontaktieren Sie die Amrum Touristik für eine 
+            persönliche Beratung und individuelle Empfehlungen basierend auf Ihren Interessen.
+          </p>
+          <div className="flex flex-wrap gap-4">
+            <Button asChild>
+              <Link href="/kontakt">Kontakt aufnehmen</Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/faq">Häufige Fragen</Link>
+            </Button>
+          </div>
+        </div>
+      </ContentContainer>
+    </>
   );
 } 

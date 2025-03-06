@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { destinationJsonLd, organizationJsonLd } from "../../lib/jsonld";
 import JsonLd from "../../components/JsonLd";
 import { ContentContainer } from "../../components/ui/content-container";
+import HeroSection from "../../components/HeroSection";
 
 export default function HomePage() {
   // Animation Varianten
@@ -38,21 +39,7 @@ export default function HomePage() {
       <JsonLd data={[destinationJsonLd, organizationJsonLd]} />
       
       {/* Hero Section */}
-      <section className="relative w-full h-screen">
-        <div className="absolute inset-0 bg-primary/10"></div>
-        
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-foreground p-4">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">
-            Willkommen auf Amrum
-          </h1>
-          <p className="text-xl max-w-2xl text-center mb-6">
-            Entdecken Sie die Schönheit der Nordseeinsel
-          </p>
-          <Button asChild className="bg-primary hover:bg-primary/90">
-            <Link href="/urlaub/unterkuenfte">Unterkünfte ansehen</Link>
-          </Button>
-        </div>
-      </section>
+      <HeroSection />
 
       {/* Highlights Section */}
       <section className="py-20 bg-background">
