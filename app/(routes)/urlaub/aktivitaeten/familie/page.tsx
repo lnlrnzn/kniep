@@ -32,6 +32,11 @@ const abenteuerlandOpeningHours = [
 // Weitere Familienaktivitäten (Beispiele)
 const moreActivities = [
   {
+    title: "Naturzentrum Amrum",
+    description: "Das Naturzentrum bietet interaktive Ausstellungen zum Wattenmeer und zur Natur Amrums. Regelmäßige Veranstaltungen speziell für Kinder machen diesen Ort zum idealen Ausflugsziel für Familien.",
+    image: "/images/activities/naturzentrum-familie.webp"
+  },
+  {
     title: "Strandspaß für Familien",
     description: "Die weitläufigen Strände von Amrum bieten den perfekten Raum für Sandburgenbauen, Muschelsuchen und gemeinsame Spaziergänge.",
     image: "/images/activities/strand-familie.webp"
@@ -256,7 +261,7 @@ export default function FamilyActivitiesPage() {
         <div className="mb-12">
           <h3 className="text-2xl font-bold mb-6">Weitere Aktivitäten für Familien</h3>
           <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -282,6 +287,55 @@ export default function FamilyActivitiesPage() {
               </motion.div>
             ))}
           </motion.div>
+        </div>
+        
+        {/* Naturzentrum Info */}
+        <div className="mb-12">
+          <h3 className="text-2xl font-bold mb-4">Naturzentrum Amrum</h3>
+          <div className="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+            <div className="flex flex-col md:flex-row">
+              <div className="md:w-1/2 relative h-64 md:h-auto">
+                <Image
+                  src="/images/activities/naturzentrum.webp"
+                  alt="Naturzentrum Amrum"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="md:w-1/2 p-6">
+                <h3 className="text-xl font-bold mb-3">Familienfreundliches Naturerlebnis</h3>
+                <p className="text-gray-700 mb-4">
+                  Das Naturzentrum Amrum bietet für Familien mit Kindern spannende Einblicke in die vielfältige 
+                  Tier- und Pflanzenwelt der Insel. Mit interaktiven Ausstellungen, kindgerechten Führungen 
+                  und speziellen Veranstaltungen ist es der ideale Ort, um die Natur Amrums zu entdecken.
+                </p>
+                <p className="text-gray-700 mb-4">
+                  Regelmäßig finden hier Workshops und Aktivitäten speziell für Kinder statt, bei denen 
+                  sie spielerisch die Umwelt erforschen können. Ein Besuch im Naturzentrum ist besonders 
+                  an Regentagen eine tolle Alternative zum Strand.
+                </p>
+                
+                <div className="flex flex-col space-y-2 mb-4">
+                  <div className="flex items-center text-gray-700">
+                    <Clock className="w-5 h-5 text-blue-600 mr-2" />
+                    <span><strong>April bis Oktober:</strong> täglich außer Do, 10:00 - 17:00 Uhr</span>
+                  </div>
+                  <div className="flex items-center text-gray-700">
+                    <Clock className="w-5 h-5 text-blue-600 mr-2" />
+                    <span><strong>November bis März:</strong> Mi | Fr | Sa | So, 12:00 - 16:00 Uhr</span>
+                  </div>
+                  <div className="flex items-center text-gray-700">
+                    <MapPin className="w-5 h-5 text-blue-600 mr-2" />
+                    <span>Strunwai 31, 25946 Norddorf auf Amrum</span>
+                  </div>
+                </div>
+                
+                <Button asChild>
+                  <Link href="/urlaub/aktivitaeten/natur">Mehr erfahren</Link>
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
         
         {/* CTA Section */}

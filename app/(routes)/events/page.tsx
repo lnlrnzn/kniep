@@ -1,269 +1,439 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { format } from "date-fns";
-import { de } from "date-fns/locale";
-import { Calendar as CalendarIcon, Filter, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
-
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Calendar as CalendarIcon, MapPin, Clock, Tag, ChevronRight, Search, Filter } from "lucide-react";
 import { ContentContainer } from "../../components/ui/content-container";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Calendar } from "@/components/ui/calendar";
+import { events, Event } from "./data/events";
+import { format, isWithinInterval, parseISO, startOfDay, endOfDay, isSameDay } from "date-fns";
 
-// Mock Daten für Events
-const mockEvents = [
-  {
-    id: "1",
-    title: "Amrumer Muscheltage",
-    date: new Date(2025, 4, 15), // Mai 15, 2025
-    endDate: new Date(2025, 4, 17), // Mai 17, 2025
-    location: "Strandpromenade Wittdün",
-    description: "Dreitägiges Festival rund um Muscheln mit kulinarischen Highlights und Musikprogramm.",
-    category: "Kulinarik",
-    image: "/events/muscheltage.jpg"
-  },
-  {
-    id: "2",
-    title: "Amrum Marathon",
-    date: new Date(2025, 8, 5), // September 5, 2025
-    endDate: new Date(2025, 8, 5), // September 5, 2025
-    location: "Start: Sportplatz Norddorf",
-    description: "Laufevent durch die atemberaubende Dünenlandschaft und am Strand entlang.",
-    category: "Sport",
-    image: "/events/marathon.jpg"
-  },
-  {
-    id: "3",
-    title: "Kunsthandwerkermarkt",
-    date: new Date(2025, 6, 20), // Juli 20, 2025
-    endDate: new Date(2025, 6, 25), // Juli 25, 2025
-    location: "Dorfplatz Nebel",
-    description: "Lokale Künstler und Handwerker präsentieren ihre Werke und bieten Workshops an.",
-    category: "Kunst & Kultur",
-    image: "/events/kunstmarkt.jpg"
-  },
-  {
-    id: "4",
-    title: "Inselführung: Naturschutzgebiet",
-    date: new Date(2025, 5, 10), // Juni 10, 2025
-    endDate: new Date(2025, 5, 10), // Juni 10, 2025
-    location: "Treffpunkt: Leuchtturm",
-    description: "Geführte Wanderung durch die einzigartige Flora und Fauna des Naturschutzgebiets.",
-    category: "Natur",
-    image: "/events/inselfuehrung.jpg"
-  },
-  {
-    id: "5",
-    title: "Amrumer Jazztage",
-    date: new Date(2025, 7, 8), // August 8, 2025
-    endDate: new Date(2025, 7, 10), // August 10, 2025
-    location: "Verschiedene Locations auf der Insel",
-    description: "Internationales Jazzfestival mit Konzerten in gemütlicher Atmosphäre.",
-    category: "Musik",
-    image: "/events/jazztage.jpg"
+// Animation-Varianten
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
   }
-];
+};
 
-const categories = ["Alle", "Kulinarik", "Sport", "Kunst & Kultur", "Natur", "Musik"];
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5 }
+  }
+};
+
+// Kategorien für Filter
+const categories = Array.from(new Set(events.map(event => event.category).filter(Boolean) as string[]));
 
 export default function EventsPage() {
-  const [date, setDate] = useState<Date | undefined>(undefined);
-  const [selectedCategory, setSelectedCategory] = useState("Alle");
-
-  // Filtern der Events basierend auf Datum und Kategorie
-  const filteredEvents = mockEvents.filter(event => {
-    // Datum-Filter
-    if (date) {
-      const eventStart = new Date(event.date);
-      const eventEnd = new Date(event.endDate);
-      const selectedDate = new Date(date);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [dateRange, setDateRange] = useState<{ from: Date; to: Date } | undefined>(undefined);
+  const [activeView, setActiveView] = useState<"list" | "calendar">("list");
+  
+  // Nach Datum sortierte Events
+  const sortedEvents = useMemo(() => {
+    return [...events].sort((a, b) => 
+      new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+  }, []);
+  
+  // Gefilterte Events basierend auf der ausgewählten Kategorie und Datum/Zeitraum
+  const filteredEvents = useMemo(() => {
+    return sortedEvents.filter(event => {
+      // Kategorie-Filter
+      if (selectedCategory && event.category !== selectedCategory) {
+        return false;
+      }
       
-      // Prüfen, ob das ausgewählte Datum innerhalb des Event-Zeitraums liegt
-      const isDateInRange = 
-        selectedDate.getFullYear() >= eventStart.getFullYear() && 
-        selectedDate.getFullYear() <= eventEnd.getFullYear() &&
-        selectedDate.getMonth() >= eventStart.getMonth() && 
-        selectedDate.getMonth() <= eventEnd.getMonth() &&
-        selectedDate.getDate() >= eventStart.getDate() && 
-        selectedDate.getDate() <= eventEnd.getDate();
-        
-      if (!isDateInRange) return false;
-    }
-    
-    // Kategorie-Filter
-    if (selectedCategory !== "Alle" && event.category !== selectedCategory) {
-      return false;
-    }
-    
-    return true;
-  });
+      // Datum-Filter für einzelnes Datum
+      if (selectedDate) {
+        const eventDate = parseISO(event.date);
+        return isSameDay(eventDate, selectedDate);
+      }
+      
+      // Zeitraum-Filter
+      if (dateRange && dateRange.from && dateRange.to) {
+        const eventDate = parseISO(event.date);
+        return isWithinInterval(eventDate, { 
+          start: startOfDay(dateRange.from), 
+          end: endOfDay(dateRange.to) 
+        });
+      }
+      
+      return true;
+    });
+  }, [sortedEvents, selectedCategory, selectedDate, dateRange]);
+  
+  // Formatiert das Datum in ein lesbares Format (DD.MM.YYYY)
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('de-DE', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  };
+
+  // Datumsauswahl zurücksetzen
+  const resetDateSelection = () => {
+    setSelectedDate(undefined);
+    setDateRange(undefined);
+  };
+
+  // Bestimmung von Events für bestimmte Tage im Kalender
+  const hasEventOnDate = (date: Date) => {
+    return events.some(event => {
+      const eventDate = parseISO(event.date);
+      return isSameDay(eventDate, date);
+    });
+  };
 
   return (
-    <ContentContainer>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="max-w-4xl mx-auto text-center mb-12"
-      >
-        <h1 className="text-4xl font-bold mb-4">Events auf Amrum</h1>
-        <p className="text-lg text-muted-foreground">
-          Entdecken Sie die vielfältigen Veranstaltungen auf unserer wunderschönen Insel.
-          Von kulturellen Highlights bis zu sportlichen Aktivitäten ist für jeden etwas dabei.
-        </p>
-      </motion.div>
+    <>
+      {/* Hero-Bereich mit Bild */}
+      <div className="relative w-full h-[50vh] min-h-[400px]">
+        <Image
+          src="/images/events/events-hero.webp"
+          alt="Veranstaltungen auf Amrum"
+          fill
+          priority
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+          <div className="text-center text-white">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Veranstaltungen auf Amrum</h1>
+            <p className="text-xl max-w-2xl mx-auto px-4">
+              Entdecken Sie ein vielfältiges Programm an Events und Veranstaltungen auf unserer schönen Insel
+            </p>
+          </div>
+        </div>
+      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Sidebar mit Filtern */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="col-span-1 lg:col-span-4 space-y-6"
-        >
-          <div className="border rounded-lg p-6 shadow-sm bg-card">
-            <h2 className="text-xl font-semibold mb-4 flex items-center">
-              <Filter className="mr-2 h-5 w-5" /> Filter
-            </h2>
+      <ContentContainer className="py-12">
+        {/* Breadcrumbs */}
+        <div className="flex flex-wrap items-center text-sm text-gray-500 mb-8">
+          <Link href="/" className="hover:text-gray-800 transition-colors">
+            Startseite
+          </Link>
+          <ChevronRight className="h-4 w-4 mx-2" />
+          <span className="text-gray-800">Veranstaltungen</span>
+        </div>
+
+        {/* Einführungstext */}
+        <div className="mb-10">
+          <h2 className="text-2xl font-bold mb-4">Kommende Veranstaltungen</h2>
+          <p className="text-gray-600 mb-6">
+            Ob Kultur, Sport, Musik oder Tradition – auf Amrum ist immer etwas los! Entdecken Sie unser vielfältiges 
+            Angebot an Veranstaltungen und Events, die Ihren Aufenthalt auf unserer Insel noch unvergesslicher machen.
+            Von geführten Wattwanderungen über Konzerte bis hin zu traditionellen Festen – für jeden Geschmack ist etwas dabei.
+          </p>
+        </div>
+        
+        {/* Tabs für Listenansicht/Kalenderansicht */}
+        <Tabs value={activeView} onValueChange={(value) => setActiveView(value as "list" | "calendar")} className="mb-8">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-lg font-semibold">Veranstaltungen anzeigen</h3>
+            <TabsList>
+              <TabsTrigger value="list" className="flex items-center">
+                <Filter className="h-4 w-4 mr-2" />
+                Listenansicht
+              </TabsTrigger>
+              <TabsTrigger value="calendar" className="flex items-center">
+                <CalendarIcon className="h-4 w-4 mr-2" />
+                Kalenderansicht
+              </TabsTrigger>
+            </TabsList>
+          </div>
+          
+          <TabsContent value="list">
+            {/* Kategorie-Filter */}
+            <div className="mb-8">
+              <h3 className="text-lg font-semibold mb-3">Nach Kategorien filtern:</h3>
+              <div className="flex flex-wrap gap-2">
+                <Badge 
+                  className={`cursor-pointer px-3 py-1 ${selectedCategory === null ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'}`}
+                  onClick={() => setSelectedCategory(null)}
+                >
+                  Alle
+                </Badge>
+                {categories.map((category) => (
+                  <Badge 
+                    key={category}
+                    className={`cursor-pointer px-3 py-1 ${selectedCategory === category ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'}`}
+                    onClick={() => setSelectedCategory(category)}
+                  >
+                    {category}
+                  </Badge>
+                ))}
+              </div>
+            </div>
             
-            <div className="space-y-4">
-              {/* Datumsfilter */}
-              <div>
-                <h3 className="text-sm font-medium mb-2">Datum</h3>
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={setDate}
-                  className="border rounded-md"
-                  locale={de}
-                />
+            {/* Anzeige der aktiven Filter */}
+            {(selectedDate || (dateRange && dateRange.from && dateRange.to)) && (
+              <div className="bg-blue-50 p-4 rounded-lg mb-6 flex justify-between items-center">
+                <div className="flex items-center">
+                  <CalendarIcon className="h-5 w-5 text-blue-600 mr-2" />
+                  <span className="text-gray-700">
+                    {selectedDate 
+                      ? `Veranstaltungen am ${format(selectedDate, 'dd.MM.yyyy')}`
+                      : dateRange?.from && dateRange?.to 
+                        ? `Veranstaltungen vom ${format(dateRange.from, 'dd.MM.yyyy')} bis ${format(dateRange.to, 'dd.MM.yyyy')}`
+                        : ''}
+                  </span>
+                </div>
+                <Button variant="ghost" size="sm" onClick={resetDateSelection}>
+                  Zurücksetzen
+                </Button>
+              </div>
+            )}
+            
+            {/* Event-Karten */}
+            {filteredEvents.length > 0 ? (
+              <motion.div 
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                {filteredEvents.map((event) => (
+                  <motion.div
+                    key={event.id}
+                    className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                    variants={itemVariants}
+                  >
+                    <Link href={`/events/${event.id}`}>
+                      <div className="relative h-48">
+                        <Image
+                          src={event.image || "/images/events/default-event.webp"}
+                          alt={event.title}
+                          fill
+                          className="object-cover"
+                        />
+                        {event.featured && (
+                          <div className="absolute top-3 left-3">
+                            <Badge className="bg-blue-600">Highlight</Badge>
+                          </div>
+                        )}
+                        {event.category && (
+                          <div className="absolute top-3 right-3">
+                            <Badge className="bg-white/80 text-gray-800">{event.category}</Badge>
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-5">
+                        <h3 className="text-xl font-bold mb-2">{event.title}</h3>
+                        
+                        <div className="flex items-center text-sm text-gray-500 mb-1">
+                          <CalendarIcon className="h-4 w-4 mr-1.5 text-blue-600" />
+                          <span>{formatDate(event.date)}</span>
+                          {event.time && (
+                            <>
+                              <span className="mx-1">•</span>
+                              <Clock className="h-4 w-4 mr-1.5 text-blue-600" />
+                              <span>{event.time}</span>
+                            </>
+                          )}
+                        </div>
+                        <div className="flex items-start text-sm text-gray-500 mb-3">
+                          <MapPin className="h-4 w-4 mr-1.5 mt-0.5 text-blue-600 flex-shrink-0" />
+                          <span>{event.location}</span>
+                        </div>
+                        
+                        <p className="text-gray-600 mb-4 line-clamp-3">{event.description}</p>
+                        
+                        <div className="text-blue-600 font-medium hover:text-blue-800 transition-colors text-sm">
+                          Mehr erfahren →
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </motion.div>
+            ) : (
+              <div className="bg-blue-50 p-8 rounded-xl text-center">
+                <p className="text-lg text-gray-700">
+                  Für den ausgewählten Zeitraum oder diese Kategorie sind keine Veranstaltungen verfügbar.
+                </p>
+                <Button 
+                  className="mt-4"
+                  onClick={() => {
+                    setSelectedCategory(null);
+                    resetDateSelection();
+                  }}
+                >
+                  Alle Filter zurücksetzen
+                </Button>
+              </div>
+            )}
+          </TabsContent>
+          
+          <TabsContent value="calendar">
+            <div className="mb-6 bg-white rounded-xl shadow-md p-6">
+              <h3 className="text-lg font-semibold mb-4">Veranstaltungen im Kalender</h3>
+              <p className="text-gray-600 mb-4">
+                Wählen Sie einen Tag, um Veranstaltungen für diesen Tag zu sehen, oder markieren Sie einen Zeitraum, 
+                um alle Veranstaltungen in diesem Zeitraum anzuzeigen.
+              </p>
+              
+              <div className="bg-gray-50 rounded-lg p-6">
+                <div className="flex flex-col md:flex-row gap-8">
+                  <div className="md:w-1/2">
+                    <Calendar
+                      mode="range"
+                      selected={dateRange}
+                      onSelect={(range) => {
+                        if (range?.from && range?.to) {
+                          setDateRange(range as { from: Date; to: Date });
+                          setSelectedDate(undefined);
+                        } else if (range?.from) {
+                          setSelectedDate(range.from);
+                          setDateRange(undefined);
+                        } else {
+                          resetDateSelection();
+                        }
+                      }}
+                      modifiers={{
+                        hasEvent: (date) => hasEventOnDate(date)
+                      }}
+                      modifiersClassNames={{
+                        hasEvent: "bg-blue-100 font-bold text-blue-600"
+                      }}
+                      className="rounded-md border"
+                    />
+                  </div>
+                  
+                  <div className="md:w-1/2 flex flex-col">
+                    <div className="mb-4">
+                      <h4 className="font-semibold text-lg mb-2">Ausgewählter Zeitraum</h4>
+                      {selectedDate ? (
+                        <p className="text-gray-700">
+                          {format(selectedDate, 'dd.MM.yyyy')}
+                        </p>
+                      ) : dateRange?.from && dateRange?.to ? (
+                        <p className="text-gray-700">
+                          {format(dateRange.from, 'dd.MM.yyyy')} bis {format(dateRange.to, 'dd.MM.yyyy')}
+                        </p>
+                      ) : (
+                        <p className="text-gray-500 italic">Kein Zeitraum ausgewählt</p>
+                      )}
+                    </div>
+                    
+                    <div className="mb-4">
+                      <h4 className="font-semibold text-lg mb-2">Gefundene Veranstaltungen</h4>
+                      <p className="text-gray-700">
+                        {filteredEvents.length} Veranstaltung{filteredEvents.length !== 1 ? 'en' : ''}
+                      </p>
+                    </div>
+                    
+                    {(selectedDate || (dateRange && dateRange.from && dateRange.to)) && (
+                      <div className="mt-auto pt-4">
+                        <Button 
+                          variant="outline" 
+                          className="w-full" 
+                          onClick={resetDateSelection}
+                        >
+                          Auswahl zurücksetzen
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Liste der Events im ausgewählten Zeitraum */}
+            {(selectedDate || (dateRange && dateRange.from && dateRange.to)) && (
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                  {selectedDate 
+                    ? `Veranstaltungen am ${format(selectedDate, 'dd.MM.yyyy')}`
+                    : dateRange?.from && dateRange?.to 
+                      ? `Veranstaltungen vom ${format(dateRange.from, 'dd.MM.yyyy')} bis ${format(dateRange.to, 'dd.MM.yyyy')}`
+                      : 'Gefundene Veranstaltungen'}
+                </h3>
                 
-                {date && (
-                  <div className="mt-2 flex justify-between items-center">
-                    <p className="text-sm">
-                      Ausgewählt: {format(date, "dd.MM.yyyy", { locale: de })}
+                {filteredEvents.length > 0 ? (
+                  <div className="space-y-4">
+                    {filteredEvents.map((event) => (
+                      <Link key={event.id} href={`/events/${event.id}`}>
+                        <div className="bg-white rounded-lg shadow-sm hover:shadow-md p-4 flex flex-col md:flex-row gap-4 transition-shadow">
+                          <div className="md:w-1/4 relative h-32 md:h-auto rounded-md overflow-hidden">
+                            <Image
+                              src={event.image || "/images/events/default-event.webp"}
+                              alt={event.title}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                          <div className="md:w-3/4">
+                            <h4 className="text-lg font-bold mb-2">{event.title}</h4>
+                            <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-500 mb-3">
+                              <div className="flex items-center">
+                                <CalendarIcon className="h-4 w-4 mr-1.5 text-blue-600" />
+                                <span>{formatDate(event.date)}</span>
+                              </div>
+                              {event.time && (
+                                <div className="flex items-center">
+                                  <Clock className="h-4 w-4 mr-1.5 text-blue-600" />
+                                  <span>{event.time}</span>
+                                </div>
+                              )}
+                              <div className="flex items-center">
+                                <MapPin className="h-4 w-4 mr-1.5 text-blue-600" />
+                                <span>{event.location}</span>
+                              </div>
+                              {event.category && (
+                                <div className="flex items-center">
+                                  <Tag className="h-4 w-4 mr-1.5 text-blue-600" />
+                                  <span>{event.category}</span>
+                                </div>
+                              )}
+                            </div>
+                            <p className="text-gray-600 line-clamp-2 mb-3">{event.description}</p>
+                            <div className="text-blue-600 font-medium hover:text-blue-800 transition-colors text-sm">
+                              Mehr erfahren →
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="bg-blue-50 p-6 rounded-lg text-center">
+                    <p className="text-gray-700">
+                      Für den ausgewählten Zeitraum sind keine Veranstaltungen verfügbar.
                     </p>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      onClick={() => setDate(undefined)}
-                    >
-                      Zurücksetzen
-                    </Button>
                   </div>
                 )}
               </div>
-              
-              {/* Kategorienfilter */}
-              <div>
-                <h3 className="text-sm font-medium mb-2">Kategorie</h3>
-                <div className="space-y-2">
-                  {categories.map((category) => (
-                    <div key={category} className="flex items-center">
-                      <Button
-                        variant={selectedCategory === category ? "default" : "outline"}
-                        size="sm"
-                        className="w-full justify-start"
-                        onClick={() => setSelectedCategory(category)}
-                      >
-                        {category}
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Eventliste */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="col-span-1 lg:col-span-8"
-        >
-          <Tabs defaultValue="list">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-semibold">Veranstaltungen</h2>
-              <TabsList>
-                <TabsTrigger value="list">Liste</TabsTrigger>
-                <TabsTrigger value="calendar">Kalender</TabsTrigger>
-              </TabsList>
-            </div>
-            
-            <TabsContent value="list" className="space-y-6">
-              {filteredEvents.length > 0 ? (
-                filteredEvents.map(event => (
-                  <motion.div
-                    key={event.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>{event.title}</CardTitle>
-                        <CardDescription className="flex items-center gap-1">
-                          <CalendarIcon className="h-4 w-4" />
-                          {format(event.date, "dd. MMMM yyyy", { locale: de })}
-                          {event.date.getTime() !== event.endDate.getTime() && (
-                            <> - {format(event.endDate, "dd. MMMM yyyy", { locale: de })}</>
-                          )}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="flex items-start gap-2 mb-4 text-sm text-muted-foreground">
-                          <MapPin className="h-4 w-4 mt-0.5" />
-                          <span>{event.location}</span>
-                        </div>
-                        <p>{event.description}</p>
-                      </CardContent>
-                      <CardFooter className="flex justify-between">
-                        <div className="text-sm">
-                          <span className="inline-block px-2 py-1 rounded-full bg-primary/10 text-primary">
-                            {event.category}
-                          </span>
-                        </div>
-                        <Button asChild variant="outline">
-                          <Link href={`/events/${event.id}`}>Details</Link>
-                        </Button>
-                      </CardFooter>
-                    </Card>
-                  </motion.div>
-                ))
-              ) : (
-                <div className="text-center py-12 border rounded-lg">
-                  <p className="text-muted-foreground">
-                    Keine Veranstaltungen für die ausgewählten Filter gefunden.
-                  </p>
-                  <Button 
-                    variant="outline" 
-                    className="mt-4"
-                    onClick={() => {
-                      setDate(undefined);
-                      setSelectedCategory("Alle");
-                    }}
-                  >
-                    Filter zurücksetzen
-                  </Button>
-                </div>
-              )}
-            </TabsContent>
-            
-            <TabsContent value="calendar">
-              <div className="border rounded-lg p-6">
-                <p className="text-center text-muted-foreground">
-                  Kalenderansicht ist in Entwicklung.
-                </p>
-              </div>
-            </TabsContent>
-          </Tabs>
-        </motion.div>
-      </div>
-    </ContentContainer>
+            )}
+          </TabsContent>
+        </Tabs>
+        
+        {/* Veranstaltungen vorschlagen */}
+        <div className="bg-gray-50 rounded-xl p-6 mt-10">
+          <h3 className="text-xl font-bold mb-3">Sie planen eine Veranstaltung auf Amrum?</h3>
+          <p className="text-gray-600 mb-4">
+            Wenn Sie eine Veranstaltung auf Amrum planen und diese hier veröffentlichen möchten, 
+            kontaktieren Sie uns bitte. Wir nehmen Ihre Veranstaltung gerne in unseren Kalender auf.
+          </p>
+          <Button asChild>
+            <Link href="/kontakt">Veranstaltung melden</Link>
+          </Button>
+        </div>
+      </ContentContainer>
+    </>
   );
 } 
