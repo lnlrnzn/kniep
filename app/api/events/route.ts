@@ -1,79 +1,12 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-import { promises as fsPromises } from 'fs';
+import { createClient } from '@supabase/supabase-js';
 
-// Lokaler Pfad als Fallback
-const DATA_PATH = path.join(process.cwd(), 'data');
-const DATA_FILE = path.join(DATA_PATH, 'events.json');
+// Supabase Konfiguration
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://reaozizszypvthyptnjx.supabase.co';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJlYW96aXpzenlwdnRoeXB0bmp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEzMzU0MTEsImV4cCI6MjA1NjkxMTQxMX0.wKy-eZOmweYMiHYw9HKC0NkP-Avz7FeLHVHzeAGE8B0';
 
-// JSONbin Konfiguration
-const JSONBIN_ID = '67ca9911ad19ca34f817f9c8';
-const JSONBIN_API = 'https://api.jsonbin.io/v3/b';
-const JSONBIN_MASTER_KEY = '$2a$10$gGkZOcIzbQJqiv.k64AGnuHPfZHa4.djTtqtLlKSzVDoHJ7ErzwEq';
-
-// JSONbin ist wieder aktiviert, da wir keine großen Bilder mehr haben
-const useLocalOnly = false;
-
-// Stelle sicher, dass das Verzeichnis existiert
-async function ensureDirectoryExists() {
-  try {
-    await fsPromises.mkdir(DATA_PATH, { recursive: true });
-    return true;
-  } catch (error) {
-    console.error('Error creating data directory:', error);
-    throw error;
-  }
-}
-
-// Lade Daten aus Datei (als Fallback)
-async function readData() {
-  await ensureDirectoryExists();
-  
-  try {
-    // Wenn die Datei existiert, lese sie ein
-    if (fs.existsSync(DATA_FILE)) {
-      const raw = await fsPromises.readFile(DATA_FILE, 'utf8');
-      try {
-        return JSON.parse(raw);
-      } catch (parseError) {
-        console.error('JSON Parse-Fehler:', parseError);
-        // Bei beschädigter JSON-Datei erstellen wir eine neue
-        const initialData = { events: [], locations: [] };
-        await fsPromises.writeFile(DATA_FILE, JSON.stringify(initialData, null, 2));
-        return initialData;
-      }
-    }
-    
-    // Erstelle leere Datei, falls sie nicht existiert
-    const initialData = { events: [], locations: [] };
-    await fsPromises.writeFile(DATA_FILE, JSON.stringify(initialData, null, 2));
-    return initialData;
-  } catch (error) {
-    console.error('Error reading data file:', error);
-    return { events: [], locations: [] };
-  }
-}
-
-// Speichere Daten in Datei (als Fallback)
-async function writeData(data: any) {
-  await ensureDirectoryExists();
-  
-  try {
-    // Stelle sicher, dass wir ein valides Datenformat haben
-    const validData = {
-      events: Array.isArray(data.events) ? data.events : [],
-      locations: Array.isArray(data.locations) ? data.locations : []
-    };
-    
-    // Formatiere den JSON-String schön für bessere Lesbarkeit
-    await fsPromises.writeFile(DATA_FILE, JSON.stringify(validData, null, 2));
-    return true;
-  } catch (error) {
-    console.error('Error writing data file:', error);
-    throw error;
-  }
-}
+// Erstellen des Supabase-Clients
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Hilfsfunktion für einheitliche Fehlerbehandlung
 function errorResponse(message: string, error: any, status: number = 500) {
@@ -107,116 +40,179 @@ function errorResponse(message: string, error: any, status: number = 500) {
   }
 }
 
-// Zugriff auf JSONbin
-async function fetchFromJSONbin() {
-  if (useLocalOnly) {
-    throw new Error('JSONbin access disabled, using local storage only');
-  }
-  
+// Types für die Datenstrukturen
+interface OpeningPeriod {
+  id?: number;
+  location_id: string;
+  name: string;
+  days: string;
+  hours: string;
+}
+
+interface Location {
+  id: string;
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+  website: string;
+  periods?: OpeningPeriod[];
+}
+
+interface Event {
+  id: string;
+  title: string;
+  date: string;
+  time?: string;
+  location?: string;
+  description?: string;
+  image?: string;
+  category?: string;
+  organizer?: string;
+  featured?: boolean;
+  link?: string;
+}
+
+// Events aus Supabase abrufen
+async function getEvents() {
   try {
-    console.log(`Fetching data from JSONbin: ${JSONBIN_API}/${JSONBIN_ID}/latest`);
+    const { data: events, error } = await supabase
+      .from('events')
+      .select('*')
+      .order('date', { ascending: true });
     
-    const response = await fetch(`${JSONBIN_API}/${JSONBIN_ID}/latest`, {
-      headers: {
-        'X-Master-Key': JSONBIN_MASTER_KEY,
-        'X-Bin-Meta': 'false' // Wir möchten nur die Daten, nicht die Metadaten
+    if (error) throw error;
+    return events || [];
+  } catch (error) {
+    console.error('Fehler beim Abrufen der Events:', error);
+    throw error;
+  }
+}
+
+// Locations und Opening Periods aus Supabase abrufen
+async function getLocations() {
+  try {
+    // Zuerst alle Locations abrufen
+    const { data: locations, error: locationsError } = await supabase
+      .from('locations')
+      .select('*');
+    
+    if (locationsError) throw locationsError;
+    
+    // Dann für jede Location die zugehörigen Opening Periods abrufen
+    if (locations && locations.length > 0) {
+      for (const location of locations) {
+        const { data: periods, error: periodsError } = await supabase
+          .from('opening_periods')
+          .select('*')
+          .eq('location_id', location.id);
+        
+        if (periodsError) throw periodsError;
+        location.periods = periods || [];
       }
-    });
-    
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`JSONbin API returned status ${response.status}: ${errorText}`);
     }
     
-    // Wenn X-Bin-Meta: false gesetzt ist, gibt JSONbin direkt die Daten zurück
-    const data = await response.json();
-    return data;
-  } catch (error: any) {
-    console.error('Error fetching from JSONbin:', error);
+    return locations || [];
+  } catch (error) {
+    console.error('Fehler beim Abrufen der Locations:', error);
     throw error;
   }
 }
 
-// Dualer Zugriff: Zuerst versuche JSONbin, dann lokale Datei
-async function getData() {
-  // Zuerst versuchen, Daten von JSONbin zu holen
-  if (!useLocalOnly) {
-    try {
-      const data = await fetchFromJSONbin();
-      // Daten auch lokal speichern für Backup
-      await writeData(data);
-      return { data, source: 'jsonbin' };
-    } catch (error) {
-      console.warn('JSONbin access failed, falling back to local storage:', error);
-      // Bei Fehlern auf lokale Datei zurückgreifen
-    }
-  }
-  
-  // Lokale Datei als Fallback
-  const data = await readData();
-  return { data, source: 'local' };
-}
-
-// Schreibe Daten zu JSONbin
-async function saveToJSONbin(data: any) {
+// Events in Supabase aktualisieren oder erstellen
+async function saveEvents(events: Event[]) {
   try {
-    console.log('Sending data to JSONbin');
+    // Alle alten Events löschen
+    const { error: deleteError } = await supabase
+      .from('events')
+      .delete()
+      .neq('id', 'dummy'); // Trick, um alle Zeilen zu löschen
     
-    const response = await fetch(`${JSONBIN_API}/${JSONBIN_ID}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Master-Key': JSONBIN_MASTER_KEY,
-        'X-Bin-Versioning': 'false' // Keine neuen Versionen erstellen
-      },
-      body: JSON.stringify(data)
-    });
+    if (deleteError) throw deleteError;
     
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`JSONbin update failed with status ${response.status}: ${errorText}`);
-      throw new Error(`JSONbin update failed with status ${response.status}: ${errorText}`);
+    // Neue Events einfügen
+    if (events && events.length > 0) {
+      const { data, error: insertError } = await supabase
+        .from('events')
+        .insert(events)
+        .select();
+      
+      if (insertError) throw insertError;
+      return data;
     }
     
-    const result = await response.json();
-    console.log('Update to JSONbin successful');
-    return result.record || result;
-  } catch (error: any) {
-    console.error('Error writing to JSONbin:', error);
+    return [];
+  } catch (error) {
+    console.error('Fehler beim Speichern der Events:', error);
     throw error;
   }
 }
 
-// Dualer Schreibzugriff: Versuche JSONbin zu aktualisieren, speichere immer lokal
-async function saveData(newData: any) {
-  // Immer in lokaler Datei speichern (Sicherheit)
-  await writeData(newData);
-  
-  // Wenn JSONbin aktiviert ist, versuchen wir dort auch zu speichern
-  if (!useLocalOnly) {
-    try {
-      const jsonbinData = await saveToJSONbin(newData);
-      return { data: jsonbinData, source: 'jsonbin' };
-    } catch (error) {
-      console.warn('JSONbin update failed, data saved only locally:', error);
-      // Bei Fehlern haben wir immer noch die lokale Kopie
+// Locations und Opening Periods in Supabase aktualisieren oder erstellen
+async function saveLocations(locations: Location[]) {
+  try {
+    // Alle alten Locations löschen (kaskadiert zu den Periods durch Foreign Key Constraint)
+    const { error: deleteError } = await supabase
+      .from('locations')
+      .delete()
+      .neq('id', 'dummy'); // Trick, um alle Zeilen zu löschen
+    
+    if (deleteError) throw deleteError;
+    
+    // Neue Locations einfügen
+    if (locations && locations.length > 0) {
+      for (const location of locations) {
+        const periods = location.periods || [];
+        delete location.periods;
+        
+        // Location einfügen
+        const { data: insertedLocation, error: locationError } = await supabase
+          .from('locations')
+          .insert(location)
+          .select()
+          .single();
+        
+        if (locationError) throw locationError;
+        
+        // Opening Periods für diese Location einfügen
+        if (periods.length > 0) {
+          const periodsWithLocationId = periods.map((period: OpeningPeriod) => ({
+            ...period,
+            location_id: insertedLocation.id
+          }));
+          
+          const { error: periodsError } = await supabase
+            .from('opening_periods')
+            .insert(periodsWithLocationId);
+          
+          if (periodsError) throw periodsError;
+        }
+      }
     }
+    
+    // Alle Locations mit ihren Periods zurückgeben
+    return await getLocations();
+  } catch (error) {
+    console.error('Fehler beim Speichern der Locations:', error);
+    throw error;
   }
-  
-  // Lokales Speichern als Fallback hat oben bereits stattgefunden
-  return { data: newData, source: 'local' };
 }
 
 export async function GET() {
   try {
-    const { data, source } = await getData();
+    // Parallel Anfragen für Events und Locations
+    const [events, locations] = await Promise.all([
+      getEvents(),
+      getLocations()
+    ]);
+    
     return NextResponse.json({
-      ...data,
-      _meta: { source }
+      events,
+      locations,
+      _meta: { source: 'supabase' }
     });
-  } catch (error: any) {
-    // Wenn wir hier landen, sind beide Methoden fehlgeschlagen
-    return errorResponse('Failed to fetch data from any source', error);
+  } catch (error) {
+    return errorResponse('Fehler beim Abrufen der Daten aus Supabase', error);
   }
 }
 
@@ -224,47 +220,35 @@ export async function POST(request: Request) {
   try {
     // Body der Anfrage abrufen
     const body = await request.json();
-    console.log('Received data to update:', Object.keys(body));
+    console.log('Empfangene Daten zum Aktualisieren:', Object.keys(body));
     
-    // Aktuelle Daten abrufen
-    let currentData = { events: [], locations: [] };
-    try {
-      const result = await getData();
-      currentData = result.data;
-    } catch (error) {
-      console.warn('Could not fetch existing data, will create new record');
+    const results: { events?: any; locations?: any } = {};
+    let saveOperationsPerformed = false;
+    
+    // Nur die Daten aktualisieren, die im Request enthalten sind
+    if (body.events) {
+      results.events = await saveEvents(body.events);
+      saveOperationsPerformed = true;
     }
     
-    // Daten zusammenführen
-    const mergedData = { 
-      // Behalte bestehende Daten bei
-      events: Array.isArray(currentData.events) ? [...currentData.events] : [],
-      locations: Array.isArray(currentData.locations) ? [...currentData.locations] : [],
-      
-      // Überschreibe mit neuen Daten, falls vorhanden
-      ...(body.events ? { events: body.events } : {}),
-      ...(body.locations ? { locations: body.locations } : {})
-    };
+    if (body.locations) {
+      results.locations = await saveLocations(body.locations);
+      saveOperationsPerformed = true;
+    }
     
-    console.log('Saving data', { 
-      source: useLocalOnly ? 'local only' : 'jsonbin+local',
-      eventCount: mergedData.events?.length || 0,
-      locationCount: mergedData.locations?.length || 0
-    });
-    
-    // Daten speichern
-    const { data: savedData, source } = await saveData(mergedData);
+    // Wenn keine Daten zum Speichern übergeben wurden
+    if (!saveOperationsPerformed) {
+      return NextResponse.json({ 
+        message: 'Keine Daten zum Aktualisieren übermittelt',
+        _meta: { source: 'supabase' }
+      });
+    }
     
     return NextResponse.json({ 
-      success: true, 
-      data: savedData,
-      _meta: { 
-        source,
-        eventCount: savedData.events?.length || 0,
-        locationCount: savedData.locations?.length || 0
-      }
+      ...results,
+      _meta: { source: 'supabase' }
     });
-  } catch (error: any) {
-    return errorResponse('Error updating data', error);
+  } catch (error) {
+    return errorResponse('Fehler beim Speichern der Daten in Supabase', error);
   }
 }
