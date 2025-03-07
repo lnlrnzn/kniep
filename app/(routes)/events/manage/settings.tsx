@@ -91,6 +91,24 @@ const initialOpeningHours: SettingsData = {
 };
 
 export default function SettingsPage() {
+  // Verhindere Server-Rendering während des Builds
+  const [isClient, setIsClient] = useState(false);
+  
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  
+  // Wenn nicht Client-seitig, zeige eine einfache Ladeseite
+  if (!isClient) {
+    return (
+      <ContentContainer>
+        <div className="min-h-screen flex items-center justify-center">
+          <p>Lädt Einstellungen...</p>
+        </div>
+      </ContentContainer>
+    );
+  }
+  
   const [openingHours, setOpeningHours] = useState<SettingsData>(initialOpeningHours);
   const [selectedLocation, setSelectedLocation] = useState<string>("naturzentrum");
   const [loading, setLoading] = useState<boolean>(false);

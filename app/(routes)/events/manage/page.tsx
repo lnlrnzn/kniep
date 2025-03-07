@@ -34,7 +34,27 @@ const eventCategories = [
   "Sonstiges"
 ];
 
+// Exportiere eine Komponente, die nur auf Client-Seite gerendert wird
+// Diese Komponente wird während des Build-Prozesses nicht ausgeführt
 export default function EventManagePage() {
+  // Verhindere Server-Rendering während des Builds
+  const [isClient, setIsClient] = useState(false);
+  
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  
+  // Wenn nicht Client-seitig, zeige eine einfache Ladeseite
+  if (!isClient) {
+    return (
+      <ContentContainer>
+        <div className="min-h-screen flex items-center justify-center">
+          <p>Lädt Veranstaltungsverwaltung...</p>
+        </div>
+      </ContentContainer>
+    );
+  }
+  
   const router = useRouter();
   const searchParams = useSearchParams();
   const editId = searchParams.get('id');

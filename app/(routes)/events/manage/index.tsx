@@ -1,11 +1,30 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Calendar, Settings, Plus, List, Clock, ChevronRight } from "lucide-react";
 import { ContentContainer } from "../../../components/ui/content-container";
 import { Button } from "@/components/ui/button";
 
 export default function ManageDashboardPage() {
+  // Verhindere Server-Rendering während des Builds
+  const [isClient, setIsClient] = useState(false);
+  
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  
+  // Wenn nicht Client-seitig, zeige eine einfache Ladeseite
+  if (!isClient) {
+    return (
+      <ContentContainer>
+        <div className="min-h-screen flex items-center justify-center">
+          <p>Lädt Dashboard...</p>
+        </div>
+      </ContentContainer>
+    );
+  }
+  
   return (
     <div className="bg-gray-50 py-8">
       <ContentContainer>
