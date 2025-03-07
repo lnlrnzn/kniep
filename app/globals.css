@@ -159,3 +159,40 @@
     font-weight: 800;
   }
 }
+
+/* Neues Styling für den Kalender */
+.rdp {
+  position: relative;
+  z-index: 20;
+}
+
+.rdp-months {
+  position: relative;
+  z-index: 20;
+}
+
+.rdp-month {
+  position: relative;
+  z-index: 20;
+}
+
+.rdp-table {
+  position: relative;
+  z-index: 20;
+}
+
+.rdp-cell {
+  position: relative;
+  z-index: 20;
+}
+
+.rdp-day {
+  position: relative;
+  z-index: 20;
+}
+
+/* Event-Karten-Styling */
+.event-card {
+  position: relative;
+  z-index: 10;
+}

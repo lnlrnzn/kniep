@@ -9,24 +9,49 @@ import { Calendar, MapPin, Clock, Tag, User, Globe, ChevronRight, ArrowLeft } fr
 import { ContentContainer } from "../../../components/ui/content-container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { getEventById, Event } from "../data/events";
+import { Event } from "../data/events"; // Nur den Typen importieren
+
+// API-URL für Events
+const API_URL = '/api/events';
 
 export default function EventPage() {
   const params = useParams();
   const eventId = params.eventId as string;
   const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // In einer echten Anwendung würde hier ein API-Call stehen
-    // Für dieses Beispiel verwenden wir die lokale Funktion
-    const fetchedEvent = getEventById(eventId);
+    const fetchEvent = async () => {
+      try {
+        setLoading(true);
+        // API-Anfrage für alle Events
+        const response = await fetch(API_URL);
+        
+        if (!response.ok) {
+          throw new Error(`API responded with status ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Suche das Event mit der entsprechenden ID
+        const foundEvent = data.events?.find((e: Event) => e.id === eventId);
+        
+        if (foundEvent) {
+          setEvent(foundEvent);
+        } else {
+          // Wenn kein Event gefunden wurde, setzen wir event auf null
+          setEvent(null);
+        }
+      } catch (error) {
+        console.error("Fehler beim Laden des Events:", error);
+        setError("Event konnte nicht geladen werden. Bitte versuchen Sie es später erneut.");
+      } finally {
+        setLoading(false);
+      }
+    };
     
-    if (fetchedEvent) {
-      setEvent(fetchedEvent);
-    }
-    
-    setLoading(false);
+    fetchEvent();
   }, [eventId]);
 
   // Wenn kein Event gefunden wurde, zeigen wir die 404-Seite
@@ -52,6 +77,20 @@ export default function EventPage() {
       <ContentContainer className="py-20">
         <div className="flex justify-center items-center min-h-[40vh]">
           <div className="animate-pulse text-xl text-gray-500">Lade Veranstaltungsdetails...</div>
+        </div>
+      </ContentContainer>
+    );
+  }
+
+  // Falls ein Fehler aufgetreten ist
+  if (error) {
+    return (
+      <ContentContainer className="py-20">
+        <div className="flex flex-col justify-center items-center min-h-[40vh]">
+          <div className="text-xl text-red-500 mb-4">{error}</div>
+          <Button asChild>
+            <Link href="/events">Zurück zur Übersicht</Link>
+          </Button>
         </div>
       </ContentContainer>
     );
@@ -100,7 +139,7 @@ export default function EventPage() {
 
       <ContentContainer className="py-12">
         {/* Breadcrumbs */}
-        <div className="flex flex-wrap items-center text-sm text-gray-500 mb-8">
+        <div className="flex flex-wrap items-center text-sm text-gray-500 mb-8 relative z-10">
           <Link href="/" className="hover:text-gray-800 transition-colors">
             Startseite
           </Link>
@@ -113,7 +152,7 @@ export default function EventPage() {
         </div>
 
         {/* Zurück-Button */}
-        <div className="mb-8">
+        <div className="mb-8 relative z-10">
           <Button asChild variant="outline">
             <Link href="/events" className="flex items-center">
               <ArrowLeft className="h-4 w-4 mr-2" />
@@ -123,8 +162,8 @@ export default function EventPage() {
         </div>
 
         {/* Event-Details */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
+          <div className="lg:col-span-2 relative z-10">
             <h2 className="text-2xl font-bold mb-6">Über diese Veranstaltung</h2>
             
             <div className="bg-white rounded-xl shadow-md p-6 mb-8">
@@ -136,7 +175,7 @@ export default function EventPage() {
             </div>
           </div>
           
-          <div>
+          <div className="relative z-20">
             {/* Info-Box */}
             <div className="bg-white rounded-xl shadow-md p-6 mb-6">
               <h3 className="text-lg font-bold mb-4">Veranstaltungsdetails</h3>

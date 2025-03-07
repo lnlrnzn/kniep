@@ -120,7 +120,7 @@ export default function FitnessPage() {
       {/* Hero-Bereich mit Bild */}
       <div className="relative w-full h-[50vh] min-h-[400px]">
         <Image
-          src="/images/activities/fitness-hero.webp" // Spezifisches Fitness-Hero-Bild
+          src="/images/amrum-panorama-insel.webp" // Verwenden des verfügbaren Panorama-Bildes als vorübergehenden Ersatz
           alt="Fitness & Wellness auf Amrum"
           fill
           priority
@@ -168,6 +168,7 @@ export default function FitnessPage() {
           <TabsList className="mb-6">
             <TabsTrigger value="eilunFit">Eilun Fit</TabsTrigger>
             <TabsTrigger value="amrumSpa">AmrumSpa Gesundheitszentrum</TabsTrigger>
+            <TabsTrigger value="badeland">Amrum Badeland Sauna</TabsTrigger>
           </TabsList>
           
           {/* Eilun Fit */}
@@ -176,7 +177,7 @@ export default function FitnessPage() {
               <div className="md:flex">
                 <div className="md:w-1/2 relative h-[300px] md:h-auto">
                   <Image
-                    src="/images/activities/fitness.webp"
+                    src="/images/eilunfit.webp"
                     alt="Eilun Fit Fitnessstudio"
                     fill
                     className="object-cover"
@@ -261,7 +262,7 @@ export default function FitnessPage() {
               <div className="md:flex">
                 <div className="md:w-1/2 relative h-[300px] md:h-auto">
                   <Image
-                    src="/images/activities/amrumspa.webp"
+                    src="/images/amrumspa.webp"
                     alt="AmrumSpa Gesundheitszentrum"
                     fill
                     className="object-cover"
@@ -397,6 +398,144 @@ export default function FitnessPage() {
               </Tabs>
               <div className="mt-4 text-sm text-gray-500">
                 Hinweis: Die Preisliste zeigt einen Auszug der Privatpreise. Genauere Informationen erhalten Sie direkt im AmrumSpa.
+              </div>
+            </div>
+          </TabsContent>
+          
+          {/* AmrumBadeland Sauna */}
+          <TabsContent value="badeland">
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+              <div className="md:flex">
+                <div className="md:w-1/2 relative h-[300px] md:h-auto">
+                  <Image
+                    src="/images/badeland.webp"
+                    alt="Amrum Badeland Saunalandschaft"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="md:w-1/2 p-6 md:p-8">
+                  <h2 className="text-3xl font-bold mb-3">Amrum Badeland - Saunalandschaft</h2>
+                  <p className="text-gray-600 mb-6">
+                    Entspannen Sie in einer attraktiven Saunalandschaft mit Finnischer Blocksauna (90°C), 
+                    Biosauna (55°C), Dampfbad (40°C), Infrarotkabine und im großen Saunagarten mit Tauchbecken, 
+                    Außendusche, Liegen und Strandkörben.
+                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div className="flex items-start">
+                      <MapPin className="h-5 w-5 text-blue-600 mt-0.5 mr-2 flex-shrink-0" />
+                      <span>Am Schwimmbad 1, 25946 Wittdün auf Amrum</span>
+                    </div>
+                    <div className="flex items-start">
+                      <Clock className="h-5 w-5 text-blue-600 mt-0.5 mr-2 flex-shrink-0" />
+                      <div>
+                        <p>Mi: 13:00-20:00</p>
+                        <p>Do: 13:00-20:00 (Familiensauna)</p>
+                        <p>Fr: 13:00-20:00</p>
+                        <p>Sa-So: 12:00-18:00</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start">
+                      <Phone className="h-5 w-5 text-blue-600 mt-0.5 mr-2 flex-shrink-0" />
+                      <span>04682-943431</span>
+                    </div>
+                    <div className="flex items-start">
+                      <Mail className="h-5 w-5 text-blue-600 mt-0.5 mr-2 flex-shrink-0" />
+                      <a href="mailto:info@amrum-badeland.de" className="text-blue-600 hover:underline">
+                        info@amrum-badeland.de
+                      </a>
+                    </div>
+                  </div>
+                  
+                  <Button asChild>
+                    <a href="https://amrum-badeland.de" target="_blank" rel="noopener noreferrer" className="flex items-center">
+                      <Globe className="mr-2 h-4 w-4" />
+                      Website besuchen
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            </div>
+            
+            {/* Sauna Angebote & Preise */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <h3 className="text-xl font-bold mb-4">Sauna-Angebote</h3>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <span className="h-2 w-2 rounded-full bg-blue-500 mr-3 mt-2"></span>
+                    <div>
+                      <span className="font-medium">Finnische Blocksauna (90°C)</span>
+                      <p className="text-gray-600 text-sm">Klassische finnische Sauna für intensives Saunieren</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="h-2 w-2 rounded-full bg-blue-500 mr-3 mt-2"></span>
+                    <div>
+                      <span className="font-medium">Biosauna (55°C)</span>
+                      <p className="text-gray-600 text-sm">Mildere Temperatur mit höherer Luftfeuchtigkeit</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="h-2 w-2 rounded-full bg-blue-500 mr-3 mt-2"></span>
+                    <div>
+                      <span className="font-medium">Dampfbad (40°C)</span>
+                      <p className="text-gray-600 text-sm">Wohlige Wärme mit sehr hoher Luftfeuchtigkeit</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="h-2 w-2 rounded-full bg-blue-500 mr-3 mt-2"></span>
+                    <div>
+                      <span className="font-medium">Infrarotkabine</span>
+                      <p className="text-gray-600 text-sm">Tiefenwärme durch Infrarotstrahlung</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="h-2 w-2 rounded-full bg-blue-500 mr-3 mt-2"></span>
+                    <div>
+                      <span className="font-medium">Saunagarten</span>
+                      <p className="text-gray-600 text-sm">Mit Tauchbecken, Außendusche, Liegen und Strandkörben</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <h3 className="text-xl font-bold mb-4">Preise (Auswahl)</h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                    <span>Erwachsene (ab 18 J.) - erste Stunde</span>
+                    <span className="font-semibold">9,50 € (7,90 €*)</span>
+                  </div>
+                  <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                    <span>Erwachsene (ab 18 J.) - je weitere Stunde</span>
+                    <span className="font-semibold">4,00 € (3,20 €*)</span>
+                  </div>
+                  <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                    <span>Erwachsene (ab 18 J.) - Tageskarte</span>
+                    <span className="font-semibold">21,50 € (17,50 €*)</span>
+                  </div>
+                  <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                    <span>Kinder (12-18 J.) - erste Stunde</span>
+                    <span className="font-semibold">7,50 € (6,30 €*)</span>
+                  </div>
+                  <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                    <span>Wellenbad + Sauna - erste Stunde (Erwachsene)</span>
+                    <span className="font-semibold">12,50 € (10,30 €*)</span>
+                  </div>
+                </div>
+                <div className="mt-4 text-sm text-gray-500">
+                  <p>* Ermäßigter Preis mit gültiger Gastkarte</p>
+                  <p>Alle Preise inkl. 1,50 € Energiepauschale</p>
+                  <p>Weitere Preise finden Sie auf der Website oder vor Ort.</p>
+                </div>
+                
+                <div className="bg-blue-50 p-4 rounded-lg mt-4">
+                  <p className="text-sm text-blue-800">
+                    <strong>Familiensauna:</strong> Donnerstags und sonntags ist die Sauna auch für Kinder unter 12 Jahren in Begleitung Erwachsener geöffnet.
+                  </p>
+                </div>
               </div>
             </div>
           </TabsContent>

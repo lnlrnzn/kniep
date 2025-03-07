@@ -17,7 +17,15 @@ const nextConfig = {
       'www.hotel-ami.fr',
       
       // Add your own domain if needed
-      'kniep-amrum.com'
+      'kniep-amrum.com',
+      
+      // Image hosting services
+      'postimg.cc',           // PostImage Domain
+      'i.postimg.cc',         // PostImage Direct Image Domain
+      'i.imgur.com',          // Imgur Direct Image Domain
+      'imgur.com',            // Imgur Domain
+      'ibb.co',               // ImgBB Domain
+      'i.ibb.co'              // ImgBB Direct Image Domain
     ],
     remotePatterns: [
       {
@@ -54,6 +62,21 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**',
         pathname: '/hotelbilder/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.postimg.cc',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.imgur.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.ibb.co',
+        pathname: '/**',
       }
     ]
   },

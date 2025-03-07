@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -10,8 +10,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Calendar } from "@/components/ui/calendar";
-import { events, Event } from "./data/events";
+import { Event } from "./data/events"; // Nur den Typen importieren, nicht die Daten
 import { format, isWithinInterval, parseISO, startOfDay, endOfDay, isSameDay } from "date-fns";
+
+// API-URL für Events
+const API_URL = '/api/events';
 
 // Animation-Varianten
 const containerVariants = {
@@ -33,21 +36,53 @@ const itemVariants = {
   }
 };
 
-// Kategorien für Filter
-const categories = Array.from(new Set(events.map(event => event.category).filter(Boolean) as string[]));
-
 export default function EventsPage() {
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [dateRange, setDateRange] = useState<{ from: Date; to: Date } | undefined>(undefined);
   const [activeView, setActiveView] = useState<"list" | "calendar">("list");
+  const [manualFrom, setManualFrom] = useState<string>('');
+  const [manualTo, setManualTo] = useState<string>('');
+  
+  // Lade Events von der API
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(API_URL);
+        
+        if (!response.ok) {
+          throw new Error(`API responded with status ${response.status}`);
+        }
+        
+        const data = await response.json();
+        // Wenn events ein Array im Datensatz ist, verwende es, sonst ein leeres Array
+        setEvents(data.events || []);
+      } catch (error) {
+        console.error("Fehler beim Laden der Events:", error);
+        setError("Events konnten nicht geladen werden. Bitte versuchen Sie es später erneut.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchEvents();
+  }, []);
+  
+  // Kategorien für Filter - dynamisch aus den geladenen Events generieren
+  const categories = useMemo(() => {
+    return Array.from(new Set(events.map(event => event.category).filter(Boolean) as string[]));
+  }, [events]);
   
   // Nach Datum sortierte Events
   const sortedEvents = useMemo(() => {
     return [...events].sort((a, b) => 
       new Date(a.date).getTime() - new Date(b.date).getTime()
     );
-  }, []);
+  }, [events]);
   
   // Gefilterte Events basierend auf der ausgewählten Kategorie und Datum/Zeitraum
   const filteredEvents = useMemo(() => {
@@ -100,25 +135,116 @@ export default function EventsPage() {
     });
   };
 
+  // Manuelle Datumseingabe validieren und anwenden
+  const handleManualDateRange = () => {
+    try {
+      // Validiere die Eingaben
+      const fromDate = parseISO(manualFrom);
+      const toDate = parseISO(manualTo);
+      
+      if (isNaN(fromDate.getTime()) || isNaN(toDate.getTime())) {
+        throw new Error('Ungültiges Datumsformat');
+      }
+      
+      if (fromDate > toDate) {
+        throw new Error('Startdatum muss vor dem Enddatum liegen');
+      }
+      
+      // Setze den Datumsbereich
+      setDateRange({ from: fromDate, to: toDate });
+      setSelectedDate(undefined);
+    } catch (err) {
+      alert('Bitte geben Sie gültige Daten im Format YYYY-MM-DD ein');
+    }
+  };
+
+  // Event-Karte Komponente
+  const EventCard = ({ event }: { event: Event }) => {
+    const [imageError, setImageError] = useState(false);
+    
+    return (
+      <motion.div 
+        className="bg-white rounded-lg shadow-md overflow-hidden h-full flex flex-col relative z-10"
+        variants={itemVariants}
+      >
+        <div className="relative h-48">
+          <Image 
+            src={imageError ? "/images/default-event.jpg" : (event.image || "/images/default-event.jpg")}
+            alt={event.title}
+            fill
+            className="object-cover"
+            onError={() => setImageError(true)}
+          />
+          {event.featured && (
+            <div className="absolute top-0 right-0 bg-blue-500 text-white py-1 px-3 rounded-bl-lg">
+              Highlight
+            </div>
+          )}
+          {event.category && (
+            <div className="absolute bottom-2 left-2">
+              <Badge className="bg-white/80 text-blue-700 backdrop-blur-sm">
+                {event.category}
+              </Badge>
+            </div>
+          )}
+        </div>
+        
+        <div className="p-4 flex-grow">
+          <h3 className="text-xl font-bold mb-2 line-clamp-2">{event.title}</h3>
+          
+          <div className="space-y-2 mb-3 text-sm text-gray-600">
+            <div className="flex items-center">
+              <CalendarIcon className="h-4 w-4 mr-2 text-blue-500" />
+              <span>{formatDate(event.date)}</span>
+              {event.time && <span className="ml-2">| {event.time}</span>}
+            </div>
+            <div className="flex items-center">
+              <MapPin className="h-4 w-4 mr-2 text-blue-500 flex-shrink-0" />
+              <span className="line-clamp-1">{event.location}</span>
+            </div>
+          </div>
+          
+          <p className="text-gray-600 line-clamp-3 mb-4">
+            {event.description}
+          </p>
+        </div>
+        
+        <div className="p-4 pt-0 mt-auto">
+          <Button asChild variant="outline" className="w-full">
+            <Link href={`/events/${event.id}`}>
+              Details ansehen
+            </Link>
+          </Button>
+        </div>
+      </motion.div>
+    );
+  };
+
   return (
     <>
-      {/* Hero-Bereich mit Bild */}
-      <div className="relative w-full h-[50vh] min-h-[400px]">
-        <Image
-          src="/images/events/events-hero.webp"
-          alt="Veranstaltungen auf Amrum"
-          fill
-          priority
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-          <div className="text-center text-white">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Veranstaltungen auf Amrum</h1>
-            <p className="text-xl max-w-2xl mx-auto px-4">
-              Entdecken Sie ein vielfältiges Programm an Events und Veranstaltungen auf unserer schönen Insel
-            </p>
+      <div className="bg-gray-50 py-8">
+        <ContentContainer>
+          {/* Hero-Bereich */}
+          <div className="mb-12">
+            <div className="relative h-80 rounded-lg overflow-hidden mb-8">
+              <Image
+                src="/images/default-event.jpg"  // Standardbild für Events
+                alt="Veranstaltungen auf Amrum"
+                fill
+                className="object-cover"
+                priority
+              />
+              <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                <div className="text-center text-white p-8">
+                  <h1 className="text-4xl md:text-5xl font-bold mb-4">Veranstaltungen auf Amrum</h1>
+                  <p className="text-xl max-w-3xl">
+                    Entdecken Sie die vielfältigen Events und Aktivitäten, die Amrum zu bieten hat
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </ContentContainer>
       </div>
 
       <ContentContainer className="py-12">
@@ -208,57 +334,7 @@ export default function EventsPage() {
                 animate="visible"
               >
                 {filteredEvents.map((event) => (
-                  <motion.div
-                    key={event.id}
-                    className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-                    variants={itemVariants}
-                  >
-                    <Link href={`/events/${event.id}`}>
-                      <div className="relative h-48">
-                        <Image
-                          src={event.image || "/images/events/default-event.webp"}
-                          alt={event.title}
-                          fill
-                          className="object-cover"
-                        />
-                        {event.featured && (
-                          <div className="absolute top-3 left-3">
-                            <Badge className="bg-blue-600">Highlight</Badge>
-                          </div>
-                        )}
-                        {event.category && (
-                          <div className="absolute top-3 right-3">
-                            <Badge className="bg-white/80 text-gray-800">{event.category}</Badge>
-                          </div>
-                        )}
-                      </div>
-                      <div className="p-5">
-                        <h3 className="text-xl font-bold mb-2">{event.title}</h3>
-                        
-                        <div className="flex items-center text-sm text-gray-500 mb-1">
-                          <CalendarIcon className="h-4 w-4 mr-1.5 text-blue-600" />
-                          <span>{formatDate(event.date)}</span>
-                          {event.time && (
-                            <>
-                              <span className="mx-1">•</span>
-                              <Clock className="h-4 w-4 mr-1.5 text-blue-600" />
-                              <span>{event.time}</span>
-                            </>
-                          )}
-                        </div>
-                        <div className="flex items-start text-sm text-gray-500 mb-3">
-                          <MapPin className="h-4 w-4 mr-1.5 mt-0.5 text-blue-600 flex-shrink-0" />
-                          <span>{event.location}</span>
-                        </div>
-                        
-                        <p className="text-gray-600 mb-4 line-clamp-3">{event.description}</p>
-                        
-                        <div className="text-blue-600 font-medium hover:text-blue-800 transition-colors text-sm">
-                          Mehr erfahren →
-                        </div>
-                      </div>
-                    </Link>
-                  </motion.div>
+                  <EventCard key={event.id} event={event} />
                 ))}
               </motion.div>
             ) : (
@@ -280,71 +356,144 @@ export default function EventsPage() {
           </TabsContent>
           
           <TabsContent value="calendar">
-            <div className="mb-6 bg-white rounded-xl shadow-md p-6">
-              <h3 className="text-lg font-semibold mb-4">Veranstaltungen im Kalender</h3>
-              <p className="text-gray-600 mb-4">
-                Wählen Sie einen Tag, um Veranstaltungen für diesen Tag zu sehen, oder markieren Sie einen Zeitraum, 
-                um alle Veranstaltungen in diesem Zeitraum anzuzeigen.
-              </p>
+            <div className="mb-8 bg-white rounded-xl shadow-md p-6">
+              <h3 className="text-xl font-semibold mb-4 border-b pb-3">Veranstaltungen im Kalender</h3>
               
-              <div className="bg-gray-50 rounded-lg p-6">
-                <div className="flex flex-col md:flex-row gap-8">
-                  <div className="md:w-1/2">
-                    <Calendar
-                      mode="range"
-                      selected={dateRange}
-                      onSelect={(range) => {
-                        if (range?.from && range?.to) {
-                          setDateRange(range as { from: Date; to: Date });
-                          setSelectedDate(undefined);
-                        } else if (range?.from) {
-                          setSelectedDate(range.from);
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                {/* Linke Spalte: Kalender für Einzeltagsauswahl */}
+                <div className="lg:col-span-5">
+                  <div className="bg-gray-50 rounded-lg p-4 relative">
+                    <h4 className="font-medium text-lg mb-4 text-blue-800">Einzelnen Tag auswählen</h4>
+                    <div className="calendar-wrapper relative z-30">
+                      <Calendar
+                        mode="single"
+                        selected={selectedDate}
+                        onSelect={(date) => {
+                          setSelectedDate(date);
+                          // Bei Auswahl eines Tages den Zeitraum zurücksetzen
                           setDateRange(undefined);
-                        } else {
-                          resetDateSelection();
-                        }
-                      }}
-                      modifiers={{
-                        hasEvent: (date) => hasEventOnDate(date)
-                      }}
-                      modifiersClassNames={{
-                        hasEvent: "bg-blue-100 font-bold text-blue-600"
-                      }}
-                      className="rounded-md border"
-                    />
-                  </div>
-                  
-                  <div className="md:w-1/2 flex flex-col">
-                    <div className="mb-4">
-                      <h4 className="font-semibold text-lg mb-2">Ausgewählter Zeitraum</h4>
-                      {selectedDate ? (
-                        <p className="text-gray-700">
+                        }}
+                        numberOfMonths={1}
+                        modifiers={{
+                          hasEvent: (date) => hasEventOnDate(date)
+                        }}
+                        modifiersClassNames={{
+                          hasEvent: "bg-blue-100 font-bold text-blue-600"
+                        }}
+                        className="rounded-md border bg-white shadow-sm"
+                        disabled={{ before: new Date('2000-01-01') }}
+                        toDate={new Date('2030-12-31')}
+                      />
+                    </div>
+                    
+                    {selectedDate && (
+                      <div className="mt-4 p-3 bg-blue-50 rounded-md">
+                        <h5 className="font-medium text-blue-700">Ausgewählter Tag:</h5>
+                        <p className="text-gray-800 font-medium">
                           {format(selectedDate, 'dd.MM.yyyy')}
                         </p>
-                      ) : dateRange?.from && dateRange?.to ? (
-                        <p className="text-gray-700">
-                          {format(dateRange.from, 'dd.MM.yyyy')} bis {format(dateRange.to, 'dd.MM.yyyy')}
-                        </p>
-                      ) : (
-                        <p className="text-gray-500 italic">Kein Zeitraum ausgewählt</p>
-                      )}
-                    </div>
-                    
-                    <div className="mb-4">
-                      <h4 className="font-semibold text-lg mb-2">Gefundene Veranstaltungen</h4>
-                      <p className="text-gray-700">
-                        {filteredEvents.length} Veranstaltung{filteredEvents.length !== 1 ? 'en' : ''}
-                      </p>
-                    </div>
-                    
-                    {(selectedDate || (dateRange && dateRange.from && dateRange.to)) && (
-                      <div className="mt-auto pt-4">
-                        <Button 
-                          variant="outline" 
-                          className="w-full" 
-                          onClick={resetDateSelection}
+                        
+                        <button 
+                          onClick={() => setSelectedDate(undefined)}
+                          className="mt-2 text-sm text-blue-600 hover:text-blue-800 underline"
                         >
                           Auswahl zurücksetzen
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                {/* Rechte Spalte: Zeitraumauswahl */}
+                <div className="lg:col-span-7">
+                  <div className="bg-blue-50 rounded-lg p-4">
+                    <h4 className="font-medium text-lg mb-4 text-blue-800">Zeitraum auswählen</h4>
+                    <div className="space-y-6">
+                      {/* Manuelle Datumseingabe */}
+                      <div className="bg-white p-4 rounded-md shadow-sm">
+                        <h5 className="font-medium text-gray-800 mb-3">Zeitraum manuell eingeben:</h5>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="flex flex-col">
+                            <label className="text-sm text-gray-600 mb-1">Von:</label>
+                            <input 
+                              type="date" 
+                              value={manualFrom}
+                              onChange={(e) => setManualFrom(e.target.value)}
+                              className="border border-gray-300 rounded px-3 py-2"
+                            />
+                          </div>
+                          <div className="flex flex-col">
+                            <label className="text-sm text-gray-600 mb-1">Bis:</label>
+                            <input 
+                              type="date" 
+                              value={manualTo}
+                              onChange={(e) => setManualTo(e.target.value)}
+                              className="border border-gray-300 rounded px-3 py-2"
+                            />
+                          </div>
+                        </div>
+                        <button 
+                          type="button"
+                          onClick={handleManualDateRange}
+                          className="mt-4 bg-blue-600 text-white rounded py-2 px-4 hover:bg-blue-700 transition-colors w-full md:w-auto"
+                        >
+                          Zeitraum anwenden
+                        </button>
+                      </div>
+                      
+                      {/* Ausgewählter Zeitraum-Anzeige */}
+                      {dateRange?.from && dateRange?.to && (
+                        <div className="bg-green-50 border border-green-200 p-4 rounded-md">
+                          <h5 className="font-medium text-green-800 mb-2">Aktiver Zeitraum:</h5>
+                          <div className="flex items-center text-lg mb-1">
+                            <CalendarIcon className="h-5 w-5 text-green-600 mr-2" />
+                            <span className="font-bold text-green-700">
+                              {format(dateRange.from, 'dd.MM.yyyy')} - {format(dateRange.to, 'dd.MM.yyyy')}
+                            </span>
+                          </div>
+                          <p className="text-sm text-green-600 ml-7">
+                            ({Math.round((dateRange.to.getTime() - dateRange.from.getTime()) / (1000 * 60 * 60 * 24)) + 1} Tage)
+                          </p>
+                          <button 
+                            onClick={resetDateSelection}
+                            className="mt-3 text-sm bg-white text-green-600 border border-green-300 rounded-md px-3 py-1 hover:bg-green-50"
+                          >
+                            Zeitraum zurücksetzen
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  
+                  {/* Ergebnisbereich */}
+                  <div className="mt-6 bg-gray-50 rounded-lg p-4">
+                    <h4 className="font-medium text-lg mb-4 text-gray-800">Gefundene Veranstaltungen</h4>
+                    
+                    {filteredEvents.length === 0 ? (
+                      <div className="bg-orange-50 border border-orange-200 rounded-md p-4 text-center">
+                        <p className="text-orange-600">
+                          Keine Veranstaltungen im ausgewählten Zeitraum gefunden.
+                        </p>
+                      </div>
+                    ) : (
+                      <div>
+                        <p className="text-gray-700 mb-3">
+                          <span className="font-medium text-green-600">
+                            {filteredEvents.length} Veranstaltung{filteredEvents.length !== 1 ? 'en' : ''}
+                          </span> gefunden
+                        </p>
+                        
+                        <Button 
+                          onClick={() => {
+                            // Scroll zu den gefundenen Events
+                            document.getElementById('filtered-events-results')?.scrollIntoView({ 
+                              behavior: 'smooth',
+                              block: 'start'
+                            });
+                          }}
+                          className="w-full"
+                        >
+                          Zu den Ergebnissen scrollen
                         </Button>
                       </div>
                     )}
@@ -353,72 +502,34 @@ export default function EventsPage() {
               </div>
             </div>
             
-            {/* Liste der Events im ausgewählten Zeitraum */}
-            {(selectedDate || (dateRange && dateRange.from && dateRange.to)) && (
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold mb-4">
-                  {selectedDate 
-                    ? `Veranstaltungen am ${format(selectedDate, 'dd.MM.yyyy')}`
-                    : dateRange?.from && dateRange?.to 
-                      ? `Veranstaltungen vom ${format(dateRange.from, 'dd.MM.yyyy')} bis ${format(dateRange.to, 'dd.MM.yyyy')}`
-                      : 'Gefundene Veranstaltungen'}
-                </h3>
-                
+            {/* Event-Liste für Kalender-Ansicht */}
+            <div id="filtered-events-results">
+              <h3 className="text-xl font-semibold mb-4">
                 {filteredEvents.length > 0 ? (
-                  <div className="space-y-4">
-                    {filteredEvents.map((event) => (
-                      <Link key={event.id} href={`/events/${event.id}`}>
-                        <div className="bg-white rounded-lg shadow-sm hover:shadow-md p-4 flex flex-col md:flex-row gap-4 transition-shadow">
-                          <div className="md:w-1/4 relative h-32 md:h-auto rounded-md overflow-hidden">
-                            <Image
-                              src={event.image || "/images/events/default-event.webp"}
-                              alt={event.title}
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                          <div className="md:w-3/4">
-                            <h4 className="text-lg font-bold mb-2">{event.title}</h4>
-                            <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-500 mb-3">
-                              <div className="flex items-center">
-                                <CalendarIcon className="h-4 w-4 mr-1.5 text-blue-600" />
-                                <span>{formatDate(event.date)}</span>
-                              </div>
-                              {event.time && (
-                                <div className="flex items-center">
-                                  <Clock className="h-4 w-4 mr-1.5 text-blue-600" />
-                                  <span>{event.time}</span>
-                                </div>
-                              )}
-                              <div className="flex items-center">
-                                <MapPin className="h-4 w-4 mr-1.5 text-blue-600" />
-                                <span>{event.location}</span>
-                              </div>
-                              {event.category && (
-                                <div className="flex items-center">
-                                  <Tag className="h-4 w-4 mr-1.5 text-blue-600" />
-                                  <span>{event.category}</span>
-                                </div>
-                              )}
-                            </div>
-                            <p className="text-gray-600 line-clamp-2 mb-3">{event.description}</p>
-                            <div className="text-blue-600 font-medium hover:text-blue-800 transition-colors text-sm">
-                              Mehr erfahren →
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
+                  <>
+                    Gefundene Veranstaltungen
+                    {selectedDate && (
+                      <span className="font-normal text-base ml-2 text-gray-600">
+                        für den {format(selectedDate, 'dd.MM.yyyy')}
+                      </span>
+                    )}
+                    {dateRange?.from && dateRange?.to && (
+                      <span className="font-normal text-base ml-2 text-gray-600">
+                        im Zeitraum {format(dateRange.from, 'dd.MM.yyyy')} - {format(dateRange.to, 'dd.MM.yyyy')}
+                      </span>
+                    )}
+                  </>
                 ) : (
-                  <div className="bg-blue-50 p-6 rounded-lg text-center">
-                    <p className="text-gray-700">
-                      Für den ausgewählten Zeitraum sind keine Veranstaltungen verfügbar.
-                    </p>
-                  </div>
+                  "Keine Veranstaltungen gefunden"
                 )}
+              </h3>
+              
+              <div className="space-y-4">
+                {filteredEvents.map((event) => (
+                  <EventCard key={event.id} event={event} />
+                ))}
               </div>
-            )}
+            </div>
           </TabsContent>
         </Tabs>
         
